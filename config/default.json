@@ -1,5 +1,21 @@
 {
   "morgan": {
     "format": "dev"
+  },
+  "mssql": {
+    "mainDatabase": {
+      "poolName": "mainDatabase",
+      "config": {
+        "database": "harwex_afisha",
+        "server": "localhost",
+        "options": {
+          "trustedConnection": true
+        }
+      }
+    },
+    "replicationDatabase": {
+      "poolName": "replicationDatabase",
+      "config": null
+    }
   }
 }
