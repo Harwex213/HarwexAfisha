@@ -3,10 +3,25 @@ const eventService = require("../services/eventService");
 const { responseOk } = require("./helper/response");
 const validateModel = require("./helper/requestBodyValidator");
 
-const schemas = {
+const schemasOfRequired = {
     postEvent: ["name", "description"],
     putEvent: ["id", "name", "description"],
     deleteEvent: ["id"],
+};
+
+const schemas = {
+    postEvent: {
+        name: null,
+        description: null,
+    },
+    putEvent: {
+        id: null,
+        name: null,
+        description: null,
+    },
+    deleteEvent: {
+        id: null,
+    },
 };
 
 const getEvents = async (request, response, next) => {
@@ -21,12 +36,12 @@ const getEvents = async (request, response, next) => {
 
 const postEvent = async (request, response, next) => {
     try {
-        const body = request.body;
         const model = {
-            name: body.name,
-            description: body.description,
+            ...schemas.postEvent,
+            ...request.body,
         };
-        validateModel(model, schemas.postEvent);
+        console.log("Received model", model);
+        validateModel(model, schemasOfRequired.postEvent);
 
         const result = await eventService.insertEvent(model);
 
@@ -38,13 +53,12 @@ const postEvent = async (request, response, next) => {
 
 const putEvent = async (request, response, next) => {
     try {
-        const body = request.body;
         const model = {
-            id: body.id,
-            name: body.name,
-            description: body.description,
+            ...schemas.putEvent,
+            ...request.body,
         };
-        validateModel(model, schemas.putEvent);
+        console.log("Received model", model);
+        validateModel(model, schemasOfRequired.putEvent);
 
         const result = await eventService.updateEvent(model);
 
@@ -56,9 +70,12 @@ const putEvent = async (request, response, next) => {
 
 const deleteEvent = async (request, response, next) => {
     try {
-        const id = request.params.eventId;
-        const model = { id };
-        validateModel(model, schemas.deleteEvent);
+        const model = {
+            ...schemas.deleteEvent,
+            id: request.params.eventId,
+        };
+        console.log("Received model", model);
+        validateModel(model, schemasOfRequired.deleteEvent);
 
         const result = await eventService.deleteEvent(model);
 
