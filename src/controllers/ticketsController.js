@@ -30,7 +30,7 @@ const getTickets = async (request, response, next) => {
         };
         console.log("Received model", model);
         validateModel(model, schemasOfRequired.getTicketsByUserId);
-        const result = await ticketService.getTickets();
+        const result = await ticketService.getTicketsByUserId(model);
 
         responseOk(result, response);
     } catch (e) {

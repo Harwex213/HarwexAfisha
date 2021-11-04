@@ -11,7 +11,7 @@ const poolsTickets = {
 const getTicketsByUserId = async ({ id }) => {
     const request = new sql.Request(await getPool(poolsTickets.getTicketsByUserId));
 
-    request.input("id", sql.BigInt, id);
+    request.input("userId", sql.BigInt, id);
     return request.execute("getTicketsByUserId");
 };
 
