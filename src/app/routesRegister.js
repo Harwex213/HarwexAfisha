@@ -1,10 +1,10 @@
-const citiesRoutes = require("../controllers/citiesController");
-const eventsRoutes = require("../controllers/eventsController");
-const placesRoutes = require("../controllers/placesController");
-const eventPlacesRoutes = require("../controllers/eventPlacesController");
-const sessionsRoutes = require("../controllers/sessionsController");
-const usersRoutes = require("../controllers/usersController");
-const ticketsRoutes = require("../controllers/ticketsController");
+const citiesRoutes = require("../controllers/cities/citiesRouter");
+const eventsRoutes = require("../controllers/events/eventsRouter");
+const placesRoutes = require("../controllers/places/placesRouter");
+const eventPlacesRoutes = require("../controllers/eventPlaces/eventPlacesRouter");
+const sessionsRoutes = require("../controllers/sessions/sessionsRouter");
+const usersRoutes = require("../controllers/users/usersRouter");
+const ticketsRoutes = require("../controllers/tickets/ticketsRouter");
 
 module.exports = (app) => {
     app.use("/api/cities", citiesRoutes);
