@@ -11,6 +11,13 @@ const getUsers = async () => {
     return result.recordset;
 };
 
+const getUserById = async ({ id }) => {
+    const result = await userDataAccess.getUserById({ id });
+    validateOnEntityWasGet(result);
+
+    return result.recordset[0];
+};
+
 const getUserByUsername = async ({ username }) => {
     const result = await userDataAccess.getUserByUsername({ username });
     validateOnEntityWasGet(result);
@@ -69,6 +76,7 @@ const deleteUser = async ({ id }) => {
 
 module.exports = {
     getUsers,
+    getUserById,
     getUserByUsername,
     insertUser,
     updateUser,
