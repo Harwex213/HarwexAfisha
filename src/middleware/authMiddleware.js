@@ -1,6 +1,7 @@
 const jwtService = require("../services/jwtService");
 const userService = require("../services/userService");
 const accessTokenFromRequest = require("../util/jwt/accessTokenFromRequest");
+const { throwUnauthenticated } = require("../util/prepareError");
 
 const authenticationMiddleware = async (accessToken) => {
     const decoded = await jwtService.verifyAndDecodeAccessToken(accessToken);
@@ -12,10 +13,8 @@ const authenticationMiddleware = async (accessToken) => {
 
 const authorizationMiddleware = (actualRole, expectedRoles) => {
     if (expectedRoles.includes(actualRole)) {
-        return;
+        throwUnauthenticated();
     }
-
-    throw new Error();
 };
 
 const authMiddleware = (expectedRoles) => async (request, response, next) => {
@@ -25,9 +24,7 @@ const authMiddleware = (expectedRoles) => async (request, response, next) => {
         authorizationMiddleware(userRole, expectedRoles);
 
         next();
-    } catch (e) {
-        const error = new Error("Invalid login credentials");
-        error.code = 401;
+    } catch (error) {
         next(error);
     }
 };

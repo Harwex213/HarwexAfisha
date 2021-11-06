@@ -17,7 +17,6 @@ const handlerWithBody = (handler, schema, schemaOfRequired) => async (request, r
                 ...schema,
                 ...request.body,
             };
-            console.log("Received model", model);
             validateModel(model, schemaOfRequired);
         }
 
@@ -36,7 +35,6 @@ const handlerWithRequestString = (handler, schema, schemaOfRequired) => async (r
                 ...schema,
                 ...request.params,
             };
-            console.log("Received request string", model);
             validateModel(model, schemaOfRequired);
         }
 

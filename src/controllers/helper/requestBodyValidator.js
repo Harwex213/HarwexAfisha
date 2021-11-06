@@ -1,3 +1,5 @@
+const { throwModelInvalid } = require("../../util/prepareError");
+
 module.exports = (model, schemaOfRequired) => {
     const schemaOfRequiredArray = schemaOfRequired.reduce(
         (ac, a) => ({
@@ -16,8 +18,6 @@ module.exports = (model, schemaOfRequired) => {
     const leftFields = Object.entries(schemaOfRequiredArray);
 
     if (leftFields.length !== 0) {
-        const error = new Error(`field ${leftFields[0][0]} must be set`);
-        error.code = 400;
-        throw error;
+        throwModelInvalid(`field ${leftFields[0][0]} must be set`);
     }
 };

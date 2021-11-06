@@ -2,6 +2,7 @@ const jwtService = require("./jwtService");
 const userDataAccess = require("../dataAccess/userDataAccess");
 const { isRowsAffectedZero } = require("./helper/checker");
 const { userRoles } = require("../constans");
+const { throwUnauthenticated } = require("../util/prepareError");
 
 const register = async ({ username, password, repeatPassword, firstName, lastName, patronymic }) => {
     if (password !== repeatPassword) {
@@ -48,9 +49,7 @@ const login = async ({ username, password }) => {
 
     const user = result.recordset[0];
     if (user.password !== password) {
-        const error = new Error("Please, verify your username or password");
-        error.code = 401;
-        throw error;
+        throwUnauthenticated("Please, verify your username or password");
     }
 
     return jwtService.createAccessToken({
