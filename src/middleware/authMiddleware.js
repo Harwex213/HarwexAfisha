@@ -1,17 +1,6 @@
 const jwtService = require("../services/jwtService");
 const userService = require("../services/userService");
-
-const authenticationType = "Bearer ";
-
-const getAccessTokenFromHeader = (request) => {
-    const authHeader = request.headers.authorization;
-
-    if (authHeader.startsWith(authenticationType)) {
-        return authHeader.substring(authenticationType.length);
-    }
-
-    throw new Error();
-};
+const getAccessTokenFromHeader = require("../util/jwt/accessTokenFromHeader");
 
 const authenticationMiddleware = async (accessToken) => {
     const decoded = await jwtService.verifyAndDecodeAccessToken(accessToken);

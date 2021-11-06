@@ -1,3 +1,5 @@
+const authenticationType = "Bearer ";
+
 const userRoles = {
     user: "USER",
     admin: "ADMIN",
@@ -5,4 +7,5 @@ const userRoles = {
 
 module.exports = {
     userRoles,
+    authenticationType,
 };
