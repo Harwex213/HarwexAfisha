@@ -2,7 +2,7 @@ const validateModel = require("../helper/requestBodyValidator");
 
 const handlerWithoutBody = (handler) => async (request, response, next) => {
     try {
-        const data = await handler();
+        const data = await handler(request, response);
         response.status(200).json({ data });
     } catch (e) {
         next(e);
@@ -21,7 +21,7 @@ const handlerWithBody = (handler, schema, schemaOfRequired) => async (request, r
             validateModel(model, schemaOfRequired);
         }
 
-        const data = await handler(model);
+        const data = await handler(model, request, response);
         response.status(200).json({ data });
     } catch (e) {
         next(e);
@@ -40,7 +40,7 @@ const handlerWithRequestString = (handler, schema, schemaOfRequired) => async (r
             validateModel(model, schemaOfRequired);
         }
 
-        const data = await handler(model);
+        const data = await handler(model, request, response);
         response.status(200).json({ data });
     } catch (e) {
         next(e);
