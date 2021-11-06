@@ -17,5 +17,11 @@
       "poolName": "replicationDatabase",
       "config": null
     }
+  },
+  "jwt": {
+    "accessToken": {
+      "secret": "MyBestSecretEver",
+      "expiresIn": "1d"
+    }
   }
 }
