@@ -1,5 +1,9 @@
 const userDataAccess = require("../dataAccess/userDataAccess");
-const { checkOnEntityFound } = require("./helper/checker");
+const {
+    validateOnEntityWasGet,
+    validateOnEntityUpdated,
+    validateOnEntityDelete,
+} = require("./helper/validator");
 
 const getUsers = async () => {
     const result = await userDataAccess.getUsers();
@@ -9,7 +13,7 @@ const getUsers = async () => {
 
 const getUserByUsername = async ({ username }) => {
     const result = await userDataAccess.getUserByUsername({ username });
-    checkOnEntityFound(result);
+    validateOnEntityWasGet(result);
 
     return result.recordset[0];
 };
@@ -45,7 +49,7 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
         patronymic,
         role,
     });
-    checkOnEntityFound(result);
+    validateOnEntityUpdated(result);
 
     return {
         id,
@@ -60,7 +64,7 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
 
 const deleteUser = async ({ id }) => {
     const result = await userDataAccess.deleteUser({ id });
-    checkOnEntityFound(result);
+    validateOnEntityDelete(result);
 };
 
 module.exports = {

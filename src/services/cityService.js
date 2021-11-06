@@ -1,5 +1,5 @@
 const cityDataAccess = require("../dataAccess/cityDataAccess");
-const { checkOnEntityFound } = require("./helper/checker");
+const { validateOnEntityUpdated, validateOnEntityDelete } = require("./helper/validator");
 
 const getCities = async () => {
     const result = await cityDataAccess.getCities();
@@ -18,7 +18,7 @@ const insertCity = async ({ name }) => {
 
 const updateCity = async ({ id, name }) => {
     const result = await cityDataAccess.updateCity({ id, name });
-    checkOnEntityFound(result);
+    validateOnEntityUpdated(result);
 
     return {
         id,
@@ -28,7 +28,7 @@ const updateCity = async ({ id, name }) => {
 
 const deleteCity = async ({ id }) => {
     const result = await cityDataAccess.deleteCity({ id });
-    checkOnEntityFound(result);
+    validateOnEntityDelete(result);
 };
 
 module.exports = {

@@ -1,5 +1,5 @@
 const ticketDataAccess = require("../dataAccess/ticketDataAccess");
-const { checkOnEntityFound } = require("./helper/checker");
+const { validateOnEntityDelete } = require("./helper/validator");
 
 const getTicketsByUserId = async ({ id }) => {
     const result = await ticketDataAccess.getTicketsByUserId({ id });
@@ -19,7 +19,7 @@ const insertTicket = async ({ userId, sessionId }) => {
 
 const deleteTicket = async ({ id, userId }) => {
     const result = await ticketDataAccess.deleteTicket({ id, userId });
-    checkOnEntityFound(result);
+    validateOnEntityDelete(result);
 };
 
 module.exports = {

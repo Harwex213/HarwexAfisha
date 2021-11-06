@@ -1,6 +1,6 @@
 const jwtService = require("./jwtService");
 const userDataAccess = require("../dataAccess/userDataAccess");
-const { isRowsAffectedZero } = require("./helper/checker");
+const { validateOnEntityWasGet } = require("./helper/validator");
 const { userRoles } = require("../constans");
 const { throwUnauthenticated } = require("../util/prepareError");
 
@@ -41,11 +41,7 @@ const register = async ({ username, password, repeatPassword, firstName, lastNam
 
 const login = async ({ username, password }) => {
     const result = await userDataAccess.getUserByUsername({ username });
-    if (isRowsAffectedZero(result)) {
-        const error = new Error("Doesn't find user with such username");
-        error.code = 401;
-        throw error;
-    }
+    validateOnEntityWasGet(result, "Doesn't find user with such username");
 
     const user = result.recordset[0];
     if (user.password !== password) {

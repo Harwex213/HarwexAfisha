@@ -1,5 +1,9 @@
 const sessionDataAccess = require("../dataAccess/sessionDataAccess");
-const { checkOnEntityFound } = require("./helper/checker");
+const {
+    validateOnEntityWasGet,
+    validateOnEntityUpdated,
+    validateOnEntityDelete,
+} = require("./helper/validator");
 
 const getSessions = async () => {
     const result = await sessionDataAccess.getSessions();
@@ -20,7 +24,7 @@ const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
 
 const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
     const result = await sessionDataAccess.updateSession({ id, eventPlaceId, time, ticketsAmount });
-    checkOnEntityFound(result);
+    validateOnEntityUpdated(result);
 
     return {
         id,
@@ -32,7 +36,7 @@ const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
 
 const deleteSession = async ({ id }) => {
     const result = await sessionDataAccess.deleteSession({ id });
-    checkOnEntityFound(result);
+    validateOnEntityDelete(result);
 };
 
 module.exports = {
