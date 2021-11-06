@@ -13,8 +13,10 @@ const authenticationMiddleware = async (accessToken) => {
 
 const authorizationMiddleware = (actualRole, expectedRoles) => {
     if (expectedRoles.includes(actualRole)) {
-        throwUnauthenticated();
+        return;
     }
+
+    throwUnauthenticated();
 };
 
 const authMiddleware = (expectedRoles) => async (request, response, next) => {
