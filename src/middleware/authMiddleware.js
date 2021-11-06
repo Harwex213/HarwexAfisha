@@ -1,5 +1,5 @@
 const jwtService = require("../services/jwtService");
-const userDataAccess = require("../dataAccess/userDataAccess");
+const userService = require("../services/userService");
 
 const authenticationType = "Bearer ";
 
@@ -15,11 +15,9 @@ const getAccessTokenFromHeader = (request) => {
 
 const authenticationMiddleware = async (accessToken) => {
     const decoded = jwtService.verifyAndDecodeAccessToken(accessToken);
+    const username = decoded.payload.username;
 
-    const user = await userDataAccess.getUserByUsername({
-        username: decoded.payload.username,
-    });
-
+    const user = userService.getUserByUsername({ username });
     return user.role;
 };
 
