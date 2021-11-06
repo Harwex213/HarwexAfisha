@@ -14,14 +14,14 @@ const getAccessTokenFromHeader = (request) => {
 };
 
 const authenticationMiddleware = async (accessToken) => {
-    const decoded = jwtService.verifyAndDecodeAccessToken(accessToken);
+    const decoded = await jwtService.verifyAndDecodeAccessToken(accessToken);
     const username = decoded.payload.username;
 
-    const user = userService.getUserByUsername({ username });
+    const user = await userService.getUserByUsername({ username });
     return user.role;
 };
 
-const authorizationMiddleware = async (actualRole, expectedRoles) => {
+const authorizationMiddleware = (actualRole, expectedRoles) => {
     if (expectedRoles.includes(actualRole)) {
         return;
     }
@@ -33,7 +33,7 @@ const authMiddleware = (expectedRoles) => async (request, response, next) => {
     try {
         const accessToken = getAccessTokenFromHeader(request);
         const userRole = await authenticationMiddleware(accessToken);
-        await authorizationMiddleware(userRole, expectedRoles);
+        authorizationMiddleware(userRole, expectedRoles);
 
         next();
     } catch (e) {
