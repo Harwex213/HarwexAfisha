@@ -1,5 +1,5 @@
 const sessionDataAccess = require("../dataAccess/sessionDataAccess");
-const { checkOnUpdated, checkOnDelete } = require("./helper/checker");
+const { checkOnEntityFound } = require("./helper/checker");
 
 const getSessions = async () => {
     const result = await sessionDataAccess.getSessions();
@@ -20,7 +20,7 @@ const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
 
 const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
     const result = await sessionDataAccess.updateSession({ id, eventPlaceId, time, ticketsAmount });
-    checkOnUpdated(result);
+    checkOnEntityFound(result);
 
     return {
         id,
@@ -32,7 +32,7 @@ const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
 
 const deleteSession = async ({ id }) => {
     const result = await sessionDataAccess.deleteSession({ id });
-    checkOnDelete(result);
+    checkOnEntityFound(result);
 };
 
 module.exports = {

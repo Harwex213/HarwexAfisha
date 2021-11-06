@@ -1,5 +1,5 @@
 const eventPlaceDataAccess = require("../dataAccess/eventPlaceDataAccess");
-const { checkOnDelete } = require("./helper/checker");
+const { checkOnEntityFound } = require("./helper/checker");
 
 const getEventPlaces = async () => {
     const result = await eventPlaceDataAccess.getEventPlaces();
@@ -19,7 +19,7 @@ const insertEventPlace = async ({ eventId, placeId }) => {
 
 const deleteEventPlace = async ({ id }) => {
     const result = await eventPlaceDataAccess.deleteEventPlace({ id });
-    checkOnDelete(result);
+    checkOnEntityFound(result);
 };
 
 module.exports = {

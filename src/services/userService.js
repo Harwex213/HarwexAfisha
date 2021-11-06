@@ -1,5 +1,5 @@
 const userDataAccess = require("../dataAccess/userDataAccess");
-const { checkOnUpdated, checkOnDelete } = require("./helper/checker");
+const { checkOnEntityFound } = require("./helper/checker");
 
 const getUsers = async () => {
     const result = await userDataAccess.getUsers();
@@ -38,7 +38,7 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
         patronymic,
         role,
     });
-    checkOnUpdated(result);
+    checkOnEntityFound(result);
 
     return {
         id,
@@ -53,7 +53,7 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
 
 const deleteUser = async ({ id }) => {
     const result = await userDataAccess.deleteUser({ id });
-    checkOnDelete(result);
+    checkOnEntityFound(result);
 };
 
 module.exports = {

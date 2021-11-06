@@ -1,5 +1,5 @@
 const placeDataAccess = require("../dataAccess/placeDataAccess");
-const { checkOnUpdated, checkOnDelete } = require("./helper/checker");
+const { checkOnEntityFound } = require("./helper/checker");
 
 const getPlaces = async () => {
     const result = await placeDataAccess.getPlaces();
@@ -18,7 +18,7 @@ const insertPlace = async ({ name, about, cityName }) => {
 
 const updatePlace = async ({ id, name, about, cityName }) => {
     const result = await placeDataAccess.updatePlace({ id, name, about, cityName });
-    checkOnUpdated(result);
+    checkOnEntityFound(result);
 
     return {
         id,
@@ -28,7 +28,7 @@ const updatePlace = async ({ id, name, about, cityName }) => {
 
 const deletePlace = async ({ id }) => {
     const result = await placeDataAccess.deletePlace({ id });
-    checkOnDelete(result);
+    checkOnEntityFound(result);
 };
 
 module.exports = {
