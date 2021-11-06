@@ -8,12 +8,23 @@ const {
     schemasOfRequired,
 } = require("./placesController");
 const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const authMiddleware = require("../../middleware/authMiddleware");
+const { userRoles } = require("../../constans");
 
 router.get("/", handlerWithoutBody(getPlaces));
-router.post("/", handlerWithBody(postPlace, schemas.postPlace, schemasOfRequired.postPlace));
-router.put("/", handlerWithBody(putPlace, schemas.putPlace, schemasOfRequired.putPlace));
+router.post(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(postPlace, schemas.postPlace, schemasOfRequired.postPlace)
+);
+router.put(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(putPlace, schemas.putPlace, schemasOfRequired.putPlace)
+);
 router.delete(
     "/:id",
+    authMiddleware([userRoles.admin]),
     handlerWithRequestString(deletePlace, schemas.deletePlace, schemasOfRequired.deletePlace)
 );
 

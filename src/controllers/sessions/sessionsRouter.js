@@ -8,12 +8,23 @@ const {
     schemasOfRequired,
 } = require("./sessionsController");
 const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const authMiddleware = require("../../middleware/authMiddleware");
+const { userRoles } = require("../../constans");
 
 router.get("/", handlerWithoutBody(getSessions));
-router.post("/", handlerWithBody(postSession, schemas.postSession, schemasOfRequired.postSession));
-router.put("/", handlerWithBody(putSession, schemas.putSession, schemasOfRequired.putSession));
+router.post(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(postSession, schemas.postSession, schemasOfRequired.postSession)
+);
+router.put(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(putSession, schemas.putSession, schemasOfRequired.putSession)
+);
 router.delete(
     "/:id",
+    authMiddleware([userRoles.admin]),
     handlerWithRequestString(deleteSession, schemas.deleteSession, schemasOfRequired.deleteSession)
 );
 

@@ -8,10 +8,24 @@ const {
     schemasOfRequired,
 } = require("./citiesController");
 const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const authMiddleware = require("../../middleware/authMiddleware");
+const { userRoles } = require("../../constans");
 
 router.get("/", handlerWithoutBody(getCities));
-router.post("/", handlerWithBody(postCity, schemas.postCity, schemasOfRequired.postCity));
-router.put("/", handlerWithBody(putCity, schemas.putCity, schemasOfRequired.putCity));
-router.delete("/:id", handlerWithRequestString(deleteCity, schemas.deleteCity, schemasOfRequired.deleteCity));
+router.post(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(postCity, schemas.postCity, schemasOfRequired.postCity)
+);
+router.put(
+    "/",
+    authMiddleware([userRoles.admin]),
+    handlerWithBody(putCity, schemas.putCity, schemasOfRequired.putCity)
+);
+router.delete(
+    "/:id",
+    authMiddleware([userRoles.admin]),
+    handlerWithRequestString(deleteCity, schemas.deleteCity, schemasOfRequired.deleteCity)
+);
 
 module.exports = router;
