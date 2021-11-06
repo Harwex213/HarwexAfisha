@@ -7,6 +7,13 @@ const getUsers = async () => {
     return result.recordset;
 };
 
+const getUserByUsername = async ({ username }) => {
+    const result = await userDataAccess.getUserByUsername({ username });
+    checkOnEntityFound(result);
+
+    return result.recordset[0];
+};
+
 const insertUser = async ({ username, password, firstName, lastName, patronymic, role }) => {
     const result = await userDataAccess.insertUser({
         username,
@@ -58,6 +65,7 @@ const deleteUser = async ({ id }) => {
 
 module.exports = {
     getUsers,
+    getUserByUsername,
     insertUser,
     updateUser,
     deleteUser,
