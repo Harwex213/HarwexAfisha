@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
     getSessions,
+    getSessionFreeTicketsById,
     postSession,
     putSession,
     deleteSession,
@@ -12,6 +13,14 @@ const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../constans");
 
 router.get("/", handlerWithoutBody(getSessions));
+router.get(
+    "/free/:id",
+    handlerWithRequestString(
+        getSessionFreeTicketsById,
+        schemas.getSessionFreeTicketsById,
+        schemasOfRequired.getSessionFreeTicketsById
+    )
+);
 router.post(
     "/",
     authMiddleware([userRoles.admin]),

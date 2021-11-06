@@ -11,6 +11,13 @@ const getSessions = async () => {
     return result.recordset;
 };
 
+const getSessionFreeTicketsById = async ({ id }) => {
+    const result = await sessionDataAccess.getSessionFreeTicketsById({ id });
+    validateOnEntityWasGet(result, "Not found entity with such id");
+
+    return result.recordset[0];
+};
+
 const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
     const result = await sessionDataAccess.insertSession({ eventPlaceId, time, ticketsAmount });
 
@@ -41,6 +48,7 @@ const deleteSession = async ({ id }) => {
 
 module.exports = {
     getSessions,
+    getSessionFreeTicketsById,
     insertSession,
     updateSession,
     deleteSession,
