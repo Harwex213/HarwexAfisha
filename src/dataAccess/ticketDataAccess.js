@@ -23,10 +23,11 @@ const insertTicket = async ({ userId, sessionId }) => {
     return request.execute("insertTicket");
 };
 
-const deleteTicket = async ({ id }) => {
+const deleteTicket = async ({ id, userId }) => {
     const request = new sql.Request(await getPool(poolsTickets.deleteTicket));
 
     request.input("id", sql.BigInt, id);
+    request.input("userId", sql.BigInt, userId);
     return request.execute("deleteTicket");
 };
 

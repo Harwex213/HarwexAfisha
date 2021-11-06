@@ -17,8 +17,8 @@ const insertTicket = async ({ userId, sessionId }) => {
     };
 };
 
-const deleteTicket = async ({ id }) => {
-    const result = await ticketDataAccess.deleteTicket({ id });
+const deleteTicket = async ({ id, userId }) => {
+    const result = await ticketDataAccess.deleteTicket({ id, userId });
     checkOnEntityFound(result);
 };
 

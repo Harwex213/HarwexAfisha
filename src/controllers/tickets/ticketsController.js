@@ -1,17 +1,14 @@
 const ticketService = require("../../services/ticketService");
+const jwtService = require("../../services/jwtService");
+const accessTokenFromRequest = require("../../util/jwt/accessTokenFromRequest");
 
 const schemasOfRequired = {
-    getTicketsByUserId: ["id"],
-    postTicket: ["userId", "sessionId"],
+    postTicket: ["sessionId"],
     deleteTicket: ["id"],
 };
 
 const schemas = {
-    getTicketsByUserId: {
-        id: null,
-    },
     postTicket: {
-        userId: null,
         sessionId: null,
     },
     deleteTicket: {
@@ -19,15 +16,35 @@ const schemas = {
     },
 };
 
-const getTickets = (model) => {
+const getTickets = (request) => {
+    const accessToken = accessTokenFromRequest(request);
+    const decoded = jwtService.decodeAccessToken(accessToken);
+    const model = {
+        id: decoded.payload.id,
+    };
+
     return ticketService.getTicketsByUserId(model);
 };
 
-const postTicket = (model) => {
+const postTicket = ({ sessionId }, request) => {
+    const accessToken = accessTokenFromRequest(request);
+    const decoded = jwtService.decodeAccessToken(accessToken);
+    const model = {
+        userId: decoded.payload.id,
+        sessionId,
+    };
+
     return ticketService.insertTicket(model);
 };
 
-const deleteTicket = (model) => {
+const deleteTicket = ({ id }, request) => {
+    const accessToken = accessTokenFromRequest(request);
+    const decoded = jwtService.decodeAccessToken(accessToken);
+    const model = {
+        id,
+        userId: decoded.payload.id,
+    };
+
     return ticketService.deleteTicket(model);
 };
 
