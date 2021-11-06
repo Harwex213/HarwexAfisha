@@ -8,7 +8,7 @@ const createAccessToken = ({ username, role }) =>
         expiresIn: accessTokenConfig.expiresIn,
     });
 
-const verifyAndDecodeAccessToken = async (accessToken) => {
+const verifyAndDecodeAccessToken = (accessToken) => {
     try {
         return jwt.verify(accessToken, accessTokenConfig.secret, {
             complete: true,
@@ -20,7 +20,12 @@ const verifyAndDecodeAccessToken = async (accessToken) => {
     }
 };
 
+const decodeAccessToken = (accessToken) => {
+    return jwt.decode(accessToken, { complete: true });
+};
+
 module.exports = {
     createAccessToken,
     verifyAndDecodeAccessToken,
+    decodeAccessToken,
 };
