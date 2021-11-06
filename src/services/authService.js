@@ -19,13 +19,15 @@ const register = async ({ username, password, repeatPassword, firstName, lastNam
         patronymic,
         role,
     });
+    const id = result.recordset[0].insertedId;
     const accessToken = jwtService.createAccessToken({
+        id,
         username,
         role,
     });
 
     return {
-        id: result.recordset[0].insertedId,
+        id,
         username,
         password,
         firstName,
@@ -52,6 +54,7 @@ const login = async ({ username, password }) => {
     }
 
     return jwtService.createAccessToken({
+        id: user.id,
         username: user.username,
         role: user.role,
     });

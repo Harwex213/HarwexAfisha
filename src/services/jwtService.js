@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const accessTokenConfig = config.get("jwt.accessToken");
 
-const createAccessToken = ({ username, role }) =>
-    jwt.sign({ username, role }, accessTokenConfig.secret, {
+const createAccessToken = ({ id, username, role }) =>
+    jwt.sign({ id, username, role }, accessTokenConfig.secret, {
         expiresIn: accessTokenConfig.expiresIn,
     });
 
