@@ -1,6 +1,6 @@
 const { authenticationType } = require("../../constans");
 
-const getAccessTokenFromHeader = (request) => {
+const getAccessTokenFromRequest = (request) => {
     const authHeader = request.headers.authorization;
 
     if (authHeader.startsWith(authenticationType)) {
@@ -10,4 +10,4 @@ const getAccessTokenFromHeader = (request) => {
     throw new Error();
 };
 
-module.exports = getAccessTokenFromHeader;
+module.exports = getAccessTokenFromRequest;

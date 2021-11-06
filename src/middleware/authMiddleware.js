@@ -1,6 +1,6 @@
 const jwtService = require("../services/jwtService");
 const userService = require("../services/userService");
-const getAccessTokenFromHeader = require("../util/jwt/accessTokenFromHeader");
+const accessTokenFromRequest = require("../util/jwt/accessTokenFromRequest");
 
 const authenticationMiddleware = async (accessToken) => {
     const decoded = await jwtService.verifyAndDecodeAccessToken(accessToken);
@@ -20,7 +20,7 @@ const authorizationMiddleware = (actualRole, expectedRoles) => {
 
 const authMiddleware = (expectedRoles) => async (request, response, next) => {
     try {
-        const accessToken = getAccessTokenFromHeader(request);
+        const accessToken = accessTokenFromRequest(request);
         const userRole = await authenticationMiddleware(accessToken);
         authorizationMiddleware(userRole, expectedRoles);
 
