@@ -44,6 +44,8 @@ const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
 const deleteSession = async ({ id }) => {
     const result = await sessionDataAccess.deleteSession({ id });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {

@@ -29,6 +29,8 @@ const updateEvent = async ({ id, name, description }) => {
 const deleteEvent = async ({ id }) => {
     const result = await eventDataAccess.deleteEvent({ id });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {

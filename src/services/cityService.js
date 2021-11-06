@@ -29,6 +29,8 @@ const updateCity = async ({ id, name }) => {
 const deleteCity = async ({ id }) => {
     const result = await cityDataAccess.deleteCity({ id });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {

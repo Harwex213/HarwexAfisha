@@ -20,6 +20,8 @@ const insertTicket = async ({ userId, sessionId }) => {
 const deleteTicket = async ({ id, userId }) => {
     const result = await ticketDataAccess.deleteTicket({ id, userId });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {

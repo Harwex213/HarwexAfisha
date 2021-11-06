@@ -20,6 +20,8 @@ const insertEventPlace = async ({ eventId, placeId }) => {
 const deleteEventPlace = async ({ id }) => {
     const result = await eventPlaceDataAccess.deleteEventPlace({ id });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {

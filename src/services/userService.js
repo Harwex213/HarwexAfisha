@@ -72,6 +72,8 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
 const deleteUser = async ({ id }) => {
     const result = await userDataAccess.deleteUser({ id });
     validateOnEntityDelete(result);
+
+    return "Successfully deleted";
 };
 
 module.exports = {
