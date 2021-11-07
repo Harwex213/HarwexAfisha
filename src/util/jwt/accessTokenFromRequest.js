@@ -1,4 +1,4 @@
-const { authenticationType } = require("../../constans");
+const { authenticationType } = require("../../../config/constans");
 
 const getAccessTokenFromRequest = (request) => {
     const authHeader = request.headers.authorization;
