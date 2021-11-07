@@ -15,7 +15,12 @@
     },
     "replicationDatabase": {
       "poolName": "replicationDatabase",
-      "config": null
+      "config": {
+        "database": "harwex_afisha",
+        "server": "WIN-ETCHIT6NHJG",
+        "user": "sa",
+        "password": "Passw0rd1"
+      }
     }
   },
   "jwt": {

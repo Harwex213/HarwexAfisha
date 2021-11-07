@@ -5,6 +5,20 @@ const pools = {
         name: config.get("mssql.mainDatabase.poolName"),
         config: config.get("mssql.mainDatabase.config"),
     },
+    replicationDatabase: {
+        name: config.get("mssql.replicationDatabase.poolName"),
+        config: config.get("mssql.replicationDatabase.config"),
+    },
 };
 
-module.exports = pools;
+const swapReplicationToMain = () => {
+    console.log("Swapping replication database config to main");
+
+    pools.replicationDatabase.name = pools.mainDatabase.name;
+    pools.replicationDatabase.config = pools.mainDatabase.config;
+};
+
+module.exports = {
+    pools,
+    swapReplicationToMain,
+};

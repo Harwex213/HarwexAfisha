@@ -1,5 +1,5 @@
 const sql = require("mssql/msnodesqlv8");
-const pools = require("./core/pools");
+const { pools } = require("./core/pools");
 const { getPool } = require("./core/poolManager");
 
 const poolsSessions = {

@@ -1,9 +1,9 @@
 const sql = require("mssql/msnodesqlv8");
-const pools = require("./core/pools");
+const { pools } = require("./core/pools");
 const { getPool } = require("./core/poolManager");
 
 const poolsCities = {
-    getCities: pools.mainDatabase,
+    getCities: pools.replicationDatabase,
     insertCity: pools.mainDatabase,
     updateCity: pools.mainDatabase,
     deleteCity: pools.mainDatabase,
