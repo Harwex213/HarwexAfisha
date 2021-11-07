@@ -1,6 +1,6 @@
 const ticketService = require("../../services/ticketService");
 const jwtService = require("../../services/jwtService");
-const accessTokenFromRequest = require("../../util/jwt/accessTokenFromRequest");
+const getAccessTokenFromRequest = require("../../util/jwt/accessTokenFromRequest");
 
 const schemasOfRequired = {
     postTicket: ["sessionId"],
@@ -17,7 +17,7 @@ const schemas = {
 };
 
 const getTickets = (request) => {
-    const accessToken = accessTokenFromRequest(request);
+    const accessToken = getAccessTokenFromRequest(request);
     const decoded = jwtService.decodeAccessToken(accessToken);
     const model = {
         id: decoded.payload.id,
@@ -27,7 +27,7 @@ const getTickets = (request) => {
 };
 
 const postTicket = ({ sessionId }, request) => {
-    const accessToken = accessTokenFromRequest(request);
+    const accessToken = getAccessTokenFromRequest(request);
     const decoded = jwtService.decodeAccessToken(accessToken);
     const model = {
         userId: decoded.payload.id,
@@ -38,7 +38,7 @@ const postTicket = ({ sessionId }, request) => {
 };
 
 const deleteTicket = ({ id }, request) => {
-    const accessToken = accessTokenFromRequest(request);
+    const accessToken = getAccessTokenFromRequest(request);
     const decoded = jwtService.decodeAccessToken(accessToken);
     const model = {
         id,

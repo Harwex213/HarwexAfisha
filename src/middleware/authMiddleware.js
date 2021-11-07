@@ -1,6 +1,6 @@
 const jwtService = require("../services/jwtService");
 const userService = require("../services/userService");
-const accessTokenFromRequest = require("../util/jwt/accessTokenFromRequest");
+const getAccessTokenFromRequest = require("../util/jwt/accessTokenFromRequest");
 const { throwUnauthenticated } = require("../util/prepareError");
 
 const authenticationMiddleware = async (accessToken) => {
@@ -21,7 +21,7 @@ const authorizationMiddleware = (actualRole, expectedRoles) => {
 
 const authMiddleware = (expectedRoles) => async (request, response, next) => {
     try {
-        const accessToken = accessTokenFromRequest(request);
+        const accessToken = getAccessTokenFromRequest(request) ?? throwUnauthenticated();
         const userRole = await authenticationMiddleware(accessToken);
         authorizationMiddleware(userRole, expectedRoles);
 
