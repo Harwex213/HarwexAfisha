@@ -9,7 +9,7 @@ const {
 } = require("./placesController");
 const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
-const { userRoles } = require("../../../config/constans");
+const { userRoles } = require("../../../config/constants/db");
 
 router.get("/", handlerWithoutBody(getPlaces));
 router.post(

@@ -1,7 +1,7 @@
 const jwtService = require("./jwtService");
 const userDataAccess = require("../dataAccess/userDataAccess");
 const { validateOnEntityWasGet } = require("./helper/validator");
-const { userRoles } = require("../../config/constans");
+const { userRoles } = require("../../config/constants/db");
 const { throwUnauthenticated } = require("../util/prepareError");
 
 const register = async ({ username, password, repeatPassword, firstName, lastName, patronymic }) => {
