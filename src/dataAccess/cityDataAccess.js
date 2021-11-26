@@ -1,40 +1,36 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsCities = {
-    getCities: pools.replicationDatabase,
-    insertCity: pools.mainDatabase,
-    updateCity: pools.mainDatabase,
-    deleteCity: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getCities = async () => {
-    const request = new sql.Request(await getPool(poolsCities.getCities));
+    const request = poolManager.newRequest(poolTypes.getCities);
 
-    return request.execute("getCities");
+    return poolManager.executeRequest("getCities", request);
 };
 
 const insertCity = async ({ name }) => {
-    const request = new sql.Request(await getPool(poolsCities.insertCity));
+    const request = poolManager.newRequest(poolTypes.insertCity, (request) => {
+        request.input("name", sql.NVarChar(50), name);
+    });
 
-    request.input("name", sql.NVarChar(50), name);
-    return request.execute("insertCity");
+    return poolManager.executeRequest("insertCity", request);
 };
 
 const updateCity = async ({ id, name }) => {
-    const request = new sql.Request(await getPool(poolsCities.updateCity));
+    const request = poolManager.newRequest(poolTypes.updateCity, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("name", sql.NVarChar(50), name);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("name", sql.NVarChar(50), name);
-    return request.execute("updateCity");
+    return poolManager.executeRequest("updateCity", request);
 };
 
 const deleteCity = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsCities.deleteCity));
+    const request = poolManager.newRequest(poolTypes.deleteCity, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deleteCity");
+    return poolManager.executeRequest("deleteCity", request);
 };
 
 module.exports = {

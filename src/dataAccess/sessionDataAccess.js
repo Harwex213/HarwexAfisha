@@ -1,52 +1,48 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsSessions = {
-    getSessions: pools.mainDatabase,
-    getSessionFreeTicketsById: pools.mainDatabase,
-    insertSession: pools.mainDatabase,
-    updateSession: pools.mainDatabase,
-    deleteSession: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getSessions = async () => {
-    const request = new sql.Request(await getPool(poolsSessions.getSessions));
+    const request = poolManager.newRequest(poolTypes.getSessions);
 
-    return request.execute("getSessions");
+    return poolManager.executeRequest("getSessions", request);
 };
 
 const getSessionFreeTicketsById = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsSessions.getSessionFreeTicketsById));
+    const request = poolManager.newRequest(poolTypes.getSessionFreeTicketsById, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("getSessionFreeTicketsById");
+    return poolManager.executeRequest("getSessionFreeTicketsById", request);
 };
 
 const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
-    const request = new sql.Request(await getPool(poolsSessions.insertSession));
+    const request = poolManager.newRequest(poolTypes.insertSession, (request) => {
+        request.input("eventPlaceId", sql.BigInt, eventPlaceId);
+        request.input("time", sql.DateTime, time);
+        request.input("ticketsAmount", sql.Int, ticketsAmount);
+    });
 
-    request.input("eventPlaceId", sql.BigInt, eventPlaceId);
-    request.input("time", sql.DateTime, time);
-    request.input("ticketsAmount", sql.Int, ticketsAmount);
-    return request.execute("insertSession");
+    return poolManager.executeRequest("insertSession", request);
 };
 
 const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
-    const request = new sql.Request(await getPool(poolsSessions.updateSession));
+    const request = poolManager.newRequest(poolTypes.updateSession, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("eventPlaceId", sql.BigInt, eventPlaceId);
+        request.input("time", sql.DateTime, time);
+        request.input("ticketsAmount", sql.Int, ticketsAmount);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("eventPlaceId", sql.BigInt, eventPlaceId);
-    request.input("time", sql.DateTime, time);
-    request.input("ticketsAmount", sql.Int, ticketsAmount);
-    return request.execute("updateSession");
+    return poolManager.executeRequest("updateSession", request);
 };
 
 const deleteSession = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsSessions.deleteSession));
+    const request = poolManager.newRequest(poolTypes.deleteSession, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deleteSession");
+    return poolManager.executeRequest("deleteSession", request);
 };
 
 module.exports = {

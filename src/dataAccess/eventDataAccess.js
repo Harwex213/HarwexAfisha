@@ -1,42 +1,38 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsEvents = {
-    getEvents: pools.mainDatabase,
-    insertEvent: pools.mainDatabase,
-    updateEvent: pools.mainDatabase,
-    deleteEvent: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getEvents = async () => {
-    const request = new sql.Request(await getPool(poolsEvents.getEvents));
+    const request = poolManager.newRequest(poolTypes.getEvents);
 
-    return request.execute("getEvents");
+    return poolManager.executeRequest("getEvents", request);
 };
 
 const insertEvent = async ({ name, description }) => {
-    const request = new sql.Request(await getPool(poolsEvents.insertEvent));
+    const request = poolManager.newRequest(poolTypes.insertEvent, (request) => {
+        request.input("name", sql.NVarChar(50), name);
+        request.input("description", sql.NVarChar(sql.MAX), description);
+    });
 
-    request.input("name", sql.NVarChar(50), name);
-    request.input("description", sql.NVarChar(sql.MAX), description);
-    return request.execute("insertEvent");
+    return poolManager.executeRequest("insertEvent", request);
 };
 
 const updateEvent = async ({ id, name, description }) => {
-    const request = new sql.Request(await getPool(poolsEvents.updateEvent));
+    const request = poolManager.newRequest(poolTypes.updateEvent, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("name", sql.NVarChar(50), name);
+        request.input("description", sql.NVarChar(sql.MAX), description);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("name", sql.NVarChar(50), name);
-    request.input("description", sql.NVarChar(sql.MAX), description);
-    return request.execute("updateEvent");
+    return poolManager.executeRequest("updateEvent", request);
 };
 
 const deleteEvent = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsEvents.deleteEvent));
+    const request = poolManager.newRequest(poolTypes.deleteEvent, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deleteEvent");
+    return poolManager.executeRequest("deleteEvent", request);
 };
 
 module.exports = {

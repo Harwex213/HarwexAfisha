@@ -1,34 +1,31 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsTickets = {
-    getTicketsByUserId: pools.mainDatabase,
-    insertTicket: pools.mainDatabase,
-    deleteTicket: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getTicketsByUserId = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsTickets.getTicketsByUserId));
+    const request = poolManager.newRequest(poolTypes.getTicketsByUserId, (request) => {
+        request.input("userId", sql.BigInt, id);
+    });
 
-    request.input("userId", sql.BigInt, id);
-    return request.execute("getTicketsByUserId");
+    return poolManager.executeRequest("getTicketsByUserId", request);
 };
 
 const insertTicket = async ({ userId, sessionId }) => {
-    const request = new sql.Request(await getPool(poolsTickets.insertTicket));
+    const request = poolManager.newRequest(poolTypes.insertTicket, (request) => {
+        request.input("userId", sql.BigInt, userId);
+        request.input("sessionId", sql.BigInt, sessionId);
+    });
 
-    request.input("userId", sql.BigInt, userId);
-    request.input("sessionId", sql.BigInt, sessionId);
-    return request.execute("insertTicket");
+    return poolManager.executeRequest("insertTicket", request);
 };
 
 const deleteTicket = async ({ id, userId }) => {
-    const request = new sql.Request(await getPool(poolsTickets.deleteTicket));
+    const request = poolManager.newRequest(poolTypes.deleteTicket, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("userId", sql.BigInt, userId);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("userId", sql.BigInt, userId);
-    return request.execute("deleteTicket");
+    return poolManager.executeRequest("deleteTicket", request);
 };
 
 module.exports = {

@@ -1,32 +1,28 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsEventPlaces = {
-    getEventPlaces: pools.mainDatabase,
-    insertEventPlace: pools.mainDatabase,
-    deleteEventPlace: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getEventPlaces = async () => {
-    const request = new sql.Request(await getPool(poolsEventPlaces.getEventPlaces));
+    const request = poolManager.newRequest(poolTypes.getEventPlaces);
 
-    return request.execute("getEventPlaces");
+    return poolManager.executeRequest("getEventPlaces", request);
 };
 
 const insertEventPlace = async ({ eventId, placeId }) => {
-    const request = new sql.Request(await getPool(poolsEventPlaces.insertEventPlace));
+    const request = poolManager.newRequest(poolTypes.insertEventPlace, (request) => {
+        request.input("eventId", sql.BigInt, eventId);
+        request.input("placeId", sql.BigInt, placeId);
+    });
 
-    request.input("eventId", sql.BigInt, eventId);
-    request.input("placeId", sql.BigInt, placeId);
-    return request.execute("insertEventPlace");
+    return poolManager.executeRequest("insertEventPlace", request);
 };
 
 const deleteEventPlace = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsEventPlaces.deleteEventPlace));
+    const request = poolManager.newRequest(poolTypes.deleteEventPlace, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deleteEventPlace");
+    return poolManager.executeRequest("deleteEventPlace", request);
 };
 
 module.exports = {

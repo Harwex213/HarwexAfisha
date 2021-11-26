@@ -1,66 +1,62 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsUsers = {
-    getUsers: pools.mainDatabase,
-    getUserById: pools.mainDatabase,
-    getUserByUsername: pools.mainDatabase,
-    insertUser: pools.mainDatabase,
-    updateUser: pools.mainDatabase,
-    deleteUser: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getUsers = async () => {
-    const request = new sql.Request(await getPool(poolsUsers.getUsers));
+    const request = poolManager.newRequest(poolTypes.getUsers);
 
-    return request.execute("getUsers");
+    return poolManager.executeRequest("getUsers", request);
 };
 
 const getUserById = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsUsers.getUserById));
+    const request = poolManager.newRequest(poolTypes.getUserById, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("getUserById");
+    return poolManager.executeRequest("getUserById", request);
 };
 
 const getUserByUsername = async ({ username }) => {
-    const request = new sql.Request(await getPool(poolsUsers.getUserByUsername));
+    const request = poolManager.newRequest(poolTypes.getUserByUsername, (request) => {
+        request.input("username", sql.NVarChar(50), username);
+    });
 
-    request.input("username", sql.NVarChar(50), username);
-    return request.execute("getUserByUsername");
+    return poolManager.executeRequest("getUserByUsername", request);
 };
 
 const insertUser = async ({ username, password, firstName, lastName, patronymic, role }) => {
-    const request = new sql.Request(await getPool(poolsUsers.insertUser));
+    const request = poolManager.newRequest(poolTypes.insertUser, (request) => {
+        request.input("username", sql.NVarChar(50), username);
+        request.input("password", sql.NVarChar(sql.MAX), password);
+        request.input("firstName", sql.NVarChar(50), firstName);
+        request.input("lastName", sql.NVarChar(50), lastName);
+        request.input("patronymic", sql.NVarChar(50), patronymic ?? null);
+        request.input("role", sql.NVarChar(50), role);
+    });
 
-    request.input("username", sql.NVarChar(50), username);
-    request.input("password", sql.NVarChar(sql.MAX), password);
-    request.input("firstName", sql.NVarChar(50), firstName);
-    request.input("lastName", sql.NVarChar(50), lastName);
-    request.input("patronymic", sql.NVarChar(50), patronymic ?? null);
-    request.input("role", sql.NVarChar(50), role);
-    return request.execute("insertUser");
+    return poolManager.executeRequest("insertUser", request);
 };
 
 const updateUser = async ({ id, username, password, firstName, lastName, patronymic, role }) => {
-    const request = new sql.Request(await getPool(poolsUsers.updateUser));
+    const request = poolManager.newRequest(poolTypes.updateUser, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("username", sql.NVarChar(50), username);
+        request.input("password", sql.NVarChar(sql.MAX), password);
+        request.input("firstName", sql.NVarChar(50), firstName);
+        request.input("lastName", sql.NVarChar(50), lastName);
+        request.input("patronymic", sql.NVarChar(50), patronymic ?? null);
+        request.input("role", sql.NVarChar(50), role);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("username", sql.NVarChar(50), username);
-    request.input("password", sql.NVarChar(sql.MAX), password);
-    request.input("firstName", sql.NVarChar(50), firstName);
-    request.input("lastName", sql.NVarChar(50), lastName);
-    request.input("patronymic", sql.NVarChar(50), patronymic ?? null);
-    request.input("role", sql.NVarChar(50), role);
-    return request.execute("updateUser");
+    return poolManager.executeRequest("updateUser", request);
 };
 
 const deleteUser = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsUsers.deleteUser));
+    const request = poolManager.newRequest(poolTypes.deleteUser, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deleteUser");
+    return poolManager.executeRequest("deleteUser", request);
 };
 
 module.exports = {

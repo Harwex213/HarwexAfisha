@@ -1,44 +1,40 @@
 const sql = require("mssql/msnodesqlv8");
-const { pools } = require("./core/pools");
-const { getPool } = require("./core/poolManager");
-
-const poolsPlaces = {
-    getPlaces: pools.mainDatabase,
-    insertPlace: pools.mainDatabase,
-    updatePlace: pools.mainDatabase,
-    deletePlace: pools.mainDatabase,
-};
+const poolManager = require("./core/pool");
+const poolTypes = require("./core/poolTypes");
 
 const getPlaces = async () => {
-    const request = new sql.Request(await getPool(poolsPlaces.getPlaces));
+    const request = poolManager.newRequest(poolTypes.getPlaces);
 
-    return request.execute("getPlaces");
+    return poolManager.executeRequest("getPlaces", request);
 };
 
 const insertPlace = async ({ name, about, cityName }) => {
-    const request = new sql.Request(await getPool(poolsPlaces.insertPlace));
+    const request = poolManager.newRequest(poolTypes.insertPlace, (request) => {
+        request.input("name", sql.NVarChar(50), name);
+        request.input("about", sql.NVarChar(sql.MAX), about);
+        request.input("cityName", sql.NVarChar(50), cityName);
+    });
 
-    request.input("name", sql.NVarChar(50), name);
-    request.input("about", sql.NVarChar(sql.MAX), about);
-    request.input("cityName", sql.NVarChar(50), cityName);
-    return request.execute("insertPlace");
+    return poolManager.executeRequest("insertPlace", request);
 };
 
 const updatePlace = async ({ id, name, about, cityName }) => {
-    const request = new sql.Request(await getPool(poolsPlaces.updatePlace));
+    const request = poolManager.newRequest(poolTypes.updatePlace, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("name", sql.NVarChar(50), name);
+        request.input("about", sql.NVarChar(sql.MAX), about);
+        request.input("cityName", sql.NVarChar(50), cityName);
+    });
 
-    request.input("id", sql.BigInt, id);
-    request.input("name", sql.NVarChar(50), name);
-    request.input("about", sql.NVarChar(sql.MAX), about);
-    request.input("cityName", sql.NVarChar(50), cityName);
-    return request.execute("updatePlace");
+    return poolManager.executeRequest("updatePlace", request);
 };
 
 const deletePlace = async ({ id }) => {
-    const request = new sql.Request(await getPool(poolsPlaces.deletePlace));
+    const request = poolManager.newRequest(poolTypes.deletePlace, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
 
-    request.input("id", sql.BigInt, id);
-    return request.execute("deletePlace");
+    return poolManager.executeRequest("deletePlace", request);
 };
 
 module.exports = {
