@@ -1,5 +1,5 @@
-const ticketDataAccess = require("../dataAccess/ticketDataAccess");
-const { validateOnEntityDelete } = require("./helper/validator");
+const ticketDataAccess = require("../dataAccess/access/ticketDataAccess");
+const { validateOnEntityDelete } = require("../dataAccess/util/validator");
 
 const getTicketsByUserId = async ({ id }) => {
     const result = await ticketDataAccess.getTicketsByUserId({ id });

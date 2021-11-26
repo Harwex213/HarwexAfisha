@@ -1,5 +1,5 @@
-const cityDataAccess = require("../dataAccess/cityDataAccess");
-const { validateOnEntityUpdated, validateOnEntityDelete } = require("./helper/validator");
+const cityDataAccess = require("../dataAccess/access/cityDataAccess");
+const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
 const getCities = async () => {
     const result = await cityDataAccess.getCities();

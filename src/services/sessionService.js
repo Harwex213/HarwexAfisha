@@ -1,9 +1,9 @@
-const sessionDataAccess = require("../dataAccess/sessionDataAccess");
+const sessionDataAccess = require("../dataAccess/access/sessionDataAccess");
 const {
     validateOnEntityWasGet,
     validateOnEntityUpdated,
     validateOnEntityDelete,
-} = require("./helper/validator");
+} = require("../dataAccess/util/validator");
 
 const getSessions = async () => {
     const result = await sessionDataAccess.getSessions();

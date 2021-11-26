@@ -1,4 +1,4 @@
-const poolEmitter = require("./dataAccess/core/poolEmitter");
+const poolEmitter = require("./dataAccess/pool/poolEmitter");
 
 poolEmitter.emitter.on(poolEmitter.events.dbAvailable, ({ dbName, dbType }) => {
     console.log(`DataAccess: successfully connected to ${dbName}, type is ${dbType}`);

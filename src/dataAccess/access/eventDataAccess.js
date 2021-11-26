@@ -1,6 +1,6 @@
 const sql = require("mssql/msnodesqlv8");
-const poolManager = require("./core/pool");
-const poolTypes = require("./core/poolTypes");
+const poolManager = require("../pool/pool");
+const poolTypes = require("../pool/poolTypes");
 
 const getEvents = async () => {
     const request = poolManager.newRequest(poolTypes.getEvents);

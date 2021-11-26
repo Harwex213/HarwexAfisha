@@ -1,6 +1,6 @@
 const jwtService = require("./jwtService");
-const userDataAccess = require("../dataAccess/userDataAccess");
-const { validateOnEntityWasGet } = require("./helper/validator");
+const userDataAccess = require("../dataAccess/access/userDataAccess");
+const { validateOnEntityWasGet } = require("../dataAccess/util/validator");
 const { userRoles } = require("../../config/constants/db");
 const { throwUnauthenticated } = require("../util/prepareError");
 

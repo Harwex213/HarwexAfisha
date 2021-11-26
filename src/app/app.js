@@ -3,7 +3,7 @@ const useLogger = require("./logger");
 const useRequestBodyParser = require("./requestBodyParser");
 const useRoutes = require("./routesRegister");
 const useErrorHandler = require("./errorHandler");
-const useDatabase = require("../dataAccess/core/init");
+const useDatabase = require("../dataAccess/init");
 
 const app = express();
 

@@ -1,5 +1,5 @@
-const placeDataAccess = require("../dataAccess/placeDataAccess");
-const { validateOnEntityUpdated, validateOnEntityDelete } = require("./helper/validator");
+const placeDataAccess = require("../dataAccess/access/placeDataAccess");
+const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
 const getPlaces = async () => {
     const result = await placeDataAccess.getPlaces();

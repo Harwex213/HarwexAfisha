@@ -1,5 +1,5 @@
-const eventPlaceDataAccess = require("../dataAccess/eventPlaceDataAccess");
-const { validateOnEntityDelete } = require("./helper/validator");
+const eventPlaceDataAccess = require("../dataAccess/access/eventPlaceDataAccess");
+const { validateOnEntityDelete } = require("../dataAccess/util/validator");
 
 const getEventPlaces = async () => {
     const result = await eventPlaceDataAccess.getEventPlaces();

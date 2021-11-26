@@ -1,9 +1,9 @@
-const userDataAccess = require("../dataAccess/userDataAccess");
+const userDataAccess = require("../dataAccess/access/userDataAccess");
 const {
     validateOnEntityWasGet,
     validateOnEntityUpdated,
     validateOnEntityDelete,
-} = require("./helper/validator");
+} = require("../dataAccess/util/validator");
 
 const getUsers = async () => {
     const result = await userDataAccess.getUsers();
