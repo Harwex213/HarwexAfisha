@@ -9,7 +9,16 @@ const userRoles = {
     manager: "MANAGER",
 };
 
+const baseConfig = {
+    connectionTimeout: 1000,
+    requestTimeout: 1000,
+    options: {
+        trustServerCertificate: true,
+    },
+};
+
 module.exports = {
     databaseTypes,
     userRoles,
+    baseConfig,
 };

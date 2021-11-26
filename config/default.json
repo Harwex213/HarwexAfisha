@@ -5,7 +5,7 @@
   "mssql-pools": {
     "databases": [
       {
-        "server": "localhost",
+        "server": "DESKTOP-2QTVKAR",
         "database": "harwex_afisha"
       },
       {

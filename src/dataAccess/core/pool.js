@@ -1,12 +1,8 @@
 const config = require("config");
-const { ConnectionPool, Request } = require("mssql/msnodesqlv8");
-const { databaseTypes } = require("../../../config/constants/db");
+const { ConnectionPool, Request } = require("mssql/tedious");
+const { databaseTypes, baseConfig } = require("../../../config/constants/db");
 const { throwInternalError } = require("../../util/prepareError");
-
-const baseConfig = {
-    connectionTimeout: 2000,
-    requestTimeout: 2000,
-};
+const { emitter, events } = require("./poolEmitter");
 
 const getConfigs = () => {
     const poolsInfo = config.get("mssql-pools");
@@ -20,9 +16,18 @@ const getConfigs = () => {
     return { databaseConfigs, userConfigs };
 };
 
+const disconnectDatabase = async (database) => {
+    const closingPools = [];
+    for (const pool of Object.values(database.pools)) {
+        closingPools.push(pool.close());
+    }
+    await Promise.all(closingPools);
+};
+
 const connectToDb = async (database) => {
+    await disconnectDatabase(database);
     const connectedPools = [];
-    for (const pool of Object.values(database)) {
+    for (const pool of Object.values(database.pools)) {
         connectedPools.push(pool.connect());
     }
     await Promise.all(connectedPools);
@@ -35,8 +40,9 @@ class PoolManager {
             master: null,
             slaves: [],
         };
-        this.timer = 15000;
+        this.timer = 4000;
         this.slaveIndex = -1;
+        this.masterRequests = 0;
     }
 
     insertUAD(database) {
@@ -63,11 +69,6 @@ class PoolManager {
         }
 
         this.availableDatabases.slaves.splice(index, 1);
-    }
-
-    async disconnectDatabase(database) {
-        const closingPools = database.pools.map((pool) => pool.close());
-        await Promise.all(closingPools);
     }
 
     swapUADtoAD(dbName, dbType) {
@@ -104,13 +105,11 @@ class PoolManager {
         const db = this.availableDatabases.slaves[0];
         this.removeAD(0, databaseTypes.read);
         this.insertAD(db, databaseTypes.readWrite);
+
+        emitter.emit(events.swapSlaveToMaster);
     }
 
     getNextSlave() {
-        if (this.availableDatabases.slaves.length === 0) {
-            return null;
-        }
-
         this.slaveIndex++;
         if (this.slaveIndex === this.availableDatabases.slaves.length) {
             this.slaveIndex = 0;
@@ -119,28 +118,43 @@ class PoolManager {
         return this.availableDatabases.slaves[this.slaveIndex];
     }
 
-    async onDbUnavailable(database, dbType) {
-        this.swapADtoUAD(database.name);
-        await this.disconnectDatabase(database);
+    _isAllSlavesLost() {
+        return this.availableDatabases.slaves.length === 0;
+    }
+
+    _isAllDbLost() {
+        return this._isAllSlavesLost() && !this.availableDatabases.master;
+    }
+
+    onDbUnavailable(database, dbType) {
+        this.swapADtoUAD(database.name, dbType);
         if (dbType === databaseTypes.readWrite) {
             this.trySwapAnySlaveToMaster();
         }
 
         this.resolveUAD(database);
+
+        if (this.availableDatabases.slaves.length === 0 && !this.availableDatabases.master) {
+            emitter.emit(events.allDbLost);
+        }
+        emitter.emit(events.dbUnavailable, { dbName: database.name, dbType });
     }
 
-    async onDbAvailable(dbName) {
+    onDbAvailable(dbName) {
         const dbType = this.availableDatabases.master ? databaseTypes.read : databaseTypes.readWrite;
         this.swapUADtoAD(dbName, dbType);
+
+        emitter.emit(events.dbAvailable, { dbName, dbType });
     }
 
     async resolveUAD(database) {
         try {
+            emitter.emit(events.tryingResolveUAD, { dbName: database.name });
             await connectToDb(database);
 
             this.onDbAvailable(database.name);
         } catch (e) {
-            setTimeout(this.resolveUAD, this.timer);
+            setTimeout(() => this.resolveUAD(database), this.timer);
         }
     }
 
@@ -169,27 +183,69 @@ class PoolManager {
 
         for (const database of databases) {
             this.insertUAD(database);
-            this.onDbUnavailable(database);
+            this.resolveUAD(database);
         }
     }
 
-    newRequest(dbType, dbUser) {
-        const database =
-            dbType === databaseTypes.readWrite ? this.availableDatabases.master : this.getNextSlave();
-        const pool = database?.pools[dbUser];
-        if (!database || !pool) {
+    newRequest({ type, user, isPerformance }, preparing = null) {
+        if (this.masterRequests > 20) {
+            isPerformance = false;
+        }
+
+        if (this._isAllDbLost()) {
             throwInternalError();
         }
 
+        let database;
+        let dbType;
+        if (type === databaseTypes.readWrite || isPerformance || this._isAllSlavesLost()) {
+            database = this.availableDatabases.master;
+            dbType = databaseTypes.readWrite;
+        } else {
+            database = this.getNextSlave();
+            dbType = databaseTypes.read;
+        }
+        const pool = database.pools[user];
+
         const request = new Request(pool);
+        if (typeof preparing === "function") {
+            preparing(request);
+            request.preparing = preparing;
+        }
 
-        request.on("error", async (error) => {
-            if (error.name === "ConnectionError") {
-                await this.onDbUnavailable();
-            }
-        });
-
+        request.options = { type, user, isPerformance };
+        request.database = database;
+        request.dbType = dbType;
         return request;
+    }
+
+    async executeRequest(command, request) {
+        try {
+            this.masterRequests++;
+            return await request.execute(command);
+        } catch (error) {
+            if (error.name === "ConnectionError") {
+                this.onDbUnavailable(request.database, request.dbType);
+                return await this.handleBadRequest(command, request);
+            }
+
+            throwInternalError();
+        } finally {
+            this.masterRequests--;
+        }
+    }
+
+    async handleBadRequest(command, request) {
+        if (this._isAllDbLost()) {
+            throwInternalError();
+        }
+
+        try {
+            const newRequest = this.newRequest(request.options, request.preparing);
+            return await this.executeRequest(command, newRequest);
+        } catch (e) {
+            return await this.handleBadRequest(command, request);
+        }
     }
 }
 
