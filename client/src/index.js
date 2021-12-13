@@ -5,6 +5,7 @@ import { QueryClientProvider } from "react-query";
 import queryClient from "./app/queryClient";
 import { AuthProvider } from "./contexts/AuthContext";
 import App from "./app/App";
+import "./index.css";
 
 ReactDOM.render(
     <React.StrictMode>

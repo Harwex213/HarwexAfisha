@@ -8,6 +8,7 @@ import Register from "../pages/register/Register";
 import Poster from "../pages/poster/Poster";
 import Profile from "../pages/profile/Profile";
 import Dashboard from "../pages/dashboard/Dashboard";
+import Header from "../components/header/Header";
 
 import { routePaths } from "../common/constants/routePaths";
 import { userRoles } from "../common/constants/users";
@@ -15,6 +16,7 @@ import { userRoles } from "../common/constants/users";
 function App() {
     return (
         <>
+            <Header />
             <Routes>
                 <Route path={routePaths.main} element={<Main />} />
                 <Route
