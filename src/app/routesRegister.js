@@ -6,8 +6,15 @@ const sessionsRoutes = require("../controllers/sessions/sessionsRouter");
 const usersRoutes = require("../controllers/users/usersRouter");
 const ticketsRoutes = require("../controllers/tickets/ticketsRouter");
 const authRoutes = require("../controllers/auth/authRouter");
+const cors = require("cors");
 
 module.exports = (app) => {
+    app.use(
+        cors({
+            origin: ["http://localhost:5000", "http://localhost:3000"],
+        })
+    );
+
     app.use("/api/auth", authRoutes);
     app.use("/api/cities", citiesRoutes);
     app.use("/api/events", eventsRoutes);
