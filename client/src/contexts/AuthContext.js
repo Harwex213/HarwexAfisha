@@ -1,10 +1,17 @@
 import React from "react";
 import { createContext, useContext } from "react";
 import PropTypes from "prop-types";
+import { userRoles } from "../common/constants/users";
 
 const defaultValue = {
-    isAuth: false,
-    user: null,
+    user: {
+        id: null,
+        username: null,
+        firstName: null,
+        lastName: null,
+        patronymic: null,
+        role: userRoles.user,
+    },
 };
 
 export const AuthContext = createContext(defaultValue);
