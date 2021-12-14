@@ -3,7 +3,7 @@ export const routePaths = {
     main: "/",
     login: "/login",
     register: "/register",
-    poster: "/poster",
+    posters: "/posters",
     profile: "/profile",
     dashboard: "/dashboard",
     notFound: "/not-found",

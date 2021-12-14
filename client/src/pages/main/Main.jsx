@@ -11,7 +11,7 @@ const Main = () => {
     return isManager ? (
         <Navigate to={routePaths.dashboard} replace />
     ) : (
-        <Navigate to={routePaths.poster} replace />
+        <Navigate to={routePaths.posters} replace />
     );
 };
 
