@@ -12,20 +12,22 @@ import Header from "../components/header/Header";
 
 import { routePaths } from "../common/constants/routePaths";
 import { userRoles } from "../common/constants/users";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 function App() {
     return (
         <>
             <Header />
-            <Box sx={{ flexGrow: 1, margin: "25px" }}>
+            <Box>
                 <Routes>
                     <Route path={routePaths.main} element={<Main />} />
                     <Route
                         path={routePaths.login}
                         element={
                             <RoleRoute roles={[userRoles.guest]} navigateTo={routePaths.main}>
-                                <Login />
+                                <Container maxWidth="lg">
+                                    <Login />
+                                </Container>
                             </RoleRoute>
                         }
                     />
@@ -33,7 +35,9 @@ function App() {
                         path={routePaths.register}
                         element={
                             <RoleRoute roles={[userRoles.guest]} navigateTo={routePaths.main}>
-                                <Register />
+                                <Container maxWidth="lg">
+                                    <Register />
+                                </Container>
                             </RoleRoute>
                         }
                     />
@@ -41,15 +45,19 @@ function App() {
                         path={`${routePaths.posters}/*`}
                         element={
                             <RoleRoute roles={[userRoles.guest, userRoles.user]} navigateTo={routePaths.main}>
-                                <Posters />
+                                <Container maxWidth="lg">
+                                    <Posters />
+                                </Container>
                             </RoleRoute>
                         }
                     />
                     <Route
                         path={routePaths.profile}
                         element={
-                            <RoleRoute roles={[userRoles.user]} navigateTo={routePaths.main}>
-                                <Profile />
+                            <RoleRoute roles={[userRoles.user]} navigateTo={routePaths.login}>
+                                <Container maxWidth="lg">
+                                    <Profile />
+                                </Container>
                             </RoleRoute>
                         }
                     />
