@@ -6,5 +6,11 @@ export const routePaths = {
     posters: "/posters",
     profile: "/profile",
     dashboard: "/dashboard",
+    dashboardInner: {
+        cities: "cities",
+        places: "places",
+        events: "events",
+        sessions: "sessions",
+    },
     notFound: "/not-found",
 };

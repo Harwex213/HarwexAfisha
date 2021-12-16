@@ -7,17 +7,7 @@ import PropTypes from "prop-types";
 import SessionList from "../sessionList/SessionList";
 import CloseIcon from "@mui/icons-material/Close";
 import { routePaths } from "../../common/constants/routePaths";
-
-const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    outline: "none",
-    bgcolor: "#fff",
-    p: 5,
-};
+import { modalStyle } from "../../common/styles/material";
 
 const TicketOrder = ({ date, city }) => {
     const { eventId } = useParams();
@@ -26,7 +16,7 @@ const TicketOrder = ({ date, city }) => {
     const [isTicketOrderOpen, setIsTicketOrderOpen] = useState(false);
 
     const handleBackClick = () => {
-        navigate("../");
+        navigate("../..");
     };
 
     const handleSessionClick = () => {
