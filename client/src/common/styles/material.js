@@ -24,3 +24,14 @@ export const underlinedHover = {
     },
     "&:hover:after": { transform: "scaleX(1)" },
 };
+
+export const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    minWidth: 400,
+    outline: "none",
+    bgcolor: "#fff",
+    p: 5,
+};
