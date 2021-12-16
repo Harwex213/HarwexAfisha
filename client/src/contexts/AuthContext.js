@@ -10,7 +10,7 @@ const defaultValue = {
         firstName: null,
         lastName: null,
         patronymic: null,
-        role: userRoles.user,
+        role: userRoles.guest,
     },
 };
 
