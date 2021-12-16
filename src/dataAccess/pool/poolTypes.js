@@ -1,4 +1,4 @@
-const { userRoles, databaseTypes } = require("../../../config/constants/db");
+const { userRoles, databaseTypes } = require("../../config/constants/db");
 
 const poolTypes = {
     // guest

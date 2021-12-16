@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { getTickets, postTicket, deleteTicket, schemas, schemasOfRequired } = require("./ticketsController");
 const { handlerWithBody, handlerWithoutBody, handlerWithRequestString } = require("../helper/baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
-const { userRoles } = require("../../../config/constants/db");
+const { userRoles } = require("../../config/constants/db");
 
 router.get("/", authMiddleware([userRoles.user, userRoles.admin]), handlerWithoutBody(getTickets));
 router.post(

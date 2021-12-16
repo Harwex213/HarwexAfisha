@@ -1,6 +1,6 @@
 const config = require("config");
 const { ConnectionPool, Request } = require("mssql/tedious");
-const { databaseTypes, baseConfig } = require("../../../config/constants/db");
+const { databaseTypes, baseConfig } = require("../../config/constants/db");
 const { throwInternalError } = require("../../util/prepareError");
 const { emitter, events } = require("./poolEmitter");
 

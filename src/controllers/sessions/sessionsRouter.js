@@ -10,7 +10,7 @@ const {
 } = require("./sessionsController");
 const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
-const { userRoles } = require("../../../config/constants/db");
+const { userRoles } = require("../../config/constants/db");
 
 router.get("/", handlerWithoutBody(getSessions));
 router.get(
