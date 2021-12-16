@@ -12,7 +12,7 @@ import Header from "../components/header/Header";
 
 import { routePaths } from "../common/constants/routePaths";
 import { userRoles } from "../common/constants/users";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 function App() {
     return (
@@ -62,14 +62,21 @@ function App() {
                         }
                     />
                     <Route
-                        path={routePaths.dashboard}
+                        path={`${routePaths.dashboard}/*`}
                         element={
                             <RoleRoute roles={[userRoles.manager]} navigateTo={routePaths.main}>
                                 <Dashboard />
                             </RoleRoute>
                         }
                     />
-                    <Route path={routePaths.notFound} element={<div>Nothing to see here</div>} />
+                    <Route
+                        path={routePaths.notFound}
+                        element={
+                            <Container maxWidth="lg">
+                                <Typography mt={5}>Nothing to see here</Typography>
+                            </Container>
+                        }
+                    />
                     <Route path={routePaths.any} element={<Navigate to={routePaths.notFound} replace />} />
                 </Routes>
             </Box>
