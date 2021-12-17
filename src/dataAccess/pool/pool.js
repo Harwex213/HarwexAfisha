@@ -42,6 +42,7 @@ class PoolManager {
         };
         this.timer = 4000;
         this.slaveIndex = -1;
+        this.maxPerformanceRequest = 50;
         this.masterRequests = 0;
     }
 
@@ -188,7 +189,7 @@ class PoolManager {
     }
 
     newRequest({ type, user, isPerformance }, preparing = null) {
-        if (this.masterRequests > 20) {
+        if (this.masterRequests > this.maxPerformanceRequest) {
             isPerformance = false;
         }
 
