@@ -11,8 +11,7 @@ const insertPlace = async ({ name, about, cityName }) => {
     const result = await placeDataAccess.insertPlace({ name, about, cityName });
 
     return {
-        id: result.recordset[0].insertedId,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -21,8 +20,7 @@ const updatePlace = async ({ id, name, about, cityName }) => {
     validateOnEntityUpdated(result);
 
     return {
-        id,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -30,7 +28,9 @@ const deletePlace = async ({ id }) => {
     const result = await placeDataAccess.deletePlace({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

@@ -11,9 +11,7 @@ const insertEventPlace = async ({ eventId, placeId }) => {
     const result = await eventPlaceDataAccess.insertEventPlace({ eventId, placeId });
 
     return {
-        id: result.recordset[0].insertedId,
-        eventId,
-        placeId,
+        ...result.recordset[0],
     };
 };
 
@@ -21,7 +19,9 @@ const deleteEventPlace = async ({ id }) => {
     const result = await eventPlaceDataAccess.deleteEventPlace({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

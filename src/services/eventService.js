@@ -17,8 +17,7 @@ const insertEvent = async ({ name, description }) => {
     const result = await eventDataAccess.insertEvent({ name, description });
 
     return {
-        id: result.recordset[0].insertedId,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -27,8 +26,7 @@ const updateEvent = async ({ id, name, description }) => {
     validateOnEntityUpdated(result);
 
     return {
-        id,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -36,7 +34,9 @@ const deleteEvent = async ({ id }) => {
     const result = await eventDataAccess.deleteEvent({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

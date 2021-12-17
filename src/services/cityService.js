@@ -22,8 +22,7 @@ const insertCity = async ({ name }) => {
     const result = await cityDataAccess.insertCity({ name });
 
     return {
-        id: result.recordset[0].insertedId,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -32,8 +31,7 @@ const updateCity = async ({ id, name }) => {
     validateOnEntityUpdated(result);
 
     return {
-        id,
-        name,
+        ...result.recordset[0],
     };
 };
 
@@ -41,7 +39,9 @@ const deleteCity = async ({ id }) => {
     const result = await cityDataAccess.deleteCity({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

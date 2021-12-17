@@ -39,10 +39,7 @@ const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
     const result = await sessionDataAccess.insertSession({ eventPlaceId, time, ticketsAmount });
 
     return {
-        id: result.recordset[0].insertedId,
-        eventPlaceId,
-        time,
-        ticketsAmount,
+        ...result.recordset[0],
     };
 };
 
@@ -51,10 +48,7 @@ const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
     validateOnEntityUpdated(result);
 
     return {
-        id,
-        eventPlaceId,
-        time,
-        ticketsAmount,
+        ...result.recordset[0],
     };
 };
 
@@ -62,7 +56,9 @@ const deleteSession = async ({ id }) => {
     const result = await sessionDataAccess.deleteSession({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

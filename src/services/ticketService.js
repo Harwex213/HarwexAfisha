@@ -11,9 +11,7 @@ const insertTicket = async ({ userId, sessionId }) => {
     const result = await ticketDataAccess.insertTicket({ userId, sessionId });
 
     return {
-        id: result.recordset[0].insertedId,
-        userId,
-        sessionId,
+        ...result.recordset[0],
     };
 };
 
@@ -21,7 +19,9 @@ const deleteTicket = async ({ id, userId }) => {
     const result = await ticketDataAccess.deleteTicket({ id, userId });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {

@@ -36,13 +36,7 @@ const insertUser = async ({ username, password, firstName, lastName, patronymic,
     });
 
     return {
-        id: result.recordset[0].insertedId,
-        username,
-        password,
-        firstName,
-        lastName,
-        patronymic,
-        role,
+        ...result.recordset[0],
     };
 };
 
@@ -59,13 +53,7 @@ const updateUser = async ({ id, username, password, firstName, lastName, patrony
     validateOnEntityUpdated(result);
 
     return {
-        id,
-        username,
-        password,
-        firstName,
-        lastName,
-        patronymic,
-        role,
+        ...result.recordset[0],
     };
 };
 
@@ -73,7 +61,9 @@ const deleteUser = async ({ id }) => {
     const result = await userDataAccess.deleteUser({ id });
     validateOnEntityDelete(result);
 
-    return "Successfully deleted";
+    return {
+        ...result.recordset[0],
+    };
 };
 
 module.exports = {
