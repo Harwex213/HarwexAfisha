@@ -5,10 +5,27 @@ const {
     validateOnEntityDelete,
 } = require("../dataAccess/util/validator");
 
-const getSessions = async () => {
-    const result = await sessionDataAccess.getSessions();
+const getSessionsByDateCityEvent = async ({ date, city, eventId }) => {
+    const groupBy = (data, key) => {
+        return Object.values(
+            data.reduce((previous, current) => {
+                (previous[current[key]] = previous[current[key]] || {
+                    placeId: current.placeId,
+                    placeName: current.placeName,
+                    sessions: [],
+                }).sessions.push({
+                    id: current.id,
+                    time: current.time,
+                    price: current.price,
+                    freeTickets: current.freeTickets,
+                });
+                return previous;
+            }, {})
+        );
+    };
 
-    return result.recordset;
+    const result = await sessionDataAccess.getSessionsByDateCityEvent({ date, city, eventId });
+    return groupBy(result.recordset, "placeId");
 };
 
 const getSessionFreeTicketsById = async ({ id }) => {
@@ -49,7 +66,7 @@ const deleteSession = async ({ id }) => {
 };
 
 module.exports = {
-    getSessions,
+    getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     insertSession,
     updateSession,

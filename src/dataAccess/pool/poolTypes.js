@@ -10,10 +10,6 @@ const poolTypes = {
         type: databaseTypes.read,
         user: userRoles.guest,
     },
-    getPlaces: {
-        type: databaseTypes.read,
-        user: userRoles.guest,
-    },
     getEventsByDateAndCity: {
         type: databaseTypes.read,
         user: userRoles.guest,
@@ -22,15 +18,11 @@ const poolTypes = {
     getEvent: {
         type: databaseTypes.read,
         user: userRoles.guest,
+    },
+    getSessionsByDateCityEvent: {
+        type: databaseTypes.read,
+        user: userRoles.guest,
         isPerformance: true,
-    },
-    getEventPlaces: {
-        type: databaseTypes.read,
-        user: userRoles.guest,
-    },
-    getSessions: {
-        type: databaseTypes.read,
-        user: userRoles.guest,
     },
 
     // user
@@ -86,6 +78,11 @@ const poolTypes = {
         user: userRoles.manager,
     },
 
+    getEventPlaces: {
+        type: databaseTypes.read,
+        user: userRoles.manager,
+        isPerformance: true,
+    },
     insertEventPlace: {
         type: databaseTypes.readWrite,
         user: userRoles.manager,
@@ -95,6 +92,11 @@ const poolTypes = {
         user: userRoles.manager,
     },
 
+    getPlacesChunk: {
+        type: databaseTypes.read,
+        user: userRoles.manager,
+        isPerformance: true,
+    },
     insertPlace: {
         type: databaseTypes.readWrite,
         user: userRoles.manager,

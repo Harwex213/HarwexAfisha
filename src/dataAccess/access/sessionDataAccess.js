@@ -2,10 +2,14 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getSessions = async () => {
-    const request = poolManager.newRequest(poolTypes.getSessions);
+const getSessionsByDateCityEvent = async ({ date, city, eventId }) => {
+    const request = poolManager.newRequest(poolTypes.getSessionsByDateCityEvent, (request) => {
+        request.input("city", sql.NVarChar(50), city);
+        request.input("date", sql.DateTime, date);
+        request.input("eventId", sql.BigInt, eventId);
+    });
 
-    return poolManager.executeRequest("getSessions", request);
+    return poolManager.executeRequest("s_guest.getSessionsByDateCityEvent", request);
 };
 
 const getSessionFreeTicketsById = async ({ id }) => {
@@ -13,7 +17,7 @@ const getSessionFreeTicketsById = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("getSessionFreeTicketsById", request);
+    return poolManager.executeRequest("s_guest.getSessionFreeTicketsById", request);
 };
 
 const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
@@ -23,7 +27,7 @@ const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
         request.input("ticketsAmount", sql.Int, ticketsAmount);
     });
 
-    return poolManager.executeRequest("insertSession", request);
+    return poolManager.executeRequest("s_manager.insertSession", request);
 };
 
 const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
@@ -34,7 +38,7 @@ const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
         request.input("ticketsAmount", sql.Int, ticketsAmount);
     });
 
-    return poolManager.executeRequest("updateSession", request);
+    return poolManager.executeRequest("s_manager.updateSession", request);
 };
 
 const deleteSession = async ({ id }) => {
@@ -42,11 +46,11 @@ const deleteSession = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("deleteSession", request);
+    return poolManager.executeRequest("s_manager.deleteSession", request);
 };
 
 module.exports = {
-    getSessions,
+    getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     insertSession,
     updateSession,

@@ -7,7 +7,7 @@ const getTicketsByUserId = async ({ id }) => {
         request.input("userId", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("getTicketsByUserId", request);
+    return poolManager.executeRequest("s_user.getTicketsByUserId", request);
 };
 
 const insertTicket = async ({ userId, sessionId }) => {
@@ -16,7 +16,7 @@ const insertTicket = async ({ userId, sessionId }) => {
         request.input("sessionId", sql.BigInt, sessionId);
     });
 
-    return poolManager.executeRequest("insertTicket", request);
+    return poolManager.executeRequest("s_user.insertTicket", request);
 };
 
 const deleteTicket = async ({ id, userId }) => {
@@ -25,7 +25,7 @@ const deleteTicket = async ({ id, userId }) => {
         request.input("userId", sql.BigInt, userId);
     });
 
-    return poolManager.executeRequest("deleteTicket", request);
+    return poolManager.executeRequest("s_user.deleteTicket", request);
 };
 
 module.exports = {

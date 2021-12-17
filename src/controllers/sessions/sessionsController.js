@@ -1,6 +1,7 @@
 const sessionService = require("../../services/sessionService");
 
 const schemasOfRequired = {
+    getSessionsByDateCityEvent: ["date", "city", "eventId"],
     getSessionFreeTicketsById: ["id"],
     postSession: ["eventPlaceId", "time", "ticketsAmount"],
     putSession: ["id", "eventPlaceId", "time", "ticketsAmount"],
@@ -8,6 +9,11 @@ const schemasOfRequired = {
 };
 
 const schemas = {
+    getSessionsByDateCityEvent: {
+        date: null,
+        city: null,
+        eventId: null,
+    },
     getSessionFreeTicketsById: {
         id: null,
     },
@@ -27,8 +33,8 @@ const schemas = {
     },
 };
 
-const getSessions = () => {
-    return sessionService.getSessions();
+const getSessionsByDateCityEvent = (model) => {
+    return sessionService.getSessionsByDateCityEvent(model);
 };
 
 const getSessionFreeTicketsById = (model) => {
@@ -48,7 +54,7 @@ const deleteSession = (model) => {
 };
 
 module.exports = {
-    getSessions,
+    getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     putSession,
     postSession,

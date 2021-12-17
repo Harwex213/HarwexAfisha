@@ -5,7 +5,7 @@ const poolTypes = require("../pool/poolTypes");
 const getEventPlaces = async () => {
     const request = poolManager.newRequest(poolTypes.getEventPlaces);
 
-    return poolManager.executeRequest("getEventPlaces", request);
+    return poolManager.executeRequest("s_manager.getEventPlaces", request);
 };
 
 const insertEventPlace = async ({ eventId, placeId }) => {
@@ -14,7 +14,7 @@ const insertEventPlace = async ({ eventId, placeId }) => {
         request.input("placeId", sql.BigInt, placeId);
     });
 
-    return poolManager.executeRequest("insertEventPlace", request);
+    return poolManager.executeRequest("s_manager.insertEventPlace", request);
 };
 
 const deleteEventPlace = async ({ id }) => {
@@ -22,7 +22,7 @@ const deleteEventPlace = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("deleteEventPlace", request);
+    return poolManager.executeRequest("s_manager.deleteEventPlace", request);
 };
 
 module.exports = {

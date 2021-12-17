@@ -1,8 +1,8 @@
 const placeDataAccess = require("../dataAccess/access/placeDataAccess");
 const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
-const getPlaces = async () => {
-    const result = await placeDataAccess.getPlaces();
+const getPlacesChunk = async () => {
+    const result = await placeDataAccess.getPlacesChunk();
 
     return result.recordset;
 };
@@ -34,7 +34,7 @@ const deletePlace = async ({ id }) => {
 };
 
 module.exports = {
-    getPlaces,
+    getPlacesChunk,
     insertPlace,
     updatePlace,
     deletePlace,

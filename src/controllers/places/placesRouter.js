@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-    getPlaces,
+    getPlacesChunk,
     postPlace,
     putPlace,
     deletePlace,
@@ -11,7 +11,7 @@ const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = requir
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", handlerWithoutBody(getPlaces));
+router.get("/", authMiddleware([userRoles.manager]), handlerWithoutBody(getPlacesChunk));
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

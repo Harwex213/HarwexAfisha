@@ -23,8 +23,8 @@ const schemas = {
     },
 };
 
-const getPlaces = () => {
-    return placeService.getPlaces();
+const getPlacesChunk = () => {
+    return placeService.getPlacesChunk();
 };
 
 const postPlace = async (model) => {
@@ -40,7 +40,7 @@ const deletePlace = async (model) => {
 };
 
 module.exports = {
-    getPlaces,
+    getPlacesChunk,
     postPlace,
     putPlace,
     deletePlace,

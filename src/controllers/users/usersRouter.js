@@ -4,7 +4,7 @@ const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = requir
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", authMiddleware([userRoles.manager]), handlerWithoutBody(getUsers));
+// router.get("/", authMiddleware([userRoles.manager]), handlerWithoutBody(getUsers));
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

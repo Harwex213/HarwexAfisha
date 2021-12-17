@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-    getSessions,
+    getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     postSession,
     putSession,
@@ -8,11 +8,18 @@ const {
     schemas,
     schemasOfRequired,
 } = require("./sessionsController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
+const { handlerWithBody, handlerWithRequestParams, handlerWithRequestQueries } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", handlerWithoutBody(getSessions));
+router.get(
+    "/",
+    handlerWithRequestQueries(
+        getSessionsByDateCityEvent,
+        schemas.getSessionsByDateCityEvent,
+        schemasOfRequired.getSessionsByDateCityEvent
+    )
+);
 router.get(
     "/free/:id",
     handlerWithRequestParams(

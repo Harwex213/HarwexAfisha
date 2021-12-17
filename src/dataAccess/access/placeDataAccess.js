@@ -2,10 +2,10 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getPlaces = async () => {
-    const request = poolManager.newRequest(poolTypes.getPlaces);
+const getPlacesChunk = async () => {
+    const request = poolManager.newRequest(poolTypes.getPlacesChunk);
 
-    return poolManager.executeRequest("getPlaces", request);
+    return poolManager.executeRequest("s_manager.getPlacesChunk", request);
 };
 
 const insertPlace = async ({ name, about, cityName }) => {
@@ -15,7 +15,7 @@ const insertPlace = async ({ name, about, cityName }) => {
         request.input("cityName", sql.NVarChar(50), cityName);
     });
 
-    return poolManager.executeRequest("insertPlace", request);
+    return poolManager.executeRequest("s_manager.insertPlace", request);
 };
 
 const updatePlace = async ({ id, name, about, cityName }) => {
@@ -26,7 +26,7 @@ const updatePlace = async ({ id, name, about, cityName }) => {
         request.input("cityName", sql.NVarChar(50), cityName);
     });
 
-    return poolManager.executeRequest("updatePlace", request);
+    return poolManager.executeRequest("s_manager.updatePlace", request);
 };
 
 const deletePlace = async ({ id }) => {
@@ -34,11 +34,11 @@ const deletePlace = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("deletePlace", request);
+    return poolManager.executeRequest("s_manager.deletePlace", request);
 };
 
 module.exports = {
-    getPlaces,
+    getPlacesChunk,
     insertPlace,
     updatePlace,
     deletePlace,
