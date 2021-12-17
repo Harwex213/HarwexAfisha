@@ -7,16 +7,16 @@ const getPlacesChunk = async () => {
     return result.recordset;
 };
 
-const insertPlace = async ({ name, about, cityName }) => {
-    const result = await placeDataAccess.insertPlace({ name, about, cityName });
+const insertPlace = async ({ name, about, cityId }) => {
+    const result = await placeDataAccess.insertPlace({ name, about, cityId });
 
     return {
         ...result.recordset[0],
     };
 };
 
-const updatePlace = async ({ id, name, about, cityName }) => {
-    const result = await placeDataAccess.updatePlace({ id, name, about, cityName });
+const updatePlace = async ({ id, name, about, cityId }) => {
+    const result = await placeDataAccess.updatePlace({ id, name, about, cityId });
     validateOnEntityUpdated(result);
 
     return {

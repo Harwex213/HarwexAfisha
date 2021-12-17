@@ -2,9 +2,9 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getSessionsByDateCityEvent = async ({ date, city, eventId }) => {
+const getSessionsByDateCityEvent = async ({ date, cityId, eventId }) => {
     const request = poolManager.newRequest(poolTypes.getSessionsByDateCityEvent, (request) => {
-        request.input("city", sql.NVarChar(50), city);
+        request.input("cityId", sql.BigInt, cityId);
         request.input("date", sql.DateTime, date);
         request.input("eventId", sql.BigInt, eventId);
     });

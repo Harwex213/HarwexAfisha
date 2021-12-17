@@ -1,7 +1,7 @@
 const eventService = require("../../services/eventService");
 
 const schemasOfRequired = {
-    getEventsByDateAndCity: ["date", "city"],
+    getEventsByDateAndCity: ["date", "cityId"],
     getEvent: ["id"],
     postEvent: ["name", "description"],
     putEvent: ["id", "name", "description"],
@@ -11,7 +11,7 @@ const schemasOfRequired = {
 const schemas = {
     getEventsByDateAndCity: {
         date: null,
-        city: null,
+        cityId: null,
     },
     getEvent: {
         id: null,

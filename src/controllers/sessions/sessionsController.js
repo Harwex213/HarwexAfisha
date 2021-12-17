@@ -1,7 +1,7 @@
 const sessionService = require("../../services/sessionService");
 
 const schemasOfRequired = {
-    getSessionsByDateCityEvent: ["date", "city", "eventId"],
+    getSessionsByDateCityEvent: ["date", "cityId", "eventId"],
     getSessionFreeTicketsById: ["id"],
     postSession: ["eventPlaceId", "time", "ticketsAmount"],
     putSession: ["id", "eventPlaceId", "time", "ticketsAmount"],
@@ -11,7 +11,7 @@ const schemasOfRequired = {
 const schemas = {
     getSessionsByDateCityEvent: {
         date: null,
-        city: null,
+        cityId: null,
         eventId: null,
     },
     getSessionFreeTicketsById: {

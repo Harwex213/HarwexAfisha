@@ -1,8 +1,8 @@
 const eventDataAccess = require("../dataAccess/access/eventDataAccess");
 const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
-const getEventsByDateAndCity = async ({ date, city }) => {
-    const result = await eventDataAccess.getEventsByDateAndCity({ date, city });
+const getEventsByDateAndCity = async ({ date, cityId }) => {
+    const result = await eventDataAccess.getEventsByDateAndCity({ date, cityId });
 
     return result.recordset;
 };

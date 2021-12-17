@@ -5,7 +5,7 @@ const {
     validateOnEntityDelete,
 } = require("../dataAccess/util/validator");
 
-const getSessionsByDateCityEvent = async ({ date, city, eventId }) => {
+const getSessionsByDateCityEvent = async ({ date, cityId, eventId }) => {
     const groupBy = (data, key) => {
         return Object.values(
             data.reduce((previous, current) => {
@@ -24,7 +24,7 @@ const getSessionsByDateCityEvent = async ({ date, city, eventId }) => {
         );
     };
 
-    const result = await sessionDataAccess.getSessionsByDateCityEvent({ date, city, eventId });
+    const result = await sessionDataAccess.getSessionsByDateCityEvent({ date, cityId, eventId });
     return groupBy(result.recordset, "placeId");
 };
 

@@ -8,22 +8,22 @@ const getPlacesChunk = async () => {
     return poolManager.executeRequest("s_manager.getPlacesChunk", request);
 };
 
-const insertPlace = async ({ name, about, cityName }) => {
+const insertPlace = async ({ name, about, cityId }) => {
     const request = poolManager.newRequest(poolTypes.insertPlace, (request) => {
         request.input("name", sql.NVarChar(50), name);
         request.input("about", sql.NVarChar(sql.MAX), about);
-        request.input("cityName", sql.NVarChar(50), cityName);
+        request.input("cityId", sql.BigInt, cityId);
     });
 
     return poolManager.executeRequest("s_manager.insertPlace", request);
 };
 
-const updatePlace = async ({ id, name, about, cityName }) => {
+const updatePlace = async ({ id, name, about, cityId }) => {
     const request = poolManager.newRequest(poolTypes.updatePlace, (request) => {
         request.input("id", sql.BigInt, id);
         request.input("name", sql.NVarChar(50), name);
         request.input("about", sql.NVarChar(sql.MAX), about);
-        request.input("cityName", sql.NVarChar(50), cityName);
+        request.input("cityId", sql.BigInt, cityId);
     });
 
     return poolManager.executeRequest("s_manager.updatePlace", request);

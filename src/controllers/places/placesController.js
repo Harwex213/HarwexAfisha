@@ -1,8 +1,8 @@
 const placeService = require("../../services/placeService");
 
 const schemasOfRequired = {
-    postPlace: ["name", "about", "cityName"],
-    putPlace: ["id", "name", "about", "cityName"],
+    postPlace: ["name", "about", "cityId"],
+    putPlace: ["id", "name", "about", "cityId"],
     deletePlace: ["id"],
 };
 
@@ -10,13 +10,13 @@ const schemas = {
     postPlace: {
         name: null,
         about: null,
-        cityName: null,
+        cityId: null,
     },
     putPlace: {
         id: null,
         name: null,
         about: null,
-        cityName: null,
+        cityId: null,
     },
     deletePlace: {
         id: null,
