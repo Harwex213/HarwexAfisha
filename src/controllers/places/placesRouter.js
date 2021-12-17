@@ -7,25 +7,25 @@ const {
     schemas,
     schemasOfRequired,
 } = require("./placesController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
 router.get("/", handlerWithoutBody(getPlaces));
 router.post(
     "/",
-    authMiddleware([userRoles.admin]),
+    authMiddleware([userRoles.manager]),
     handlerWithBody(postPlace, schemas.postPlace, schemasOfRequired.postPlace)
 );
 router.put(
     "/",
-    authMiddleware([userRoles.admin]),
+    authMiddleware([userRoles.manager]),
     handlerWithBody(putPlace, schemas.putPlace, schemasOfRequired.putPlace)
 );
 router.delete(
     "/:id",
-    authMiddleware([userRoles.admin]),
-    handlerWithRequestString(deletePlace, schemas.deletePlace, schemasOfRequired.deletePlace)
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestParams(deletePlace, schemas.deletePlace, schemasOfRequired.deletePlace)
 );
 
 module.exports = router;

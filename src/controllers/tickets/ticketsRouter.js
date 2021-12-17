@@ -1,19 +1,19 @@
 const router = require("express").Router();
 const { getTickets, postTicket, deleteTicket, schemas, schemasOfRequired } = require("./ticketsController");
-const { handlerWithBody, handlerWithoutBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const { handlerWithBody, handlerWithoutBody, handlerWithRequestParams } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", authMiddleware([userRoles.user, userRoles.admin]), handlerWithoutBody(getTickets));
+router.get("/", authMiddleware([userRoles.user, userRoles.manager]), handlerWithoutBody(getTickets));
 router.post(
     "/",
-    authMiddleware([userRoles.user, userRoles.admin]),
+    authMiddleware([userRoles.user, userRoles.manager]),
     handlerWithBody(postTicket, schemas.postTicket, schemasOfRequired.postTicket)
 );
 router.delete(
     "/:id",
-    authMiddleware([userRoles.user, userRoles.admin]),
-    handlerWithRequestString(deleteTicket, schemas.deleteTicket, schemasOfRequired.deleteTicket)
+    authMiddleware([userRoles.user, userRoles.manager]),
+    handlerWithRequestParams(deleteTicket, schemas.deleteTicket, schemasOfRequired.deleteTicket)
 );
 
 module.exports = router;

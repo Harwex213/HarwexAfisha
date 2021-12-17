@@ -6,20 +6,20 @@ const {
     schemas,
     schemasOfRequired,
 } = require("./eventPlacesController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
 router.get("/", handlerWithoutBody(getEventPlaces));
 router.post(
     "/",
-    authMiddleware([userRoles.admin]),
+    authMiddleware([userRoles.manager]),
     handlerWithBody(postEventPlace, schemas.postEventPlace, schemasOfRequired.postEventPlace)
 );
 router.delete(
     "/:id",
-    authMiddleware([userRoles.admin]),
-    handlerWithRequestString(deleteEventPlace, schemas.deleteEventPlace, schemasOfRequired.deleteEventPlace)
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestParams(deleteEventPlace, schemas.deleteEventPlace, schemasOfRequired.deleteEventPlace)
 );
 
 module.exports = router;

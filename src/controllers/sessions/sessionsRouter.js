@@ -8,14 +8,14 @@ const {
     schemas,
     schemasOfRequired,
 } = require("./sessionsController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestString } = require("../helper/baseHandlers");
+const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
 router.get("/", handlerWithoutBody(getSessions));
 router.get(
     "/free/:id",
-    handlerWithRequestString(
+    handlerWithRequestParams(
         getSessionFreeTicketsById,
         schemas.getSessionFreeTicketsById,
         schemasOfRequired.getSessionFreeTicketsById
@@ -23,18 +23,18 @@ router.get(
 );
 router.post(
     "/",
-    authMiddleware([userRoles.admin]),
+    authMiddleware([userRoles.manager]),
     handlerWithBody(postSession, schemas.postSession, schemasOfRequired.postSession)
 );
 router.put(
     "/",
-    authMiddleware([userRoles.admin]),
+    authMiddleware([userRoles.manager]),
     handlerWithBody(putSession, schemas.putSession, schemasOfRequired.putSession)
 );
 router.delete(
     "/:id",
-    authMiddleware([userRoles.admin]),
-    handlerWithRequestString(deleteSession, schemas.deleteSession, schemasOfRequired.deleteSession)
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestParams(deleteSession, schemas.deleteSession, schemasOfRequired.deleteSession)
 );
 
 module.exports = router;
