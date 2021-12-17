@@ -12,7 +12,7 @@ const authenticationMiddleware = async (accessToken) => {
 };
 
 const authorizationMiddleware = (actualRole, expectedRoles) => {
-    if (expectedRoles.includes(actualRole)) {
+    if (expectedRoles.includes(actualRole.toUpperCase())) {
         return;
     }
 

@@ -1,7 +1,7 @@
 const config = require("config");
 const { ConnectionPool, Request } = require("mssql/tedious");
 const { databaseTypes, baseConfig } = require("../../config/constants/db");
-const { throwInternalError } = require("../../util/prepareError");
+const { throwInternalError, throwBadRequest } = require("../../util/prepareError");
 const { emitter, events } = require("./poolEmitter");
 
 const getConfigs = () => {
@@ -228,6 +228,9 @@ class PoolManager {
             if (error.name === "ConnectionError") {
                 this.onDbUnavailable(request.database, request.dbType);
                 return await this.handleBadRequest(command, request);
+            }
+            if (error.name === "RequestError") {
+                throwBadRequest(error.message);
             }
 
             throwInternalError();

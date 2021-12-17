@@ -4,6 +4,13 @@ const { validateOnEntityWasGet } = require("../dataAccess/util/validator");
 const { userRoles } = require("../config/constants/db");
 const { throwUnauthenticated } = require("../util/prepareError");
 
+const getUser = async ({ id }) => {
+    const result = await userDataAccess.getUserById({ id });
+    validateOnEntityWasGet(result);
+
+    return result.recordset[0];
+};
+
 const register = async ({ username, password, repeatPassword, firstName, lastName, patronymic }) => {
     if (password !== repeatPassword) {
         const error = new Error("Password and repeat Password must match");
@@ -20,21 +27,15 @@ const register = async ({ username, password, repeatPassword, firstName, lastNam
         patronymic,
         role,
     });
-    const id = result.recordset[0].insertedId;
-    const accessToken = jwtService.createAccessToken({
-        id,
-        username,
-        role,
-    });
 
+    const user = result.recordset[0];
+    const accessToken = jwtService.createAccessToken({
+        id: user.id,
+        username: user.username,
+        role: user.role,
+    });
     return {
-        id,
-        username,
-        password,
-        firstName,
-        lastName,
-        patronymic,
-        role,
+        ...user,
         accessToken,
     };
 };
@@ -48,14 +49,19 @@ const login = async ({ username, password }) => {
         throwUnauthenticated("Please, verify your username or password");
     }
 
-    return jwtService.createAccessToken({
+    const accessToken = jwtService.createAccessToken({
         id: user.id,
         username: user.username,
         role: user.role,
     });
+    return {
+        ...user,
+        accessToken,
+    };
 };
 
 module.exports = {
+    getUser,
     register,
     login,
 };

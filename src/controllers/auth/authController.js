@@ -1,4 +1,6 @@
 const authService = require("../../services/authService");
+const getAccessTokenFromRequest = require("../../util/jwt/accessTokenFromRequest");
+const jwtService = require("../../services/jwtService");
 
 const schemasOfRequired = {
     login: ["username", "password"],
@@ -20,6 +22,16 @@ const schemas = {
     },
 };
 
+const getUser = (request) => {
+    const accessToken = getAccessTokenFromRequest(request);
+    const decoded = jwtService.decodeAccessToken(accessToken);
+    const model = {
+        id: decoded.payload.id,
+    };
+
+    return authService.getUser(model);
+};
+
 const login = (model) => {
     return authService.login(model);
 };
@@ -29,6 +41,7 @@ const register = (model) => {
 };
 
 module.exports = {
+    getUser,
     login,
     register,
     schemas,
