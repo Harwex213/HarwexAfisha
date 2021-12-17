@@ -1,10 +1,16 @@
 const eventDataAccess = require("../dataAccess/access/eventDataAccess");
 const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
-const getEvents = async () => {
-    const result = await eventDataAccess.getEvents();
+const getEventsByDateAndCity = async ({ date, city }) => {
+    const result = await eventDataAccess.getEventsByDateAndCity({ date, city });
 
     return result.recordset;
+};
+
+const getEvent = async ({ id }) => {
+    const result = await eventDataAccess.getEvent({ id });
+
+    return result.recordset[0];
 };
 
 const insertEvent = async ({ name, description }) => {
@@ -34,7 +40,8 @@ const deleteEvent = async ({ id }) => {
 };
 
 module.exports = {
-    getEvents,
+    getEventsByDateAndCity,
+    getEvent,
     insertEvent,
     updateEvent,
     deleteEvent,

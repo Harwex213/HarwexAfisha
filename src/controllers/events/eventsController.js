@@ -1,12 +1,21 @@
 const eventService = require("../../services/eventService");
 
 const schemasOfRequired = {
+    getEventsByDateAndCity: ["date", "city"],
+    getEvent: ["id"],
     postEvent: ["name", "description"],
     putEvent: ["id", "name", "description"],
     deleteEvent: ["id"],
 };
 
 const schemas = {
+    getEventsByDateAndCity: {
+        date: null,
+        city: null,
+    },
+    getEvent: {
+        id: null,
+    },
     postEvent: {
         name: null,
         description: null,
@@ -21,8 +30,12 @@ const schemas = {
     },
 };
 
-const getEvents = () => {
-    return eventService.getEvents();
+const getEventsByDateAndCity = (model) => {
+    return eventService.getEventsByDateAndCity(model);
+};
+
+const getEvent = (model) => {
+    return eventService.getEvent(model);
 };
 
 const postEvent = (model) => {
@@ -38,7 +51,8 @@ const deleteEvent = (model) => {
 };
 
 module.exports = {
-    getEvents,
+    getEventsByDateAndCity,
+    getEvent,
     postEvent,
     putEvent,
     deleteEvent,

@@ -14,9 +14,15 @@ const poolTypes = {
         type: databaseTypes.read,
         user: userRoles.guest,
     },
-    getEvents: {
+    getEventsByDateAndCity: {
         type: databaseTypes.read,
         user: userRoles.guest,
+        isPerformance: true,
+    },
+    getEvent: {
+        type: databaseTypes.read,
+        user: userRoles.guest,
+        isPerformance: true,
     },
     getEventPlaces: {
         type: databaseTypes.read,

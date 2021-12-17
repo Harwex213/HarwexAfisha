@@ -1,17 +1,26 @@
 const router = require("express").Router();
 const {
-    getEvents,
+    getEventsByDateAndCity,
+    getEvent,
     postEvent,
     putEvent,
     deleteEvent,
     schemas,
     schemasOfRequired,
 } = require("./eventsController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
+const { handlerWithRequestQueries, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", handlerWithoutBody(getEvents));
+router.get(
+    "/",
+    handlerWithRequestQueries(
+        getEventsByDateAndCity,
+        schemas.getEventsByDateAndCity,
+        schemasOfRequired.getEventsByDateAndCity
+    )
+);
+router.get("/:id", handlerWithRequestParams(getEvent, schemas.getEvent, schemasOfRequired.getEvent));
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

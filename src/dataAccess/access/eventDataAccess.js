@@ -2,10 +2,21 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getEvents = async () => {
-    const request = poolManager.newRequest(poolTypes.getEvents);
+const getEventsByDateAndCity = async ({ date, city }) => {
+    const request = poolManager.newRequest(poolTypes.getEventsByDateAndCity, (request) => {
+        request.input("city", sql.NVarChar(50), city);
+        request.input("date", sql.DateTime, date);
+    });
 
-    return poolManager.executeRequest("getEvents", request);
+    return poolManager.executeRequest("s_guest.getEventsByDateAndCity", request);
+};
+
+const getEvent = async ({ id }) => {
+    const request = poolManager.newRequest(poolTypes.getEventsByDateAndCity, (request) => {
+        request.input("id", sql.BigInt, id);
+    });
+
+    return poolManager.executeRequest("s_guest.getEvent", request);
 };
 
 const insertEvent = async ({ name, description }) => {
@@ -14,7 +25,7 @@ const insertEvent = async ({ name, description }) => {
         request.input("description", sql.NVarChar(sql.MAX), description);
     });
 
-    return poolManager.executeRequest("insertEvent", request);
+    return poolManager.executeRequest("s_manager.insertEvent", request);
 };
 
 const updateEvent = async ({ id, name, description }) => {
@@ -24,7 +35,7 @@ const updateEvent = async ({ id, name, description }) => {
         request.input("description", sql.NVarChar(sql.MAX), description);
     });
 
-    return poolManager.executeRequest("updateEvent", request);
+    return poolManager.executeRequest("s_manager.updateEvent", request);
 };
 
 const deleteEvent = async ({ id }) => {
@@ -32,11 +43,12 @@ const deleteEvent = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("deleteEvent", request);
+    return poolManager.executeRequest("s_manager.deleteEvent", request);
 };
 
 module.exports = {
-    getEvents,
+    getEventsByDateAndCity,
+    getEvent,
     insertEvent,
     updateEvent,
     deleteEvent,
