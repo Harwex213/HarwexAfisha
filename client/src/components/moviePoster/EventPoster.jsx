@@ -5,7 +5,7 @@ import { Paper, Typography } from "@mui/material";
 const EventPoster = ({ event, onClick }) => {
     return (
         <Paper
-            onClick={() => onClick(event.id)}
+            onClick={() => onClick(event.eventId)}
             elevation={0}
             sx={{
                 display: "flex",

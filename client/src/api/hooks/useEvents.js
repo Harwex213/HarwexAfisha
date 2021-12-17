@@ -6,5 +6,5 @@ export const useEventsByCityDate = ({ cityId, date }) => {
 };
 
 export const useEvent = ({ id }) => {
-    return useQuery(["event", { id }], getEvent);
+    return useQuery(["event", { id }], () => getEvent({ id }));
 };

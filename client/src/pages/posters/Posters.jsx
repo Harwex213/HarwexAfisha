@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Autocomplete, TextField, Stack } from "@mui/material";
 import { StaticDatePicker } from "@mui/lab";
@@ -17,23 +17,17 @@ const dateValidation = yup.object().shape({
     date: yup.date().min(minDate, `Must be later than ${dateFormat(minDate, "yyyy-mm-dd")}`),
 });
 
-let firstTimeFetch = true;
 /* eslint-disable react/prop-types */
 const Posters = () => {
-    const cities = usePopularCities();
+    const cities = usePopularCities({
+        onSuccess: (data) => setCity(data.find((city) => city.name === defaultCity)),
+    });
     const navigate = useNavigate();
     const [date, setDate] = useState(today);
     const [city, setCity] = useState(null);
 
-    useEffect(() => {
-        if (firstTimeFetch && cities.isSuccess) {
-            setCity(cities.data.find((city) => city.name === defaultCity));
-            firstTimeFetch = false;
-        }
-    }, [cities, setCity]);
-
     const onPosterClick = (eventId) => {
-        navigate(eventId.toString());
+        navigate(eventId);
     };
 
     return (
@@ -117,7 +111,18 @@ const Posters = () => {
                         )
                     }
                 />
-                <Route path=":eventId" element={<TicketOrder date={date} city={city} />} />
+                <Route
+                    path=":eventId"
+                    element={
+                        city ? (
+                            <TicketOrder date={date} city={city} />
+                        ) : (
+                            <Stack sx={{ alignItems: "center" }}>
+                                <CircularProgress />
+                            </Stack>
+                        )
+                    }
+                />
             </Routes>
         </Box>
     );
