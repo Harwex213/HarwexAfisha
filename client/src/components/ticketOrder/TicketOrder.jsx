@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { routePaths } from "../../common/constants/routePaths";
 import { modalStyle } from "../../common/styles/material";
 
-const TicketOrder = ({ date, city }) => {
+const TicketOrder = ({ date, cityId }) => {
     const { eventId } = useParams();
     // TODO: fetch event by id
     const navigate = useNavigate();
@@ -107,7 +107,7 @@ const TicketOrder = ({ date, city }) => {
 
 TicketOrder.propTypes = {
     date: PropTypes.object,
-    city: PropTypes.string,
+    cityId: PropTypes.string,
 };
 
 export default TicketOrder;

@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { Paper, Typography } from "@mui/material";
 
 const EventPoster = ({ event, onClick }) => {
-    // TODO: display the movie data
-
     return (
         <Paper
             onClick={() => onClick(event.id)}
@@ -25,10 +23,10 @@ const EventPoster = ({ event, onClick }) => {
                 alt="movie poster"
             />
             <Typography variant="h6" component="div">
-                The Hill
+                {event.eventName}
             </Typography>
             <Typography variant="subtitle1" component="div">
-                От $4.19
+                От ${event.minPrice}
             </Typography>
         </Paper>
     );

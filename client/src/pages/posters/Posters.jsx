@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { Box, CircularProgress, Autocomplete, TextField, Stack } from "@mui/material";
+import { StaticDatePicker } from "@mui/lab";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { Box, FormControl, MenuItem, Select, TextField } from "@mui/material";
-import { StaticDatePicker } from "@mui/lab";
+import { usePopularCities } from "../../api/hooks/useCities";
 import TicketOrder from "../../components/ticketOrder/TicketOrder";
-import dateFormat from "dateformat";
-import { useLocalStorage } from "../../common/hooks/useLocalStorage";
-import { defaultCity } from "../../common/constants/common";
 import PosterList from "../../components/posterList/PosterList";
+import { defaultCity } from "../../common/constants/common";
+import dateFormat from "dateformat";
 
 const today = new Date();
 const minDate = new Date();
@@ -17,12 +17,20 @@ const dateValidation = yup.object().shape({
     date: yup.date().min(minDate, `Must be later than ${dateFormat(minDate, "yyyy-mm-dd")}`),
 });
 
+let firstTimeFetch = true;
 /* eslint-disable react/prop-types */
 const Posters = () => {
-    // TODO: fetch cities
+    const cities = usePopularCities();
     const navigate = useNavigate();
     const [date, setDate] = useState(today);
-    const [city, setCity] = useLocalStorage("city", defaultCity);
+    const [city, setCity] = useState(null);
+
+    useEffect(() => {
+        if (firstTimeFetch && cities.isSuccess) {
+            setCity(cities.data.find((city) => city.name === defaultCity));
+            firstTimeFetch = false;
+        }
+    }, [cities, setCity]);
 
     const onPosterClick = (eventId) => {
         navigate(eventId.toString());
@@ -40,7 +48,7 @@ const Posters = () => {
                 >
                     {(props) => (
                         <Form>
-                            <Box sx={{ display: "flex" }}>
+                            <Stack direction="row" sx={{ alignItems: "baseline" }}>
                                 <StaticDatePicker
                                     orientation="landscape"
                                     openTo="day"
@@ -59,24 +67,39 @@ const Posters = () => {
                                         />
                                     )}
                                 />
-                                <Box>
-                                    <FormControl
-                                        variant="standard"
-                                        sx={{ m: 1, minWidth: 120, marginLeft: "30px" }}
-                                    >
-                                        {/*TODO: change to autocomplete*/}
-                                        <Select
-                                            value={city}
-                                            onChange={(event) => setCity(event.target.value)}
-                                        >
-                                            <MenuItem value="Minsk">Minsk</MenuItem>
-                                            <MenuItem value="Vitebsk">Vitebsk</MenuItem>
-                                            <MenuItem value="Gomel">Gomel</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
+                                <Autocomplete
+                                    sx={{ width: 300 }}
+                                    options={cities.data ?? []}
+                                    loading={cities.isLoading}
+                                    isOptionEqualToValue={(option, value) => option.name === value.name}
+                                    getOptionLabel={(option) => option.name}
+                                    onChange={(event, city) => {
+                                        setCity(
+                                            city ?? cities.data.find((city) => city.name === defaultCity)
+                                        );
+                                    }}
+                                    value={city}
+                                    disablePortal
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Asynchronous"
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <>
+                                                        {cities.isLoading ? (
+                                                            <CircularProgress color="inherit" size={20} />
+                                                        ) : null}
+                                                        {params.InputProps.endAdornment}
+                                                    </>
+                                                ),
+                                            }}
+                                        />
+                                    )}
+                                />
                                 <Box sx={{ flexGrow: 1 }} />
-                            </Box>
+                            </Stack>
                         </Form>
                     )}
                 </Formik>
@@ -84,7 +107,15 @@ const Posters = () => {
             <Routes>
                 <Route
                     path=""
-                    element={<PosterList date={date} city={city} onPosterClick={onPosterClick} />}
+                    element={
+                        city ? (
+                            <PosterList date={date} cityId={city.id} onPosterClick={onPosterClick} />
+                        ) : (
+                            <Stack sx={{ alignItems: "center" }}>
+                                <CircularProgress />
+                            </Stack>
+                        )
+                    }
                 />
                 <Route path=":eventId" element={<TicketOrder date={date} city={city} />} />
             </Routes>
