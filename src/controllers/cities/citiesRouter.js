@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
-    getCities,
+    getPopularCities,
+    getCity,
     postCity,
     putCity,
     deleteCity,
@@ -11,7 +12,8 @@ const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = requir
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", handlerWithoutBody(getCities));
+router.get("/popular", handlerWithoutBody(getPopularCities));
+router.get("/:name", handlerWithRequestParams(getCity, schemas.getCity, schemasOfRequired.getCity));
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

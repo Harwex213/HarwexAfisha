@@ -2,10 +2,18 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getCities = async () => {
-    const request = poolManager.newRequest(poolTypes.getCities);
+const getPopularCities = async () => {
+    const request = poolManager.newRequest(poolTypes.getPopularCities);
 
-    return poolManager.executeRequest("getCities", request);
+    return poolManager.executeRequest("s_guest.getPopularCities", request);
+};
+
+const getCity = async ({ name }) => {
+    const request = poolManager.newRequest(poolTypes.getCity, (request) => {
+        request.input("name", sql.NVarChar(50), name);
+    });
+
+    return poolManager.executeRequest("s_guest.getCity", request);
 };
 
 const insertCity = async ({ name }) => {
@@ -13,7 +21,7 @@ const insertCity = async ({ name }) => {
         request.input("name", sql.NVarChar(50), name);
     });
 
-    return poolManager.executeRequest("insertCity", request);
+    return poolManager.executeRequest("s_manager.insertCity", request);
 };
 
 const updateCity = async ({ id, name }) => {
@@ -22,7 +30,7 @@ const updateCity = async ({ id, name }) => {
         request.input("name", sql.NVarChar(50), name);
     });
 
-    return poolManager.executeRequest("updateCity", request);
+    return poolManager.executeRequest("s_manager.updateCity", request);
 };
 
 const deleteCity = async ({ id }) => {
@@ -30,11 +38,12 @@ const deleteCity = async ({ id }) => {
         request.input("id", sql.BigInt, id);
     });
 
-    return poolManager.executeRequest("deleteCity", request);
+    return poolManager.executeRequest("s_manager.deleteCity", request);
 };
 
 module.exports = {
-    getCities,
+    getPopularCities,
+    getCity,
     insertCity,
     updateCity,
     deleteCity,

@@ -1,12 +1,16 @@
 const cityService = require("../../services/cityService");
 
 const schemasOfRequired = {
+    getCity: ["name"],
     postCity: ["name"],
     putCity: ["id", "name"],
     deleteCity: ["id"],
 };
 
 const schemas = {
+    getCity: {
+        name: null,
+    },
     postCity: {
         name: null,
     },
@@ -19,8 +23,12 @@ const schemas = {
     },
 };
 
-const getCities = () => {
-    return cityService.getCities();
+const getPopularCities = () => {
+    return cityService.getPopularCities();
+};
+
+const getCity = (model) => {
+    return cityService.getCity(model);
 };
 
 const postCity = (model) => {
@@ -36,7 +44,8 @@ const deleteCity = (model) => {
 };
 
 module.exports = {
-    getCities,
+    getPopularCities,
+    getCity,
     postCity,
     putCity,
     deleteCity,

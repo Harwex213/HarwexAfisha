@@ -2,7 +2,11 @@ const { userRoles, databaseTypes } = require("../../config/constants/db");
 
 const poolTypes = {
     // guest
-    getCities: {
+    getPopularCities: {
+        type: databaseTypes.read,
+        user: userRoles.guest,
+    },
+    getCity: {
         type: databaseTypes.read,
         user: userRoles.guest,
     },
