@@ -5,9 +5,11 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { Menu, MenuItem } from "@mui/material";
 import { userRoles } from "../../common/constants/users";
 import { routePaths } from "../../common/constants/routePaths";
+import { useLogout } from "../../api/hooks/useAuth";
 
 export const ProfileMenu = ({ anchorEl, isMenuOpen, handleMenuClose }) => {
     const { user } = useAuthContext();
+    const logoutMutation = useLogout();
 
     let menu;
     switch (user?.role) {
@@ -15,10 +17,12 @@ export const ProfileMenu = ({ anchorEl, isMenuOpen, handleMenuClose }) => {
             menu = <GuestProfileMenu handleMenuClose={handleMenuClose} />;
             break;
         case userRoles.user:
-            menu = <UserProfileMenu handleMenuClose={handleMenuClose} />;
+            menu = <UserProfileMenu handleMenuClose={handleMenuClose} handleLogoutClick={logoutMutation} />;
             break;
         case userRoles.manager:
-            menu = <ManagerProfileMenu handleMenuClose={handleMenuClose} />;
+            menu = (
+                <ManagerProfileMenu handleMenuClose={handleMenuClose} handleLogoutClick={logoutMutation} />
+            );
             break;
         default:
             menu = null;
@@ -58,25 +62,35 @@ const GuestProfileMenu = ({ handleMenuClose }) => {
     );
 };
 
-const UserProfileMenu = ({ handleMenuClose }) => {
-    // TODO: log out mutation
-
+const UserProfileMenu = ({ handleMenuClose, handleLogoutClick }) => {
     return (
         <>
             <MenuItem component={RouterLink} to={routePaths.profile} onClick={handleMenuClose}>
                 Profile
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+            <MenuItem
+                onClick={() => {
+                    handleMenuClose();
+                    handleLogoutClick();
+                }}
+            >
+                Log out
+            </MenuItem>
         </>
     );
 };
 
-const ManagerProfileMenu = ({ handleMenuClose }) => {
-    // TODO: log out mutation
-
+const ManagerProfileMenu = ({ handleMenuClose, handleLogoutClick }) => {
     return (
         <>
-            <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+            <MenuItem
+                onClick={() => {
+                    handleMenuClose();
+                    handleLogoutClick();
+                }}
+            >
+                Log out
+            </MenuItem>
         </>
     );
 };
@@ -93,8 +107,10 @@ GuestProfileMenu.propTypes = {
 
 UserProfileMenu.propTypes = {
     handleMenuClose: PropTypes.func,
+    handleLogoutClick: PropTypes.func,
 };
 
 ManagerProfileMenu.propTypes = {
     handleMenuClose: PropTypes.func,
+    handleLogoutClick: PropTypes.func,
 };

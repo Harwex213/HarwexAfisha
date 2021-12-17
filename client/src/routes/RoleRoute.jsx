@@ -6,7 +6,7 @@ import { routePaths } from "../common/constants/routePaths";
 
 const RoleRoute = ({ children, roles, navigateTo }) => {
     const { user } = useAuthContext();
-    const isAllowed = roles.includes(user.role.toUpperCase());
+    const isAllowed = roles.includes(user.role);
 
     return isAllowed ? children : <Navigate to={navigateTo ? navigateTo : routePaths.notFound} replace />;
 };

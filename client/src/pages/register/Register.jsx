@@ -1,9 +1,10 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Link, Stack, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import { Link as RouterLink } from "react-router-dom";
-import { routePaths } from "../../common/constants/routePaths";
 import * as yup from "yup";
+import { useRegister } from "../../api/hooks/useAuth";
+import { routePaths } from "../../common/constants/routePaths";
 
 const registerValidation = yup.object().shape({
     firstName: yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -27,8 +28,10 @@ const initialValues = {
 };
 
 const Register = () => {
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values));
+    const registerMutation = useRegister();
+
+    const handleSubmit = async (values) => {
+        await registerMutation.mutate(values);
     };
 
     return (

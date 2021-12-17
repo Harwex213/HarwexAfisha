@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Link, Stack, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
+import { useLogin } from "../../api/hooks/useAuth";
 import { routePaths } from "../../common/constants/routePaths";
 
 const loginValidation = yup.object().shape({
@@ -16,8 +17,10 @@ const initialValues = {
 };
 
 const Login = () => {
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values));
+    const loginMutation = useLogin();
+
+    const handleSubmit = async (values) => {
+        await loginMutation.mutate(values);
     };
 
     return (
