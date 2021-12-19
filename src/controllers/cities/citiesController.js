@@ -13,10 +13,12 @@ const schemas = {
     },
     postCity: {
         name: null,
+        isPopular: null,
     },
     putCity: {
         id: null,
         name: null,
+        isPopular: null,
     },
     deleteCity: {
         id: null,

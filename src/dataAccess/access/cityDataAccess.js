@@ -22,18 +22,20 @@ const getCity = async ({ name }) => {
     return poolManager.executeRequest("s_guest.getCity", request);
 };
 
-const insertCity = async ({ name }) => {
+const insertCity = async ({ name, isPopular = 0 }) => {
     const request = poolManager.newRequest(poolTypes.insertCity, (request) => {
         request.input("name", sql.NVarChar(50), name);
+        request.input("isPopular", sql.Bit, isPopular);
     });
 
     return poolManager.executeRequest("s_manager.insertCity", request);
 };
 
-const updateCity = async ({ id, name }) => {
+const updateCity = async ({ id, name, isPopular = 0 }) => {
     const request = poolManager.newRequest(poolTypes.updateCity, (request) => {
         request.input("id", sql.BigInt, id);
         request.input("name", sql.NVarChar(50), name);
+        request.input("isPopular", sql.Bit, isPopular);
     });
 
     return poolManager.executeRequest("s_manager.updateCity", request);

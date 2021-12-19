@@ -24,16 +24,16 @@ const getCity = async ({ name }) => {
     return result.recordset[0];
 };
 
-const insertCity = async ({ name }) => {
-    const result = await cityDataAccess.insertCity({ name });
+const insertCity = async ({ name, isPopular }) => {
+    const result = await cityDataAccess.insertCity({ name, isPopular });
 
     return {
         ...result.recordset[0],
     };
 };
 
-const updateCity = async ({ id, name }) => {
-    const result = await cityDataAccess.updateCity({ id, name });
+const updateCity = async ({ id, name, isPopular }) => {
+    const result = await cityDataAccess.updateCity({ id, name, isPopular });
     validateOnEntityUpdated(result);
 
     return {
