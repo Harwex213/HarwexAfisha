@@ -1,5 +1,7 @@
-import { publicApi } from "./api";
+import { privateApi, publicApi } from "./api";
 import dateFormat from "dateformat";
+
+export const getEventsChunk = () => privateApi.get("events/chunk").json();
 
 export const getEventsByCityDate = ({ cityId, date }) => {
     const searchParams = new URLSearchParams();
@@ -10,3 +12,11 @@ export const getEventsByCityDate = ({ cityId, date }) => {
 };
 
 export const getEvent = ({ id }) => publicApi.get(`events/${id}`).json();
+
+export const postEvent = ({ name, description }) =>
+    privateApi.post("events", { json: { name, description } }).json();
+
+export const putEvent = ({ id, name, description }) =>
+    privateApi.put("events", { json: { id, name, description } }).json();
+
+export const deleteEvent = ({ id }) => privateApi.delete(`events/${id}`).json();
