@@ -7,10 +7,10 @@ export const getPlacesChunk = ({ cityId }) => {
     return privateApi.get("places/chunk", { searchParams }).json();
 };
 
-export const postPlace = ({ name, description }) =>
-    privateApi.post("places", { json: { name, description } }).json();
+export const postPlace = ({ name, about, cityId }) =>
+    privateApi.post("places", { json: { name, about, cityId } }).json();
 
-export const putPlace = ({ id, name, description }) =>
-    privateApi.put("places", { json: { id, name, description } }).json();
+export const putPlace = ({ id, name, about, cityId }) =>
+    privateApi.put("places", { json: { id, name, about, cityId } }).json();
 
 export const deletePlace = ({ id }) => privateApi.delete(`places/${id}`).json();

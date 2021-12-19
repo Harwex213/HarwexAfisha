@@ -1,18 +1,27 @@
 import { useMutation, useQuery } from "react-query";
 import { getPlacesChunk, postPlace, putPlace, deletePlace } from "../fetch/places";
+import queryClient from "../../app/queryClient";
 
 export const usePlacesChunk = ({ cityId }) => {
-    return useQuery(["places", { type: "chunk", cityId }], () => getPlacesChunk({ cityId }));
+    return useQuery(["places", { type: "chunk", cityId }], () => getPlacesChunk({ cityId }), {
+        enabled: Boolean(cityId),
+    });
 };
 
 export const useCreatePlace = () => {
-    return useMutation(postPlace);
+    return useMutation(postPlace, {
+        onSuccess: () => queryClient.invalidateQueries(["places", { type: "chunk" }]),
+    });
 };
 
 export const useUpdatePlace = () => {
-    return useMutation(putPlace);
+    return useMutation(putPlace, {
+        onSuccess: () => queryClient.invalidateQueries(["places", { type: "chunk" }]),
+    });
 };
 
 export const useDeletePlace = () => {
-    return useMutation(deletePlace);
+    return useMutation(deletePlace, {
+        onSuccess: () => queryClient.invalidateQueries(["places", { type: "chunk" }]),
+    });
 };

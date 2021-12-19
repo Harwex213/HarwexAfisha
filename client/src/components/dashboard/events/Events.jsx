@@ -16,7 +16,9 @@ import EventModal from "./Modals";
 import { useEventsChunk, useCreateEvent, useUpdateEvent, useDeleteEvent } from "../../../api/hooks/useEvents";
 
 const Events = () => {
-    const events = useEventsChunk();
+    const events = useEventsChunk({
+        onSuccess: (data) => data,
+    });
     const createEventMutation = useCreateEvent();
     const updateEventMutation = useUpdateEvent();
     const deleteEventMutation = useDeleteEvent();

@@ -3,10 +3,12 @@ import {
     Autocomplete,
     Box,
     Button,
+    CircularProgress,
     Collapse,
     IconButton,
     Modal,
     Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -24,18 +26,32 @@ import CloseIcon from "@mui/icons-material/Close";
 import { modalStyle } from "../../../common/styles/material";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
+import { usePopularCities } from "../../../api/hooks/useCities";
+import { useCreatePlace, useDeletePlace, usePlacesChunk, useUpdatePlace } from "../../../api/hooks/usePlaces";
+import {
+    useCreateEventPlace,
+    useDeleteEventPlace,
+    useEventPlacesChunk,
+} from "../../../api/hooks/useEventPlaces";
+import { useEventsChunk } from "../../../api/hooks/useEvents";
+import queryClient from "../../../app/queryClient";
 
 const placeValidation = yup.object().shape({
     name: yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
     about: yup.string().min(4, "Too Short!").max(200, "Too Long!"),
-    city: yup.string().nullable().required("Required"),
+    cityId: yup.number().nullable().required("Required"),
 });
 
 const eventPlaceValidation = yup.object().shape({
-    event: yup.string().nullable().required("Required"),
+    eventId: yup.string().nullable().required("Required"),
 });
 
-const EventPlaceModal = ({ handleSubmit, isOpen, handleClose }) => {
+const EventPlaceModal = ({ city, handleSubmit, isOpen, handleClose }) => {
+    const events = useEventsChunk({
+        onSuccess: (data) => setEvent(data.length !== 0 ? data[0] : null),
+    });
+    const [event, setEvent] = useState(null);
+
     return (
         <Modal open={isOpen} onClose={handleClose}>
             <Box sx={modalStyle}>
@@ -53,46 +69,61 @@ const EventPlaceModal = ({ handleSubmit, isOpen, handleClose }) => {
                         Place:
                     </Typography>
                     <Typography variant="h6" noWrap component="div">
-                        Minsk
+                        {city}
                     </Typography>
                 </Box>
                 <Box mt={2}>
-                    <Formik
-                        initialValues={{
-                            event: "The Hill",
-                        }}
-                        validationSchema={eventPlaceValidation}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ values, setFieldValue, errors }) => (
-                            <Form>
-                                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                    <Autocomplete
-                                        sx={{ mb: 2 }}
-                                        name="event"
-                                        label="Event"
-                                        value={values.event}
-                                        onChange={(event, value) => setFieldValue("event", value)}
-                                        disablePortal
-                                        options={["The Hill", "Decadence", "Dark Knight"]}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                error={Boolean(errors.event)}
-                                                helperText={errors.event}
-                                                {...params}
-                                            />
-                                        )}
-                                    />
-                                    <Box sx={{ display: "flex" }}>
-                                        <Box sx={{ flexGrow: 1 }} />
-                                        <Button type="submit" variant="contained">
-                                            Submit
-                                        </Button>
+                    {event ? (
+                        <Formik
+                            initialValues={{
+                                eventId: event?.id,
+                            }}
+                            validationSchema={eventPlaceValidation}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ setFieldValue, errors }) => (
+                                <Form>
+                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                        <Autocomplete
+                                            value={event}
+                                            onChange={(event, value) => {
+                                                const newValue =
+                                                    value ??
+                                                    (events.data?.length !== 0 ? events.data[0] : null);
+                                                setEvent(newValue);
+                                                setFieldValue("eventId", newValue.id);
+                                            }}
+                                            sx={{ mb: 2 }}
+                                            label="Event"
+                                            options={events.data}
+                                            loading={events.isLoading}
+                                            getOptionLabel={(option) => option.name}
+                                            isOptionEqualToValue={(option, value) =>
+                                                option.name === value.name
+                                            }
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    error={Boolean(errors.eventId)}
+                                                    helperText={errors.eventId}
+                                                    {...params}
+                                                />
+                                            )}
+                                        />
+                                        <Box sx={{ display: "flex" }}>
+                                            <Box sx={{ flexGrow: 1 }} />
+                                            <Button type="submit" variant="contained">
+                                                Submit
+                                            </Button>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Form>
-                        )}
-                    </Formik>
+                                </Form>
+                            )}
+                        </Formik>
+                    ) : (
+                        <Stack sx={{ alignItems: "center" }}>
+                            <CircularProgress />
+                        </Stack>
+                    )}
                 </Box>
             </Box>
         </Modal>
@@ -100,6 +131,11 @@ const EventPlaceModal = ({ handleSubmit, isOpen, handleClose }) => {
 };
 
 const PlaceModal = ({ header, initialValues, handleSubmit, isOpen, handleClose }) => {
+    const cities = usePopularCities({
+        onSuccess: (data) => setCity(data.find((city) => city.name === defaultCity)),
+    });
+    const [city, setCity] = useState(null);
+
     return (
         <Modal open={isOpen} onClose={handleClose}>
             <Box sx={modalStyle}>
@@ -141,17 +177,25 @@ const PlaceModal = ({ header, initialValues, handleSubmit, isOpen, handleClose }
                                         helperText={errors.about}
                                     />
                                     <Autocomplete
+                                        value={city}
+                                        onChange={(event, value) => {
+                                            const newValue =
+                                                value ??
+                                                cities.data.find((city) => city.name === defaultCity);
+                                            setCity(newValue);
+                                            setFieldValue("cityId", newValue.id);
+                                        }}
                                         sx={{ mb: 2 }}
-                                        name="city"
                                         label="City"
-                                        value={values.city}
-                                        onChange={(event, value) => setFieldValue("city", value)}
+                                        options={cities.data}
+                                        loading={cities.isLoading}
+                                        getOptionLabel={(option) => option.name}
+                                        isOptionEqualToValue={(option, value) => option.name === value.name}
                                         disablePortal
-                                        options={["Minsk", "Vitebsk", "Gomel"]}
                                         renderInput={(params) => (
                                             <TextField
-                                                error={Boolean(errors.city)}
-                                                helperText={errors.city}
+                                                error={Boolean(errors.cityId)}
+                                                helperText={errors.cityId}
                                                 {...params}
                                             />
                                         )}
@@ -174,6 +218,7 @@ const PlaceModal = ({ header, initialValues, handleSubmit, isOpen, handleClose }
 
 const Row = ({ place, onEdit, onDelete, onEventAdd, onEventDelete }) => {
     const [isEventsOpen, setIsEventsOpen] = useState(false);
+    const eventPlaces = useEventPlacesChunk({ placeId: place.id });
 
     return (
         <>
@@ -188,51 +233,64 @@ const Row = ({ place, onEdit, onDelete, onEventAdd, onEventDelete }) => {
                     </IconButton>
                 </TableCell>
                 <TableCell>{place.id}</TableCell>
-                <TableCell>Place {place.id}</TableCell>
-                <TableCell>Lorem ipsum dolor sit amet.</TableCell>
-                <TableCell>Minsk</TableCell>
+                <TableCell>{place.name}</TableCell>
+                <TableCell>{place.about}</TableCell>
+                <TableCell>{place.cityName}</TableCell>
                 <TableCell align="center">
-                    <Button onClick={onEventAdd}>Add</Button>
+                    <Button onClick={() => onEventAdd(place.id)}>Add</Button>
                 </TableCell>
                 <TableCell align="center">
-                    <Button onClick={() => onEdit({ name: "Place", about: "lorem", city: defaultCity })}>
-                        Edit
-                    </Button>
+                    <Button onClick={() => onEdit(place)}>Edit</Button>
                 </TableCell>
                 <TableCell align="center">
-                    <Button onClick={onDelete}>Delete</Button>
+                    <Button onClick={() => onDelete(place.id)}>Delete</Button>
                 </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={24}>
                     <Collapse in={isEventsOpen} timeout="auto" unmountOnExit>
-                        <Box m={1}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                Events
-                            </Typography>
-                            <Table size="small">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Id</TableCell>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Description</TableCell>
-                                        <TableCell align="center">Delete</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {Array.from(Array(4)).map((_, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{index}</TableCell>
-                                            <TableCell>The Hill</TableCell>
-                                            <TableCell>Lorem ipsum dolor sit amet. wwwww</TableCell>
-                                            <TableCell align="center">
-                                                <Button onClick={onEventDelete}>Delete</Button>
-                                            </TableCell>
+                        {eventPlaces.isSuccess ? (
+                            <Box m={1}>
+                                <Typography variant="h6" gutterBottom component="div">
+                                    Events
+                                </Typography>
+                                <Table size="small">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Id</TableCell>
+                                            <TableCell>Name</TableCell>
+                                            <TableCell>Description</TableCell>
+                                            <TableCell align="center">Delete</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Box>
+                                    </TableHead>
+                                    <TableBody>
+                                        {eventPlaces.data.map((eventPlace) => (
+                                            <TableRow key={eventPlace.eventPlaceId}>
+                                                <TableCell>{eventPlace.eventId}</TableCell>
+                                                <TableCell>{eventPlace.eventName}</TableCell>
+                                                <TableCell>{eventPlace.eventDescription}</TableCell>
+                                                <TableCell align="center">
+                                                    <Button
+                                                        onClick={() =>
+                                                            onEventDelete({
+                                                                id: eventPlace.eventPlaceId,
+                                                                placeId: place.id,
+                                                            })
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Box>
+                        ) : (
+                            <Stack sx={{ alignItems: "center" }}>
+                                <CircularProgress />
+                            </Stack>
+                        )}
                     </Collapse>
                 </TableCell>
             </TableRow>
@@ -241,11 +299,21 @@ const Row = ({ place, onEdit, onDelete, onEventAdd, onEventDelete }) => {
 };
 
 const Places = () => {
-    const [city, setCity] = useState({ name: defaultCity });
+    const cities = usePopularCities({
+        onSuccess: (data) => setCity(data.find((city) => city.name === defaultCity)),
+    });
+    const [city, setCity] = useState(null);
+    const [placeId, setPlaceId] = useState(null);
+    const places = usePlacesChunk({ cityId: city?.id });
+    const createPlaceMutation = useCreatePlace();
+    const updatePlaceMutation = useUpdatePlace();
+    const deletePlaceMutation = useDeletePlace();
+    const createEventPlaceMutation = useCreateEventPlace();
+    const deleteEventPlaceMutation = useDeleteEventPlace();
     const [placeInitialValues, setPlaceInitialValues] = useState({
         name: "",
         about: "",
-        city: defaultCity,
+        cityId: city?.id,
     });
     const [isCreatePlace, setIsCreatePlace] = useState(false);
     const [isEditPlace, setIsEditPlace] = useState(false);
@@ -255,7 +323,7 @@ const Places = () => {
         setPlaceInitialValues({
             name: "",
             about: "",
-            city: defaultCity,
+            cityId: city?.id,
         });
         setIsCreatePlace(true);
     };
@@ -264,9 +332,10 @@ const Places = () => {
     };
     const handleEditPlaceOpen = (place) => {
         setPlaceInitialValues({
+            id: place.id,
             name: place.name,
             about: place.about,
-            city: place.city,
+            cityId: place.cityId,
         });
         setIsEditPlace(true);
     };
@@ -275,30 +344,45 @@ const Places = () => {
     };
 
     const handleCreatePlace = (values) => {
+        createPlaceMutation.mutate(values);
         handleCreatePlaceClose();
-        // TODO: mutate to create place
     };
     const handleEditPlace = (values) => {
+        updatePlaceMutation.mutate(values);
         handleEditPlaceClose();
-        // TODO: mutate to edit place
     };
-    const handleDeletePlace = () => {
-        // TODO: mutate to delete place
+    const handleDeletePlace = (id) => {
+        deletePlaceMutation.mutate({ id });
     };
 
-    const handleCreateEventPlaceOpen = () => {
+    const handleCreateEventPlaceOpen = (id) => {
+        setPlaceId(id);
         setIsCreateEventPlace(true);
     };
     const handleCreateEventPlaceClose = () => {
+        setPlaceId(null);
         setIsCreateEventPlace(false);
     };
 
     const handleCreateEventPlace = (values) => {
+        createEventPlaceMutation.mutate(
+            {
+                placeId: placeId,
+                eventId: values.eventId,
+            },
+            {
+                onSuccess: () => queryClient.invalidateQueries(["eventPlaces", { type: "chunk", placeId }]),
+            }
+        );
         handleCreateEventPlaceClose();
-        // TODO: mutate to delete place
     };
-    const handleDeleteEventPlace = () => {
-        // TODO: mutate to delete place
+    const handleDeleteEventPlace = ({ id, placeId }) => {
+        deleteEventPlaceMutation.mutate(
+            { id },
+            {
+                onSuccess: () => queryClient.invalidateQueries(["eventPlaces", { type: "chunk", placeId }]),
+            }
+        );
     };
 
     return (
@@ -310,7 +394,8 @@ const Places = () => {
                 }}
                 sx={{ width: 250, mb: 3 }}
                 disablePortal
-                options={[{ name: "Minsk" }, { name: "Vitebsk" }, { name: "Gomel" }]}
+                options={cities.data ?? []}
+                loading={cities.isLoading}
                 getOptionLabel={(option) => option.name}
                 isOptionEqualToValue={(option, value) => option.name === value.name}
                 renderInput={(params) => <TextField {...params} label="City" />}
@@ -321,34 +406,40 @@ const Places = () => {
             <Typography variant="h6" gutterBottom component="div">
                 Places
             </Typography>
-            <TableContainer sx={{ mb: 4 }} component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Id</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>About</TableCell>
-                            <TableCell>City</TableCell>
-                            <TableCell align="center">Add new event</TableCell>
-                            <TableCell align="center">Edit</TableCell>
-                            <TableCell align="center">Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Array.from(Array(5)).map((_, index) => (
-                            <Row
-                                key={index}
-                                place={{ id: index }}
-                                onEdit={handleEditPlaceOpen}
-                                onDelete={handleDeletePlace}
-                                onEventAdd={handleCreateEventPlaceOpen}
-                                onEventDelete={handleDeleteEventPlace}
-                            />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            {places.isSuccess ? (
+                <TableContainer sx={{ mb: 4 }} component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Id</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>About</TableCell>
+                                <TableCell>City</TableCell>
+                                <TableCell align="center">Add new event</TableCell>
+                                <TableCell align="center">Edit</TableCell>
+                                <TableCell align="center">Delete</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {places.data.map((place) => (
+                                <Row
+                                    key={place.id}
+                                    place={place}
+                                    onEdit={handleEditPlaceOpen}
+                                    onDelete={handleDeletePlace}
+                                    onEventAdd={handleCreateEventPlaceOpen}
+                                    onEventDelete={handleDeleteEventPlace}
+                                />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            ) : (
+                <Stack sx={{ alignItems: "center" }}>
+                    <CircularProgress />
+                </Stack>
+            )}
             <PlaceModal
                 header="Add place"
                 isOpen={isCreatePlace}
@@ -367,6 +458,7 @@ const Places = () => {
                 isOpen={isCreateEventPlace}
                 handleSubmit={handleCreateEventPlace}
                 handleClose={handleCreateEventPlaceClose}
+                city={city?.name}
             />
         </>
     );
@@ -389,6 +481,7 @@ PlaceModal.propTypes = {
 };
 
 EventPlaceModal.propTypes = {
+    city: PropTypes.string,
     handleSubmit: PropTypes.func,
     isOpen: PropTypes.bool,
     handleClose: PropTypes.func,

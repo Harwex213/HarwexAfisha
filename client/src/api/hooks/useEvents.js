@@ -17,8 +17,10 @@ export const useEvent = ({ id }) => {
     return useQuery(["event", { id }], () => getEvent({ id }));
 };
 
-export const useEventsChunk = () => {
-    return useQuery(["events", { type: "chunk" }], getEventsChunk);
+export const useEventsChunk = ({ onSuccess }) => {
+    return useQuery(["events", { type: "chunk" }], getEventsChunk, {
+        onSuccess: onSuccess,
+    });
 };
 
 export const useCreateEvent = () => {
