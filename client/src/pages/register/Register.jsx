@@ -30,8 +30,10 @@ const initialValues = {
 const Register = () => {
     const registerMutation = useRegister();
 
-    const handleSubmit = async (values) => {
-        await registerMutation.mutate(values);
+    const handleSubmit = async (values, formikBag) => {
+        await registerMutation.mutate(values, {
+            onError: () => formikBag.setFieldError("username", "Username already taken"),
+        });
     };
 
     return (
@@ -90,10 +92,20 @@ const Register = () => {
                                 error={touched.password && Boolean(errors.password)}
                                 helperText={touched.password && errors.password}
                             />
+                            <TextField
+                                type="password"
+                                autoComplete="off"
+                                name="repeatPassword"
+                                label="Repeat password"
+                                value={values.repeatPassword}
+                                onChange={handleChange}
+                                error={touched.repeatPassword && Boolean(errors.repeatPassword)}
+                                helperText={touched.repeatPassword && errors.repeatPassword}
+                            />
                             <Box sx={{ display: "flex" }}>
                                 <Box sx={{ flexGrow: 1 }} />
                                 <Button sx={{ mr: 2 }} type="submit" variant="contained">
-                                    Login
+                                    Register
                                 </Button>
                                 <Link
                                     sx={{ m: "auto" }}
