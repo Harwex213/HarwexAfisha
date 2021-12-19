@@ -30,7 +30,11 @@ const getSessionsByDateCityEvent = async ({ date, cityId, eventId }) => {
         );
     };
 
-    const result = await sessionDataAccess.getSessionsByDateCityEvent({ date, cityId, eventId });
+    const result = await sessionDataAccess.getSessionsByDateCityEvent({
+        date,
+        cityId,
+        eventId,
+    });
     return groupBy(result.recordset, "placeId");
 };
 
@@ -41,16 +45,27 @@ const getSessionFreeTicketsById = async ({ id }) => {
     return result.recordset[0];
 };
 
-const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
-    const result = await sessionDataAccess.insertSession({ eventPlaceId, time, ticketsAmount });
+const insertSession = async ({ eventPlaceId, time, price, ticketsAmount }) => {
+    const result = await sessionDataAccess.insertSession({
+        eventPlaceId,
+        time,
+        price,
+        ticketsAmount,
+    });
 
     return {
         ...result.recordset[0],
     };
 };
 
-const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
-    const result = await sessionDataAccess.updateSession({ id, eventPlaceId, time, ticketsAmount });
+const updateSession = async ({ id, eventPlaceId, time, price, ticketsAmount }) => {
+    const result = await sessionDataAccess.updateSession({
+        id,
+        eventPlaceId,
+        time,
+        price,
+        ticketsAmount,
+    });
     validateOnEntityUpdated(result);
 
     return {

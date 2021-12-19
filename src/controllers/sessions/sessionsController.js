@@ -4,8 +4,8 @@ const schemasOfRequired = {
     getSessionsChunk: ["eventPlaceId"],
     getSessionsByDateCityEvent: ["date", "cityId", "eventId"],
     getSessionFreeTicketsById: ["id"],
-    postSession: ["eventPlaceId", "time", "ticketsAmount"],
-    putSession: ["id", "eventPlaceId", "time", "ticketsAmount"],
+    postSession: ["eventPlaceId", "time", "price", "ticketsAmount"],
+    putSession: ["id", "eventPlaceId", "time", "price", "ticketsAmount"],
     deleteSession: ["id"],
 };
 
@@ -24,12 +24,14 @@ const schemas = {
     postSession: {
         eventPlaceId: null,
         time: null,
+        price: null,
         ticketsAmount: null,
     },
     putSession: {
         id: null,
         eventPlaceId: null,
         time: null,
+        price: null,
         ticketsAmount: null,
     },
     deleteSession: {

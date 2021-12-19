@@ -28,21 +28,23 @@ const getSessionFreeTicketsById = async ({ id }) => {
     return poolManager.executeRequest("s_guest.getSessionFreeTicketsById", request);
 };
 
-const insertSession = async ({ eventPlaceId, time, ticketsAmount }) => {
+const insertSession = async ({ eventPlaceId, time, price, ticketsAmount }) => {
     const request = poolManager.newRequest(poolTypes.insertSession, (request) => {
         request.input("eventPlaceId", sql.BigInt, eventPlaceId);
         request.input("time", sql.DateTime, time);
+        request.input("price", sql.SmallMoney, price);
         request.input("ticketsAmount", sql.Int, ticketsAmount);
     });
 
     return poolManager.executeRequest("s_manager.insertSession", request);
 };
 
-const updateSession = async ({ id, eventPlaceId, time, ticketsAmount }) => {
+const updateSession = async ({ id, eventPlaceId, time, price, ticketsAmount }) => {
     const request = poolManager.newRequest(poolTypes.updateSession, (request) => {
         request.input("id", sql.BigInt, id);
         request.input("eventPlaceId", sql.BigInt, eventPlaceId);
         request.input("time", sql.DateTime, time);
+        request.input("price", sql.SmallMoney, price);
         request.input("ticketsAmount", sql.Int, ticketsAmount);
     });
 
