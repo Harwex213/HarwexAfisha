@@ -1,8 +1,8 @@
 const eventPlaceDataAccess = require("../dataAccess/access/eventPlaceDataAccess");
 const { validateOnEntityDelete } = require("../dataAccess/util/validator");
 
-const getEventPlaces = async () => {
-    const result = await eventPlaceDataAccess.getEventPlaces();
+const getEventsChunkByPlace = async ({ placeId }) => {
+    const result = await eventPlaceDataAccess.getEventsChunkByPlace({ placeId });
 
     return result.recordset;
 };
@@ -25,7 +25,7 @@ const deleteEventPlace = async ({ id }) => {
 };
 
 module.exports = {
-    getEventPlaces,
+    getEventsChunkByPlace,
     insertEventPlace,
     deleteEventPlace,
 };

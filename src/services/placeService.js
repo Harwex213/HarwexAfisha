@@ -1,8 +1,8 @@
 const placeDataAccess = require("../dataAccess/access/placeDataAccess");
 const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
-const getPlacesChunk = async () => {
-    const result = await placeDataAccess.getPlacesChunk();
+const getPlacesChunk = async ({ cityId }) => {
+    const result = await placeDataAccess.getPlacesChunk({ cityId });
 
     return result.recordset;
 };

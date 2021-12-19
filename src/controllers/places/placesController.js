@@ -1,12 +1,16 @@
 const placeService = require("../../services/placeService");
 
 const schemasOfRequired = {
+    getPlacesChunk: ["cityId"],
     postPlace: ["name", "about", "cityId"],
     putPlace: ["id", "name", "about", "cityId"],
     deletePlace: ["id"],
 };
 
 const schemas = {
+    getPlacesChunk: {
+        cityId: null,
+    },
     postPlace: {
         name: null,
         about: null,
@@ -23,8 +27,8 @@ const schemas = {
     },
 };
 
-const getPlacesChunk = () => {
-    return placeService.getPlacesChunk();
+const getPlacesChunk = (model) => {
+    return placeService.getPlacesChunk(model);
 };
 
 const postPlace = async (model) => {

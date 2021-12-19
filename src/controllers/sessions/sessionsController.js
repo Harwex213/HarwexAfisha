@@ -1,6 +1,7 @@
 const sessionService = require("../../services/sessionService");
 
 const schemasOfRequired = {
+    getSessionsChunk: ["eventPlaceId"],
     getSessionsByDateCityEvent: ["date", "cityId", "eventId"],
     getSessionFreeTicketsById: ["id"],
     postSession: ["eventPlaceId", "time", "ticketsAmount"],
@@ -9,6 +10,9 @@ const schemasOfRequired = {
 };
 
 const schemas = {
+    getSessionsChunk: {
+        eventPlaceId: null,
+    },
     getSessionsByDateCityEvent: {
         date: null,
         cityId: null,
@@ -33,6 +37,10 @@ const schemas = {
     },
 };
 
+const getSessionsChunk = (model) => {
+    return sessionService.getSessionsChunk(model);
+};
+
 const getSessionsByDateCityEvent = (model) => {
     return sessionService.getSessionsByDateCityEvent(model);
 };
@@ -54,6 +62,7 @@ const deleteSession = (model) => {
 };
 
 module.exports = {
+    getSessionsChunk,
     getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     putSession,

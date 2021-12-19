@@ -5,6 +5,12 @@ const {
     validateOnEntityDelete,
 } = require("../dataAccess/util/validator");
 
+const getSessionsChunk = async ({ eventPlaceId }) => {
+    const result = await sessionDataAccess.getSessionsChunk({ eventPlaceId });
+
+    return result.recordset;
+};
+
 const getSessionsByDateCityEvent = async ({ date, cityId, eventId }) => {
     const groupBy = (data, key) => {
         return Object.values(
@@ -62,6 +68,7 @@ const deleteSession = async ({ id }) => {
 };
 
 module.exports = {
+    getSessionsChunk,
     getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     insertSession,

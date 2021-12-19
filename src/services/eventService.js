@@ -1,6 +1,12 @@
 const eventDataAccess = require("../dataAccess/access/eventDataAccess");
 const { validateOnEntityUpdated, validateOnEntityDelete } = require("../dataAccess/util/validator");
 
+const getEventsChunk = async () => {
+    const result = await eventDataAccess.getEventsChunk();
+
+    return result.recordset;
+};
+
 const getEventsByDateAndCity = async ({ date, cityId }) => {
     const result = await eventDataAccess.getEventsByDateAndCity({ date, cityId });
 
@@ -40,6 +46,7 @@ const deleteEvent = async ({ id }) => {
 };
 
 module.exports = {
+    getEventsChunk,
     getEventsByDateAndCity,
     getEvent,
     insertEvent,

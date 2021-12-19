@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const {
+    getSessionsChunk,
     getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     postSession,
@@ -12,6 +13,11 @@ const { handlerWithBody, handlerWithRequestParams, handlerWithRequestQueries } =
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
+router.get(
+    "/chunk",
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestQueries(getSessionsChunk, schemas.getSessionsChunk, schemasOfRequired.getSessionsChunk)
+);
 router.get(
     "/",
     handlerWithRequestQueries(

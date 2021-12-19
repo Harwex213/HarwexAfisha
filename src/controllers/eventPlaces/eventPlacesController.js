@@ -1,11 +1,15 @@
 const eventPlaceService = require("../../services/eventPlaceService");
 
 const schemasOfRequired = {
+    getEventsChunkByPlace: ["placeId"],
     postEventPlace: ["eventId", "placeId"],
     deleteEventPlace: ["id"],
 };
 
 const schemas = {
+    getEventsChunkByPlace: {
+        placeId: null,
+    },
     postEventPlace: {
         eventId: null,
         placeId: null,
@@ -15,8 +19,8 @@ const schemas = {
     },
 };
 
-const getEventPlaces = () => {
-    return eventPlaceService.getEventPlaces();
+const getEventsChunkByPlace = (model) => {
+    return eventPlaceService.getEventsChunkByPlace(model);
 };
 
 const postEventPlace = (model) => {
@@ -28,7 +32,7 @@ const deleteEventPlace = (model) => {
 };
 
 module.exports = {
-    getEventPlaces,
+    getEventsChunkByPlace,
     postEventPlace,
     deleteEventPlace,
     schemas,

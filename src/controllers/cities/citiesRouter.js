@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const {
+    getCitiesChunk,
     getPopularCities,
     getCity,
     postCity,
@@ -12,6 +13,7 @@ const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = requir
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
+router.get("/chunk", authMiddleware([userRoles.manager]), handlerWithoutBody(getCitiesChunk));
 router.get("/popular", handlerWithoutBody(getPopularCities));
 router.get("/:name", handlerWithRequestParams(getCity, schemas.getCity, schemasOfRequired.getCity));
 router.post(

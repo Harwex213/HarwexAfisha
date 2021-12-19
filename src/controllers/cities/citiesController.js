@@ -23,6 +23,10 @@ const schemas = {
     },
 };
 
+const getCitiesChunk = () => {
+    return cityService.getCitiesChunk();
+};
+
 const getPopularCities = () => {
     return cityService.getPopularCities();
 };
@@ -44,6 +48,7 @@ const deleteCity = (model) => {
 };
 
 module.exports = {
+    getCitiesChunk,
     getPopularCities,
     getCity,
     postCity,

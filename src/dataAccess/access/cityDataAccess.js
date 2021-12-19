@@ -2,6 +2,12 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
+const getCitiesChunk = async () => {
+    const request = poolManager.newRequest(poolTypes.getCitiesChunk);
+
+    return poolManager.executeRequest("s_manager.getCitiesChunk", request);
+};
+
 const getPopularCities = async () => {
     const request = poolManager.newRequest(poolTypes.getPopularCities);
 
@@ -42,6 +48,7 @@ const deleteCity = async ({ id }) => {
 };
 
 module.exports = {
+    getCitiesChunk,
     getPopularCities,
     getCity,
     insertCity,

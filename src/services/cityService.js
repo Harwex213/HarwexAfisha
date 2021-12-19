@@ -5,6 +5,12 @@ const {
     validateOnEntityWasGet,
 } = require("../dataAccess/util/validator");
 
+const getCitiesChunk = async () => {
+    const result = await cityDataAccess.getCitiesChunk();
+
+    return result.recordset;
+};
+
 const getPopularCities = async () => {
     const result = await cityDataAccess.getPopularCities();
 
@@ -45,6 +51,7 @@ const deleteCity = async ({ id }) => {
 };
 
 module.exports = {
+    getCitiesChunk,
     getPopularCities,
     getCity,
     insertCity,

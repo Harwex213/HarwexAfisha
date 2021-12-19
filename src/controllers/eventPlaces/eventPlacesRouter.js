@@ -1,16 +1,24 @@
 const router = require("express").Router();
 const {
-    getEventPlaces,
+    getEventsChunkByPlace,
     postEventPlace,
     deleteEventPlace,
     schemas,
     schemasOfRequired,
 } = require("./eventPlacesController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
+const { handlerWithBody, handlerWithRequestParams, handlerWithRequestQueries } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-// router.get("/", handlerWithoutBody(getEventPlaces));
+router.get(
+    "/chunk",
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestQueries(
+        getEventsChunkByPlace,
+        schemas.getEventsChunkByPlace,
+        schemasOfRequired.getEventsChunkByPlace
+    )
+);
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

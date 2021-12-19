@@ -7,11 +7,15 @@ const {
     schemas,
     schemasOfRequired,
 } = require("./placesController");
-const { handlerWithoutBody, handlerWithBody, handlerWithRequestParams } = require("../baseHandlers");
+const { handlerWithBody, handlerWithRequestParams, handlerWithRequestQueries } = require("../baseHandlers");
 const authMiddleware = require("../../middleware/authMiddleware");
 const { userRoles } = require("../../config/constants/db");
 
-router.get("/", authMiddleware([userRoles.manager]), handlerWithoutBody(getPlacesChunk));
+router.get(
+    "/chunk",
+    authMiddleware([userRoles.manager]),
+    handlerWithRequestQueries(getPlacesChunk, schemas.getPlacesChunk, schemasOfRequired.getPlacesChunk)
+);
 router.post(
     "/",
     authMiddleware([userRoles.manager]),

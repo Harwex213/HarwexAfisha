@@ -34,6 +34,7 @@ const poolTypes = {
     insertTicket: {
         type: databaseTypes.readWrite,
         user: userRoles.user,
+        isPerformance: true,
     },
     deleteTicket: {
         type: databaseTypes.readWrite,
@@ -62,6 +63,10 @@ const poolTypes = {
     },
 
     // manager
+    getCitiesChunk: {
+        type: databaseTypes.read,
+        user: userRoles.manager,
+    },
     insertCity: {
         type: databaseTypes.readWrite,
         user: userRoles.manager,
@@ -75,6 +80,10 @@ const poolTypes = {
         user: userRoles.manager,
     },
 
+    getEventsChunk: {
+        type: databaseTypes.read,
+        user: userRoles.manager,
+    },
     insertEvent: {
         type: databaseTypes.readWrite,
         user: userRoles.manager,
@@ -88,10 +97,9 @@ const poolTypes = {
         user: userRoles.manager,
     },
 
-    getEventPlaces: {
+    getEventsChunkByPlace: {
         type: databaseTypes.read,
         user: userRoles.manager,
-        isPerformance: true,
     },
     insertEventPlace: {
         type: databaseTypes.readWrite,
@@ -105,7 +113,6 @@ const poolTypes = {
     getPlacesChunk: {
         type: databaseTypes.read,
         user: userRoles.manager,
-        isPerformance: true,
     },
     insertPlace: {
         type: databaseTypes.readWrite,
@@ -120,6 +127,10 @@ const poolTypes = {
         user: userRoles.manager,
     },
 
+    getSessionsChunk: {
+        type: databaseTypes.read,
+        user: userRoles.manager,
+    },
     insertSession: {
         type: databaseTypes.readWrite,
         user: userRoles.manager,

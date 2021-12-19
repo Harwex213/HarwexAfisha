@@ -2,6 +2,12 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
+const getEventsChunk = async () => {
+    const request = poolManager.newRequest(poolTypes.getEventsChunk);
+
+    return poolManager.executeRequest("s_manager.getEventsChunk", request);
+};
+
 const getEventsByDateAndCity = async ({ date, cityId }) => {
     const request = poolManager.newRequest(poolTypes.getEventsByDateAndCity, (request) => {
         request.input("cityId", sql.BigInt, cityId);
@@ -47,6 +53,7 @@ const deleteEvent = async ({ id }) => {
 };
 
 module.exports = {
+    getEventsChunk,
     getEventsByDateAndCity,
     getEvent,
     insertEvent,

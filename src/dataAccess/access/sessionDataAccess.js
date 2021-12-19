@@ -2,6 +2,14 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
+const getSessionsChunk = async ({ eventPlaceId }) => {
+    const request = poolManager.newRequest(poolTypes.getSessionsChunk, (request) => {
+        request.input("eventPlaceId", sql.BigInt, eventPlaceId);
+    });
+
+    return poolManager.executeRequest("s_manager.getSessionsChunk", request);
+};
+
 const getSessionsByDateCityEvent = async ({ date, cityId, eventId }) => {
     const request = poolManager.newRequest(poolTypes.getSessionsByDateCityEvent, (request) => {
         request.input("cityId", sql.BigInt, cityId);
@@ -50,6 +58,7 @@ const deleteSession = async ({ id }) => {
 };
 
 module.exports = {
+    getSessionsChunk,
     getSessionsByDateCityEvent,
     getSessionFreeTicketsById,
     insertSession,

@@ -2,8 +2,10 @@ const sql = require("mssql/msnodesqlv8");
 const poolManager = require("../pool/pool");
 const poolTypes = require("../pool/poolTypes");
 
-const getPlacesChunk = async () => {
-    const request = poolManager.newRequest(poolTypes.getPlacesChunk);
+const getPlacesChunk = async ({ cityId }) => {
+    const request = poolManager.newRequest(poolTypes.getPlacesChunk, (request) => {
+        request.input("cityId", sql.BigInt, cityId);
+    });
 
     return poolManager.executeRequest("s_manager.getPlacesChunk", request);
 };

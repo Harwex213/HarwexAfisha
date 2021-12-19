@@ -30,6 +30,10 @@ const schemas = {
     },
 };
 
+const getEventsChunk = () => {
+    return eventService.getEventsChunk();
+};
+
 const getEventsByDateAndCity = (model) => {
     return eventService.getEventsByDateAndCity(model);
 };
@@ -51,6 +55,7 @@ const deleteEvent = (model) => {
 };
 
 module.exports = {
+    getEventsChunk,
     getEventsByDateAndCity,
     getEvent,
     postEvent,
