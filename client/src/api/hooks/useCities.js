@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "react-query";
 import { getPopularCities, getCitiesChunk, postCity, putCity, deleteCity } from "../fetch/cities";
+import queryClient from "../../app/queryClient";
 
 export const usePopularCities = ({ onSuccess = (data) => data }) => {
     return useQuery(["cities", { type: "popular" }], getPopularCities, {
@@ -12,13 +13,19 @@ export const useCitiesChunk = () => {
 };
 
 export const useCreateCity = () => {
-    return useMutation(postCity);
+    return useMutation(postCity, {
+        onSuccess: () => queryClient.invalidateQueries(["cities", { type: "chunk" }]),
+    });
 };
 
 export const useUpdateCity = () => {
-    return useMutation(putCity);
+    return useMutation(putCity, {
+        onSuccess: () => queryClient.invalidateQueries(["cities", { type: "chunk" }]),
+    });
 };
 
 export const useDeleteCity = () => {
-    return useMutation(deleteCity);
+    return useMutation(deleteCity, {
+        onSuccess: () => queryClient.invalidateQueries(["cities", { type: "chunk" }]),
+    });
 };

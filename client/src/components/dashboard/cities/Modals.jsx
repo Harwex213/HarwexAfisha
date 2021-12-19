@@ -1,6 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Button, IconButton, Modal, Stack, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    IconButton,
+    Modal,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
@@ -41,6 +51,16 @@ const CityModal = ({ header, initialValues, handleSubmit, isOpen, handleClose })
                                             onChange={handleChange}
                                             error={Boolean(errors.name)}
                                             helperText={errors.name}
+                                        />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="isPopular"
+                                                    checked={values.isPopular}
+                                                    onChange={handleChange}
+                                                />
+                                            }
+                                            label="Is Popular?"
                                         />
                                         <Box sx={{ display: "flex" }}>
                                             <Box sx={{ flexGrow: 1 }} />

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {
     Button,
+    CircularProgress,
     Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -11,10 +13,16 @@ import {
     Typography,
 } from "@mui/material";
 import CityModal from "./Modals";
+import { useCitiesChunk, useCreateCity, useDeleteCity, useUpdateCity } from "../../../api/hooks/useCities";
 
 const Cities = () => {
+    const cities = useCitiesChunk();
+    const createCityMutation = useCreateCity();
+    const updateCityMutation = useUpdateCity();
+    const deleteCityMutation = useDeleteCity();
     const [cityInitialValues, setCityInitialValues] = useState({
         name: "",
+        isPopular: false,
     });
     const [isCreateCity, setIsCreateCity] = useState(false);
     const [isEditCity, setIsEditCity] = useState(false);
@@ -22,6 +30,7 @@ const Cities = () => {
     const handleCreateCityOpen = () => {
         setCityInitialValues({
             name: "",
+            isPopular: false,
         });
         setIsCreateCity(true);
     };
@@ -30,7 +39,9 @@ const Cities = () => {
     };
     const handleEditCityOpen = (city) => {
         setCityInitialValues({
+            id: city.id,
             name: city.name,
+            isPopular: city.isPopular,
         });
         setIsEditCity(true);
     };
@@ -39,15 +50,15 @@ const Cities = () => {
     };
 
     const handleCreateCity = (values) => {
+        createCityMutation.mutate(values);
         handleCreateCityClose();
-        // TODO: mutate to create City
     };
     const handleEditCity = (values) => {
+        updateCityMutation.mutate(values);
         handleEditCityClose();
-        // TODO: mutate to edit City
     };
-    const handleDeleteCity = () => {
-        // TODO: mutate to delete City
+    const handleDeleteCity = (id) => {
+        deleteCityMutation.mutate({ id });
     };
 
     return (
@@ -58,45 +69,43 @@ const Cities = () => {
             <Typography variant="h6" gutterBottom component="div">
                 Cities
             </Typography>
-            <TableContainer sx={{ mb: 4 }} component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Id</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell align="center">Edit</TableCell>
-                            <TableCell align="center">Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Array.from(Array(5)).map((_, index) => (
-                            <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                                <TableCell>{index}</TableCell>
-                                <TableCell>City {index}</TableCell>
-                                <TableCell>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, deserunt?
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        onClick={() =>
-                                            handleEditCityOpen({
-                                                name: "Joker",
-                                                description: "kwkwkkwkwkkrejwkjrw\n rewjrkwelrkm",
-                                            })
-                                        }
-                                    >
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                                <TableCell>
-                                    <Button onClick={handleDeleteCity}>Delete</Button>
-                                </TableCell>
+            {cities.isSuccess ? (
+                <TableContainer sx={{ mb: 4 }} component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Id</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Is popular</TableCell>
+                                <TableCell align="center">Edit</TableCell>
+                                <TableCell align="center">Delete</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {cities.data.map((city) => (
+                                <TableRow
+                                    key={city.id}
+                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                >
+                                    <TableCell>{city.id}</TableCell>
+                                    <TableCell>{city.name}</TableCell>
+                                    <TableCell>{city.isPopular ? "Yes" : "No"}</TableCell>
+                                    <TableCell align="center">
+                                        <Button onClick={() => handleEditCityOpen(city)}>Edit</Button>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button onClick={() => handleDeleteCity(city.id)}>Delete</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            ) : (
+                <Stack sx={{ alignItems: "center" }}>
+                    <CircularProgress />
+                </Stack>
+            )}
             <CityModal
                 header="Create city"
                 isOpen={isCreateCity}

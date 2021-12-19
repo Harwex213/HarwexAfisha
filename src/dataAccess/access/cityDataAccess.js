@@ -31,11 +31,11 @@ const insertCity = async ({ name, isPopular = 0 }) => {
     return poolManager.executeRequest("s_manager.insertCity", request);
 };
 
-const updateCity = async ({ id, name, isPopular = 0 }) => {
+const updateCity = async ({ id, name, isPopular }) => {
     const request = poolManager.newRequest(poolTypes.updateCity, (request) => {
         request.input("id", sql.BigInt, id);
         request.input("name", sql.NVarChar(50), name);
-        request.input("isPopular", sql.Bit, isPopular);
+        request.input("isPopular", sql.Bit, isPopular ?? false);
     });
 
     return poolManager.executeRequest("s_manager.updateCity", request);
