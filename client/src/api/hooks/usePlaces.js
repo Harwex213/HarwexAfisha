@@ -2,9 +2,10 @@ import { useMutation, useQuery } from "react-query";
 import { getPlacesChunk, postPlace, putPlace, deletePlace } from "../fetch/places";
 import queryClient from "../../app/queryClient";
 
-export const usePlacesChunk = ({ cityId }) => {
+export const usePlacesChunk = ({ cityId }, onSuccess = (data) => data) => {
     return useQuery(["places", { type: "chunk", cityId }], () => getPlacesChunk({ cityId }), {
         enabled: Boolean(cityId),
+        onSuccess: onSuccess,
     });
 };
 

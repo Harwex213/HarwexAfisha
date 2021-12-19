@@ -390,7 +390,7 @@ const Places = () => {
             <Autocomplete
                 value={city}
                 onChange={(event, newValue) => {
-                    setCity(newValue);
+                    setCity(newValue ?? cities.data.find((city) => city.name === defaultCity));
                 }}
                 sx={{ width: 250, mb: 3 }}
                 disablePortal

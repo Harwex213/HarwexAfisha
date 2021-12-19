@@ -6,6 +6,7 @@ import {
     putSession,
     deleteSession,
 } from "../fetch/sessions";
+import queryClient from "../../app/queryClient";
 
 export const useSessionsByDateEventCity = ({ date, cityId, eventId }) => {
     return useQuery(["sessions", { cityId, date, eventId }], () =>
@@ -27,13 +28,19 @@ export const useSessionsChunk = ({ eventPlaceId }) => {
 };
 
 export const useCreateSession = () => {
-    return useMutation(postSession);
+    return useMutation(postSession, {
+        onSuccess: () => queryClient.invalidateQueries(["sessions", { type: "chunk" }]),
+    });
 };
 
 export const useUpdateSession = () => {
-    return useMutation(putSession);
+    return useMutation(putSession, {
+        onSuccess: () => queryClient.invalidateQueries(["sessions", { type: "chunk" }]),
+    });
 };
 
 export const useDeleteSession = () => {
-    return useMutation(deleteSession);
+    return useMutation(deleteSession, {
+        onSuccess: () => queryClient.invalidateQueries(["sessions", { type: "chunk" }]),
+    });
 };
