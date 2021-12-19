@@ -24,6 +24,15 @@ const getUserByUsername = async ({ username }) => {
     return poolManager.executeRequest("s_user.getUserByUsername", request);
 };
 
+const checkUserPassword = async ({ id, password }) => {
+    const request = poolManager.newRequest(poolTypes.checkUserPassword, (request) => {
+        request.input("id", sql.BigInt, id);
+        request.input("password", sql.NVarChar(sql.MAX), password);
+    });
+
+    return poolManager.executeRequest("s_user.checkUserPassword", request);
+};
+
 const insertUser = async ({ username, password, firstName, lastName, patronymic = null, role }) => {
     const request = poolManager.newRequest(poolTypes.insertUser, (request) => {
         request.input("username", sql.NVarChar(50), username);
@@ -63,6 +72,7 @@ module.exports = {
     getUsers,
     getUserById,
     getUserByUsername,
+    checkUserPassword,
     insertUser,
     updateUser,
     deleteUser,

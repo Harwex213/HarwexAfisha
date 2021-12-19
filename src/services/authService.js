@@ -43,9 +43,11 @@ const register = async ({ username, password, repeatPassword, firstName, lastNam
 const login = async ({ username, password }) => {
     const result = await userDataAccess.getUserByUsername({ username });
     validateOnEntityWasGet(result, "Doesn't find user with such username");
-
     const user = result.recordset[0];
-    if (user.password !== password) {
+
+    try {
+        await userDataAccess.checkUserPassword({ id: user.id, password });
+    } catch (e) {
         throwUnauthenticated("Please, verify your username or password");
     }
 

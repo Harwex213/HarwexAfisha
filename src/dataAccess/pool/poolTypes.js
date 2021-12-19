@@ -45,7 +45,17 @@ const poolTypes = {
         user: userRoles.user,
         isPerformance: true,
     },
+    getUserById: {
+        type: databaseTypes.read,
+        user: userRoles.user,
+        isPerformance: true,
+    },
     getUserByUsername: {
+        type: databaseTypes.read,
+        user: userRoles.user,
+        isPerformance: true,
+    },
+    checkUserPassword: {
         type: databaseTypes.read,
         user: userRoles.user,
         isPerformance: true,
@@ -124,10 +134,6 @@ const poolTypes = {
     },
 
     getUsers: {
-        type: databaseTypes.read,
-        user: userRoles.manager,
-    },
-    getUserById: {
         type: databaseTypes.read,
         user: userRoles.manager,
     },
