@@ -7,6 +7,7 @@ import {
     putEvent,
     deleteEvent,
 } from "../fetch/events";
+import queryClient from "../../app/queryClient";
 
 export const useEventsByCityDate = ({ cityId, date }) => {
     return useQuery(["events", { cityId, date }], () => getEventsByCityDate({ cityId, date }));
@@ -21,13 +22,19 @@ export const useEventsChunk = () => {
 };
 
 export const useCreateEvent = () => {
-    return useMutation(postEvent);
+    return useMutation(postEvent, {
+        onSuccess: () => queryClient.invalidateQueries(["events", { type: "chunk" }]),
+    });
 };
 
 export const useUpdateEvent = () => {
-    return useMutation(putEvent);
+    return useMutation(putEvent, {
+        onSuccess: () => queryClient.invalidateQueries(["events", { type: "chunk" }]),
+    });
 };
 
 export const useDeleteEvent = () => {
-    return useMutation(deleteEvent);
+    return useMutation(deleteEvent, {
+        onSuccess: () => queryClient.invalidateQueries(["events", { type: "chunk" }]),
+    });
 };

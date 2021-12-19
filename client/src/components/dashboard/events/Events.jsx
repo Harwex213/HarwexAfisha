@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {
     Button,
+    CircularProgress,
     Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -11,8 +13,13 @@ import {
     Typography,
 } from "@mui/material";
 import EventModal from "./Modals";
+import { useEventsChunk, useCreateEvent, useUpdateEvent, useDeleteEvent } from "../../../api/hooks/useEvents";
 
 const Events = () => {
+    const events = useEventsChunk();
+    const createEventMutation = useCreateEvent();
+    const updateEventMutation = useUpdateEvent();
+    const deleteEventMutation = useDeleteEvent();
     const [eventInitialValues, setEventInitialValues] = useState({
         name: "",
         description: "",
@@ -32,6 +39,7 @@ const Events = () => {
     };
     const handleEditEventOpen = (event) => {
         setEventInitialValues({
+            id: event.id,
             name: event.name,
             description: event.description,
         });
@@ -42,15 +50,15 @@ const Events = () => {
     };
 
     const handleCreateEvent = (values) => {
+        createEventMutation.mutate(values);
         handleCreateEventClose();
-        // TODO: mutate to create Event
     };
     const handleEditEvent = (values) => {
+        updateEventMutation.mutate(values);
         handleEditEventClose();
-        // TODO: mutate to edit Event
     };
-    const handleDeleteEvent = () => {
-        // TODO: mutate to delete Event
+    const handleDeleteEvent = (id) => {
+        deleteEventMutation.mutate({ id });
     };
 
     return (
@@ -61,45 +69,43 @@ const Events = () => {
             <Typography variant="h6" gutterBottom component="div">
                 Events
             </Typography>
-            <TableContainer sx={{ mb: 4 }} component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Id</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell align="center">Edit</TableCell>
-                            <TableCell align="center">Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Array.from(Array(5)).map((_, index) => (
-                            <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                                <TableCell>{index}</TableCell>
-                                <TableCell>Event {index}</TableCell>
-                                <TableCell>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, deserunt?
-                                </TableCell>
-                                <TableCell>
-                                    <Button
-                                        onClick={() =>
-                                            handleEditEventOpen({
-                                                name: "Joker",
-                                                description: "kwkwkkwkwkkrejwkjrw\n rewjrkwelrkm",
-                                            })
-                                        }
-                                    >
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                                <TableCell>
-                                    <Button onClick={handleDeleteEvent}>Delete</Button>
-                                </TableCell>
+            {events.isSuccess ? (
+                <TableContainer sx={{ mb: 4 }} component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Id</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell align="center">Edit</TableCell>
+                                <TableCell align="center">Delete</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {events.data.map((event) => (
+                                <TableRow
+                                    key={event.id}
+                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                >
+                                    <TableCell>{event.id}</TableCell>
+                                    <TableCell>{event.name}</TableCell>
+                                    <TableCell>{event.description}</TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleEditEventOpen(event)}>Edit</Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            ) : (
+                <Stack sx={{ alignItems: "center" }}>
+                    <CircularProgress />
+                </Stack>
+            )}
             <EventModal
                 header="Create event"
                 isOpen={isCreateEvent}
