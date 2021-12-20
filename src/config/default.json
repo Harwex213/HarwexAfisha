@@ -1,0 +1,53 @@
+{
+  "morgan": {
+    "format": "dev"
+  },
+  "mssql-pools": {
+    "databases": [
+      {
+        "server": "DESKTOP-2QTVKAR",
+        "database": "harwex_afisha"
+      },
+      {
+        "server": "WIN-ETCHIT6NHJG",
+        "database": "harwex_afisha"
+      }
+    ],
+    "users": [
+      {
+        "config": {
+          "user": "harwex_afisha_guest",
+          "password": "Passw0rd1"
+        },
+        "role": "GUEST"
+      },
+      {
+        "config": {
+          "user": "harwex_afisha_user",
+          "password": "Passw0rd1"
+        },
+        "role": "USER"
+      },
+      {
+        "config": {
+          "user": "harwex_afisha_manager",
+          "password": "Passw0rd1"
+        },
+        "role": "MANAGER"
+      },
+      {
+        "config": {
+          "user": "sa",
+          "password": "Passw0rd1"
+        },
+        "role": "ADMIN"
+      }
+    ]
+  },
+  "jwt": {
+    "accessToken": {
+      "secret": "MyBestSecretEver",
+      "expiresIn": "1d"
+    }
+  }
+}

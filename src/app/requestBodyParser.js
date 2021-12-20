@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 module.exports = (app) => {
     app.use(
         bodyParser.urlencoded({
-            extended: false,
+            extended: true,
         })
     );
     app.use(bodyParser.json());
