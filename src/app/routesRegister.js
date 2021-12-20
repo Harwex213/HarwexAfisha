@@ -7,6 +7,7 @@ const usersRoutes = require("../controllers/users/usersRouter");
 const ticketsRoutes = require("../controllers/tickets/ticketsRouter");
 const authRoutes = require("../controllers/auth/authRouter");
 const cors = require("cors");
+const express = require("express");
 
 module.exports = (app) => {
     app.use(
@@ -15,6 +16,7 @@ module.exports = (app) => {
         })
     );
 
+    app.use("/static", express.static("static"));
     app.use("/api/auth", authRoutes);
     app.use("/api/cities", citiesRoutes);
     app.use("/api/events", eventsRoutes);

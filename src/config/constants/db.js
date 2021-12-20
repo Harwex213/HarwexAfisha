@@ -7,6 +7,7 @@ const userRoles = {
     guest: "GUEST",
     user: "USER",
     manager: "MANAGER",
+    admin: "ADMIN",
 };
 
 const baseConfig = {

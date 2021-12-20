@@ -51,7 +51,7 @@ const TicketOrder = ({ date, city }) => {
                             width: "280px",
                             borderRadius: "5px",
                         }}
-                        src="https://i.pinimg.com/originals/bc/d5/c9/bcd5c9519581acc60bd60a429ab0c88f.jpg"
+                        src="https://m.media-amazon.com/images/M/MV5BMzIwYzRmZTQtOThhYy00YjIzLThkODEtMjE2MGRjYzY1ODY1XkEyXkFqcGdeQXVyNTE0MzczOTk@._V1_.jpg"
                         alt="movie poster"
                     />
                     <Box ml={5}>

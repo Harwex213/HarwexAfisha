@@ -7,6 +7,10 @@
       {
         "server": "DESKTOP-2QTVKAR",
         "database": "harwex_afisha"
+      },
+      {
+        "server": "WIN-ETCHIT6NHJG",
+        "database": "harwex_afisha"
       }
     ],
     "users": [
@@ -30,6 +34,13 @@
           "password": "Passw0rd1"
         },
         "role": "MANAGER"
+      },
+      {
+        "config": {
+          "user": "sa",
+          "password": "Passw0rd1"
+        },
+        "role": "ADMIN"
       }
     ]
   },
