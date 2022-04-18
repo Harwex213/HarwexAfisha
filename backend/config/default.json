@@ -1,0 +1,9 @@
+{
+  "dbConfig": {
+    "database": "harwex_afisha",
+    "user": "sa",
+    "password": "Passw0rd1",
+    "host": "localhost",
+    "dialect": "mssql"
+  }
+}
