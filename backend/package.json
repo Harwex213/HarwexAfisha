@@ -18,6 +18,9 @@
     "sequelize-auto": "^0.8.8"
   },
   "dependencies": {
+    "@alt3/sequelize-to-json-schemas": "^0.3.56",
+    "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1",
     "config": "^3.3.7",
     "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.19.0",
