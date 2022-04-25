@@ -7,7 +7,7 @@ const { userRoles } = require("../constants");
 const { throwForbidden } = require("./exceptions");
 const path = require("path");
 
-let ports = {};
+let ports = null;
 
 const authenticate = async (accessToken) => {
     try {
@@ -45,29 +45,43 @@ const getUserContext = async (accessToken, expectedRoles) => {
 };
 
 module.exports = async () => {
-    const { schemas, validateSchema } = await getSchemasContext();
+    if (ports) {
+        return ports;
+    }
 
-    for (const schema of Object.keys(schemas)) {
+    const { schemas, validateSchema } = await getSchemasContext();
+    ports = {};
+
+    for (const [schema, schemaValue] of Object.entries(schemas)) {
         ports[schema] = {};
 
-        ports[schema].create = async ({ body, accessToken }) => {
-            await getUserContext(accessToken, [userRoles.ADMIN]);
-            validateSchema(schema, body);
-            delete body.id;
+        ports[schema].create = {
+            schema: schemaValue,
+            handler: async ({ body, accessToken }) => {
+                await getUserContext(accessToken, [userRoles.ADMIN]);
+                validateSchema(schema, body);
+                delete body.id;
 
-            return genericProvider.create({ modelName: schema, instance: body });
+                return genericProvider.create({ modelName: schema, instance: body });
+            },
         };
 
-        ports[schema].update = async ({ body, accessToken }) => {
-            await getUserContext(accessToken, [userRoles.ADMIN]);
-            validateSchema(schema, body);
+        ports[schema].update = {
+            schema: schemaValue,
+            handler: async ({ body, accessToken }) => {
+                await getUserContext(accessToken, [userRoles.ADMIN]);
+                validateSchema(schema, body);
 
-            return genericProvider.update({ modelName: schema, instance: body });
+                return genericProvider.update({ modelName: schema, instance: body });
+            },
         };
 
-        ports[schema].delete = async ({ body, accessToken }) => {
-            await getUserContext(accessToken, [userRoles.ADMIN]);
-            return genericProvider.delete({ modelName: schema, id: body.id });
+        ports[schema].delete = {
+            schema: schemaValue,
+            handler: async ({ body, accessToken }) => {
+                await getUserContext(accessToken, [userRoles.ADMIN]);
+                return genericProvider.delete({ modelName: schema, id: body.id });
+            },
         };
     }
 
@@ -82,11 +96,19 @@ module.exports = async () => {
 
         const servicePorts = {};
         for (const [key, value] of Object.entries(serviceMethods)) {
-            servicePorts[key] = async ({ body, accessToken, refreshToken }) => {
-                const userContext = await getUserContext(accessToken, value.expectedRoles);
-                validateSchema(value.schema, body);
+            if (!value || !value.schema || !value.handler || value.expectedRoles?.length < 1) {
+                throw new Error(`Bad information for port generation of service - ${key}`);
+            }
 
-                return value.handler({ body, accessToken, refreshToken, userContext });
+            servicePorts[key] = {
+                schema: value.schema,
+                handler: async ({ ...args }) => {
+                    const { body, accessToken } = args;
+                    const userContext = await getUserContext(accessToken, value.expectedRoles);
+                    validateSchema(value.schema, body);
+
+                    return value.handler({ ...args, userContext });
+                },
             };
         }
 

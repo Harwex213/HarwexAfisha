@@ -5,5 +5,10 @@
     "password": "Passw0rd1",
     "host": "localhost",
     "dialect": "mssql"
-  }
+  },
+  "secrets": {
+    "accessToken": "accessToken",
+    "refreshToken": "refreshToken"
+  },
+  "port": 3000
 }

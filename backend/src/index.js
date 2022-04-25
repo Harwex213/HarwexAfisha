@@ -2,17 +2,15 @@ const config = require("config");
 const cinemaMoviesService = require("./services/cinemaMovieService");
 const sessionsService = require("./services/sessionService");
 const getSchemasContext = require("./schemas/ajv");
-const fastify = require("fastify")({ logger: true });
+const initApi = require("./api/app");
 const getPorts = require("./ports/ports");
 
 (async () => {
     try {
-        const { schemas } = await getSchemasContext();
-        console.log(schemas.cinemaMovie);
-
-        const ports = await getPorts();
-        console.log(ports);
-        console.log(await ports.session.getSessionAvailableTicketsAmount({ body: { sessionId: 1 } }));
+        await initApi();
+        // const { schemas } = await getSchemasContext();
+        // console.log(schemas.cinemaMovie);
+        // console.log(await ports.session.getSessionAvailableTicketsAmount({ body: { sessionId: 1 } }));
     } catch (e) {
         console.log("Error!!!", e);
     }

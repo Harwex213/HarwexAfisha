@@ -45,4 +45,5 @@ module.exports.getMoviesByCityAndDate = {
 module.exports.getCinemasByCityDateMovie = {
     handler: ({ body }) => cinemaMovieDataProvider.getCinemasByCityDateMovie({ ...body }),
     expectedRoles: [userRoles.GUEST, userRoles.USER, userRoles.ADMIN],
+    schema: schemas.getCinemasByCityDateMovie,
 };

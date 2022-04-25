@@ -11,10 +11,9 @@ const schemas = {
             },
             date: {
                 type: "string",
-                format: "date",
             },
         },
-        required: ["cityId", "date"],
+        required: ["cinemaId", "date"],
     },
     getSessionAvailableTicketsAmount: {
         type: "object",
