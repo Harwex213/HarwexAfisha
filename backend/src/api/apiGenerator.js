@@ -11,6 +11,7 @@ module.exports = async (fastify) => {
                 endpoint,
                 {
                     schema: {
+                        tags: [portName],
                         body: method.schema,
                     },
                 },
