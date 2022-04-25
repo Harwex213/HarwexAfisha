@@ -1,9 +1,9 @@
 const config = require("config");
-const cinemaMoviesService = require("./services/cinemaMovieService");
-const sessionsService = require("./services/sessionService");
-const getSchemasContext = require("./schemas/ajv");
+const cinemaMoviesService = require("./domain/services/cinemaMovieService");
+const sessionsService = require("./domain/services/sessionService");
+const getSchemasContext = require("./domain/schemas/ajv");
 const initApi = require("./api/app");
-const getPorts = require("./ports/ports");
+const getPorts = require("./domain/ports");
 
 (async () => {
     try {

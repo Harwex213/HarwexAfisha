@@ -1,4 +1,4 @@
-const getSequelizeContext = require("../data-access/sequelize");
+const getSequelizeContext = require("../../data-access/sequelize");
 const { JsonSchemaManager, JsonSchema7Strategy } = require("@alt3/sequelize-to-json-schemas");
 
 let schemas = null;

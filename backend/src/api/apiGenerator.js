@@ -1,4 +1,4 @@
-const getPorts = require("../ports/ports");
+const getPorts = require("../domain/ports");
 
 module.exports = async (fastify) => {
     const ports = await getPorts();

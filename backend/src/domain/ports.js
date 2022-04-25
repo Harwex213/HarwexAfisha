@@ -1,11 +1,14 @@
 const genericProvider = require("../data-access/data-providers/genericProvider");
-const getSchemasContext = require("../schemas/ajv");
+const getSchemasContext = require("./schemas/ajv");
 const fs = require("fs/promises");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const { userRoles } = require("../constants");
 const { throwForbidden } = require("./exceptions");
 const path = require("path");
+
+const pathToServices = "./src/domain/services";
+const relativePathToService = "./services/";
 
 let ports = null;
 
@@ -38,7 +41,7 @@ const getUserContext = async (accessToken, expectedRoles) => {
     const userContext = await authenticate(accessToken);
     userContext.role = await authorize(userContext.id);
 
-    if (expectedRoles.includes(userContext.role) === false) {
+    if (expectedRoles.includes(userContext.role.toUpperCase()) === false) {
         throwForbidden();
     }
     return userContext;
@@ -86,10 +89,10 @@ module.exports = async () => {
     }
 
     const servicePrefixStartIndex = -7;
-    const services = await fs.readdir("./src/services");
+    const services = await fs.readdir(pathToServices);
     for (const service of services) {
         const schemaService = path.basename(service, ".js").slice(0, servicePrefixStartIndex);
-        const serviceMethods = require("../services/" + service);
+        const serviceMethods = require(relativePathToService + service);
         if (!serviceMethods) {
             continue;
         }

@@ -1,6 +1,6 @@
 const config = require("config");
 const apiGenerator = require("./apiGenerator");
-const getSchemaContext = require("../schemas/ajv");
+const getSchemaContext = require("../domain/schemas/ajv");
 const fastify = require("fastify")({ logger: true });
 
 module.exports = async () => {

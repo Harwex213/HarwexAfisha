@@ -1,5 +1,5 @@
-const cinemaMovieDataProvider = require("../data-access/data-providers/cinemaMovieProvider");
-const { userRoles } = require("../constants");
+const cinemaMovieDataProvider = require("../../data-access/data-providers/cinemaMovieProvider");
+const { userRoles } = require("../../constants");
 
 const schemas = {
     getMoviesByCityAndDate: {

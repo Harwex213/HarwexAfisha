@@ -1,5 +1,5 @@
-const sessionDataProvider = require("../data-access/data-providers/sessionProvider");
-const { userRoles } = require("../constants");
+const sessionDataProvider = require("../../data-access/data-providers/sessionProvider");
+const { userRoles } = require("../../constants");
 
 const schemas = {
     getMoviesByCityAndDate: {
