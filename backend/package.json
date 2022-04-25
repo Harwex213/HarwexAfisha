@@ -22,6 +22,7 @@
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "config": "^3.3.7",
+    "fastify": "^3.28.0",
     "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.19.0",
     "tedious": "^14.4.0"
