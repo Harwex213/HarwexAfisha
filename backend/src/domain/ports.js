@@ -1,70 +1,26 @@
 const genericProvider = require("../data-access/data-providers/genericProvider");
-const getSchemasContext = require("./schemas/ajv");
 const fs = require("fs/promises");
-const config = require("config");
-const jwt = require("jsonwebtoken");
+const getSchemas = require("./schemas/schemas");
 const { userRoles } = require("../constants");
-const { throwForbidden } = require("./exceptions");
 const path = require("path");
+const getUserContext = require("./internal/userContext");
+const { mapCreate, mapDelete } = require("./schemas/mapper");
 
-const pathToServices = "./src/domain/services";
-const relativePathToService = "./services/";
-
+const SERVICE_PREFIX_START_INDEX = -7;
+const PATH_TO_SERVICES = "./src/domain/services";
+const RELATIVE_PATH_TO_SERVICE = "./services/";
 let ports = null;
 
-const authenticate = async (accessToken) => {
-    try {
-        const decoded = jwt.verify(accessToken, config.get("secrets.accessToken"), {
-            complete: true,
-        });
-        return decoded.payload;
-    } catch (e) {
-        return {};
-    }
-};
-
-const authorize = async (userId) => {
-    if (!userId) {
-        return userRoles.GUEST;
-    }
-
-    const user = await genericProvider.getById({ modelName: "user", id: userId });
-    if (!user) {
-        return userRoles.GUEST;
-    }
-
-    const userRole = await genericProvider.getById({ modelName: "userRole", id: user?.roleId });
-    return userRole.name;
-};
-
-const getUserContext = async (accessToken, expectedRoles) => {
-    const userContext = await authenticate(accessToken);
-    userContext.role = await authorize(userContext.id);
-
-    if (expectedRoles.includes(userContext.role.toUpperCase()) === false) {
-        throwForbidden();
-    }
-    return userContext;
-};
-
-module.exports = async () => {
-    if (ports) {
-        return ports;
-    }
-
-    const { schemas, validateSchema } = await getSchemasContext();
-    ports = {};
+const addDefaultPorts = async (ports) => {
+    const schemas = await getSchemas();
 
     for (const [schema, schemaValue] of Object.entries(schemas)) {
         ports[schema] = {};
 
         ports[schema].create = {
-            schema: schemaValue,
+            schema: mapCreate(schemaValue),
             handler: async ({ body, accessToken }) => {
                 await getUserContext(accessToken, [userRoles.ADMIN]);
-                validateSchema(schema, body);
-                delete body.id;
-
                 return genericProvider.create({ modelName: schema, instance: body });
             },
         };
@@ -73,26 +29,26 @@ module.exports = async () => {
             schema: schemaValue,
             handler: async ({ body, accessToken }) => {
                 await getUserContext(accessToken, [userRoles.ADMIN]);
-                validateSchema(schema, body);
-
                 return genericProvider.update({ modelName: schema, instance: body });
             },
         };
 
         ports[schema].delete = {
-            schema: schemaValue,
+            schema: mapDelete(schemaValue),
             handler: async ({ body, accessToken }) => {
                 await getUserContext(accessToken, [userRoles.ADMIN]);
                 return genericProvider.delete({ modelName: schema, id: body.id });
             },
         };
     }
+};
 
-    const servicePrefixStartIndex = -7;
-    const services = await fs.readdir(pathToServices);
+const addServiceExports = async (ports) => {
+    const services = await fs.readdir(PATH_TO_SERVICES);
+
     for (const service of services) {
-        const schemaService = path.basename(service, ".js").slice(0, servicePrefixStartIndex);
-        const serviceMethods = require(relativePathToService + service);
+        const schemaService = path.basename(service, ".js").slice(0, SERVICE_PREFIX_START_INDEX);
+        const serviceMethods = require(RELATIVE_PATH_TO_SERVICE + service);
         if (!serviceMethods) {
             continue;
         }
@@ -106,9 +62,8 @@ module.exports = async () => {
             servicePorts[key] = {
                 schema: value.schema,
                 handler: async ({ ...args }) => {
-                    const { body, accessToken } = args;
+                    const { accessToken } = args;
                     const userContext = await getUserContext(accessToken, value.expectedRoles);
-                    validateSchema(value.schema, body);
 
                     return value.handler({ ...args, userContext });
                 },
@@ -120,5 +75,15 @@ module.exports = async () => {
             ...servicePorts,
         };
     }
+};
+
+module.exports = async () => {
+    if (ports) {
+        return ports;
+    }
+
+    ports = {};
+    await addDefaultPorts(ports);
+    await addServiceExports(ports);
     return ports;
 };

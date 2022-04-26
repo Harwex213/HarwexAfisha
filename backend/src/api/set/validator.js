@@ -1,7 +1,9 @@
-const getSchemaContext = require("../../domain/schemas/ajv");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 
 module.exports = async (fastify) => {
-    const { ajv } = await getSchemaContext();
+    const ajv = new Ajv();
+    addFormats(ajv);
 
     fastify.setValidatorCompiler((opt) => ajv.compile(opt.schema));
 };

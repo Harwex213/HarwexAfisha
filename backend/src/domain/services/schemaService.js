@@ -1,4 +1,4 @@
-const getSchemasContext = require("../schemas/ajv");
+const getSchemas = require("../schemas/schemas");
 const { userRoles } = require("../../constants");
 const { throwBadRequest } = require("../exceptions");
 
@@ -17,7 +17,7 @@ const schemas = {
 
 module.exports.getNames = {
     handler: async () => {
-        const { schemas } = await getSchemasContext();
+        const { schemas } = await getSchemas();
         return Object.keys(schemas);
     },
     expectedRoles: [userRoles.GUEST, userRoles.USER, userRoles.ADMIN],
@@ -27,7 +27,7 @@ module.exports.getNames = {
 module.exports.getByName = {
     handler: async ({ body }) => {
         try {
-            const { schemas, validateSchemaExisting } = await getSchemasContext();
+            const { schemas, validateSchemaExisting } = await getSchemas();
             const { schemaName } = body;
             validateSchemaExisting(schemaName);
 
