@@ -2,7 +2,7 @@ const { getNextDay } = require("../../helpers/time");
 const { Op } = require("sequelize");
 const getContext = require("../sequelize");
 
-module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date }) => {
+module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date, transaction = null }) => {
     const { models } = await getContext();
     const { session, cinemaMovie } = models;
 
@@ -18,6 +18,7 @@ module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date }) => {
                 attributes: [],
             },
         ],
+        transaction,
         raw: true,
         nest: true,
     });
@@ -25,7 +26,7 @@ module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date }) => {
     return sessions;
 };
 
-module.exports.getSessionAvailableTicketsAmount = async ({ sessionId }) => {
+module.exports.getSessionAvailableTicketsAmount = async ({ sessionId, transaction = null }) => {
     const { models } = await getContext();
     const { session, hall } = models;
 
@@ -36,6 +37,7 @@ module.exports.getSessionAvailableTicketsAmount = async ({ sessionId }) => {
             as: "hall",
             attributes: ["seatsAmount"],
         },
+        transaction,
         raw: true,
         nest: true,
     });

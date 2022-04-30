@@ -1,7 +1,7 @@
 const { Op, Sequelize } = require("sequelize");
 const getContext = require("../sequelize");
 
-module.exports.getMoviesByCityAndDate = async ({ cityId, date }) => {
+module.exports.getMoviesByCityAndDate = async ({ cityId, date, transaction = null }) => {
     const { models } = await getContext();
     const { cinemaMovie, cinema, movie } = models;
 
@@ -27,6 +27,7 @@ module.exports.getMoviesByCityAndDate = async ({ cityId, date }) => {
                 ],
             },
         ],
+        transaction,
         raw: true,
         nest: true,
     });
@@ -34,7 +35,7 @@ module.exports.getMoviesByCityAndDate = async ({ cityId, date }) => {
     return cinemaMovies.map((cinemaMovie) => cinemaMovie.movie);
 };
 
-module.exports.getCinemasByCityDateMovie = async ({ cityId, movieId, date }) => {
+module.exports.getCinemasByCityDateMovie = async ({ cityId, movieId, date, transaction = null }) => {
     const { models } = await getContext();
     const { cinemaMovie, cinema } = models;
 
@@ -51,6 +52,7 @@ module.exports.getCinemasByCityDateMovie = async ({ cityId, movieId, date }) => 
                 where: { cityId: cityId },
             },
         ],
+        transaction,
         raw: true,
         nest: true,
     });
