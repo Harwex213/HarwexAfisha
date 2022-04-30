@@ -21,10 +21,10 @@ insert into cinemaMovie(cinemaId, movieId, start, finish) values
     (2,1, '2000-01-01', '2000-01-09'), (2,2, '2000-01-01', '2000-01-12'),
     (3,3, '2000-01-01', '2000-01-12'), (3,2, '2000-01-01', '2000-01-06')
 
-insert into hall(cinemaId, seatsAmount) values
-    (1, 40), (1, 20),
-    (2, 30), (2, 30),
-    (3, 50)
+insert into hall(cinemaId, rows, cols) values
+    (1, 4, 12), (1, 3, 20),
+    (2, 7, 8), (2, 10, 11),
+    (3, 5, 10)
 
 insert into session(cinemaMovieId, hallId, time, price, ticketsOrdered) values
     (1, 1, '2000-01-01 9:00:00', 4.99, 0),

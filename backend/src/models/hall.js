@@ -17,7 +17,11 @@ module.exports = function (sequelize, DataTypes) {
                     key: "id",
                 },
             },
-            seatsAmount: {
+            rows: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            cols: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },

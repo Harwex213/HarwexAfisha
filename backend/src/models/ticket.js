@@ -27,6 +27,14 @@ module.exports = function (sequelize, DataTypes) {
                 },
                 unique: "ticket_unique",
             },
+            row: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            position: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         },
         {
             sequelize,

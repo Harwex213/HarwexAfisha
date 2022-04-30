@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
-                unique: "UQ__movie__72E12F1BEBEA7AAD",
+                unique: "UQ__movie__72E12F1B19ED99CE",
             },
             description: {
                 type: DataTypes.TEXT,
@@ -31,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
                     fields: [{ name: "id" }],
                 },
                 {
-                    name: "UQ__movie__72E12F1BEBEA7AAD",
+                    name: "UQ__movie__72E12F1B19ED99CE",
                     unique: true,
                     fields: [{ name: "name" }],
                 },

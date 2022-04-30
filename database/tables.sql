@@ -24,7 +24,7 @@ create table [user]
 (
     id bigint constraint user_pk primary key identity,
     username nvarchar(50) constraint user_username_unique unique not null,
-    password varbinary(max) not null,
+    password nvarchar(max) not null,
     firstName nvarchar(50) not null,
     lastName nvarchar(50) not null,
     patronymic nvarchar(50),
@@ -67,7 +67,8 @@ create table [hall]
 (
     id bigint constraint hall_pk primary key identity,
     cinemaId bigint not null constraint hall_cinema_fk foreign key references [cinema] (id),
-    seatsAmount int not null,
+    rows int not null,
+    cols int not null,
 );
 
 create table [session]
@@ -85,6 +86,8 @@ create table [ticket]
     id bigint constraint ticket_pk primary key identity,
     sessionId bigint not null constraint ticket_session_fk foreign key references [session] (id),
     userId bigint not null constraint ticket_user_fk foreign key references [user] (id),
+    row int not null,
+    position int not null,
     constraint ticket_unique unique (sessionId, userId)
 );
 
