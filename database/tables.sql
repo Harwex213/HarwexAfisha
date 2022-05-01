@@ -88,7 +88,7 @@ create table [ticket]
     userId bigint not null constraint ticket_user_fk foreign key references [user] (id),
     row int not null,
     position int not null,
-    constraint ticket_unique unique (sessionId, userId)
+    constraint ticket_unique unique (sessionId, row, position)
 );
 
 -- drop index if exists sessions_by_time_movie on [session]

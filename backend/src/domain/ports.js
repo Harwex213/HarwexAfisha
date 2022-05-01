@@ -5,6 +5,7 @@ const { userRoles } = require("../constants");
 const path = require("path");
 const getUserContext = require("./internal/userContext");
 const { mapCreate, mapDelete } = require("./schemas/mapper");
+const { throwNotFound } = require("./exceptions");
 
 const PATH_TO_SERVICES = "./src/domain/services";
 const RELATIVE_PATH_TO_SERVICE = "./services/";
@@ -37,7 +38,19 @@ const addDefaultPorts = async (ports) => {
             schema: schemaValue,
             handler: createHandler({
                 expectedRoles: [userRoles.ADMIN],
-                handler: ({ body }) => genericProvider.update({ modelName: schema, instance: body }),
+                handler: async ({ body }) => {
+                    const [rowsAffected] = await genericProvider.update({
+                        modelName: schema,
+                        instance: body,
+                    });
+                    if (rowsAffected === 0) {
+                        throwNotFound();
+                    }
+
+                    return {
+                        message: "Success",
+                    };
+                },
             }),
         };
 
@@ -45,7 +58,16 @@ const addDefaultPorts = async (ports) => {
             schema: mapDelete(schemaValue),
             handler: createHandler({
                 expectedRoles: [userRoles.ADMIN],
-                handler: ({ body }) => genericProvider.delete({ modelName: schema, id: body.id }),
+                handler: async ({ body }) => {
+                    const rowsDeleted = await genericProvider.delete({ modelName: schema, id: body.id });
+                    if (rowsDeleted === 0) {
+                        throwNotFound();
+                    }
+
+                    return {
+                        message: "Success",
+                    };
+                },
             }),
         };
     }

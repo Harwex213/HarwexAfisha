@@ -25,15 +25,16 @@ module.exports = function (sequelize, DataTypes) {
                     model: "user",
                     key: "id",
                 },
-                unique: "ticket_unique",
             },
             row: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+                unique: "ticket_unique",
             },
             position: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+                unique: "ticket_unique",
             },
         },
         {
@@ -50,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
                 {
                     name: "ticket_unique",
                     unique: true,
-                    fields: [{ name: "sessionId" }, { name: "userId" }],
+                    fields: [{ name: "sessionId" }, { name: "row" }, { name: "position" }],
                 },
             ],
         }
