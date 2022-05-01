@@ -1,6 +1,6 @@
-const { userRoles } = require("../../../constants");
-const getSchemas = require("../../schemas/schemas");
-const { throwNotFound } = require("../../exceptions");
+const { userRoles } = require("../index").constants;
+const getSchemas = require("../index").schemas;
+const { throwNotFound } = require("../index").exceptions;
 
 const schema = {
     type: "object",

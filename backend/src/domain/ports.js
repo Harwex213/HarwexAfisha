@@ -7,6 +7,7 @@ const getUserContext = require("./internal/userContext");
 const { mapCreate, mapDelete } = require("./schemas/mapper");
 const { throwNotFound } = require("./exceptions");
 
+const SERVICE_FILES_EXCLUDE = ["index.js"];
 const PATH_TO_SERVICES = "./src/domain/services";
 const RELATIVE_PATH_TO_SERVICE = "./services/";
 let ports = null;
@@ -77,6 +78,10 @@ const addServiceExports = async (ports) => {
     const services = await fs.readdir(PATH_TO_SERVICES);
 
     for (const service of services) {
+        if (SERVICE_FILES_EXCLUDE.includes(service)) {
+            continue;
+        }
+
         const methods = await fs.readdir(PATH_TO_SERVICES + "/" + service);
         const servicePorts = {};
 

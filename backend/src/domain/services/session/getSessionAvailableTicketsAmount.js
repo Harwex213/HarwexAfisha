@@ -1,7 +1,7 @@
-const { userRoles } = require("../../../constants");
-const getSchemas = require("../../schemas/schemas");
-const { map } = require("../../schemas/mapper");
-const dataProvider = require("../../../data-access/data-providers/sessionProvider");
+const { userRoles } = require("../index").constants;
+const getSchemas = require("../index").schemas;
+const { map } = require("../index").mapper;
+const dataProvider = require("../index").sessionProvider;
 
 const handler = ({ body }) => dataProvider.getSessionAvailableTicketsAmount({ ...body });
 

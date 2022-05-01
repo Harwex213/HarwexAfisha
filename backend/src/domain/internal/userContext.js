@@ -6,7 +6,7 @@ const { throwForbidden } = require("../exceptions");
 
 const authenticate = async (accessToken) => {
     try {
-        const decoded = jwt.verify(accessToken, config.get("secrets.accessToken"), {
+        const decoded = jwt.verify(accessToken, config.get("jwt.accessToken.secret"), {
             complete: true,
         });
         return decoded.payload;

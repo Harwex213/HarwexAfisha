@@ -1,5 +1,15 @@
 const getPorts = require("../domain/ports");
 
+const setCookie = (reply) => (key, value, options) => {
+    reply.setCookie(key, value, {
+        ...options,
+    });
+};
+
+const unsetCookie = (req, reply) => (key) => {
+    req.unsignCookie(req.cookies[key]);
+};
+
 module.exports = async (fastify) => {
     const ports = await getPorts();
 
@@ -17,7 +27,16 @@ module.exports = async (fastify) => {
                 },
                 async (request, reply) => {
                     const body = request.body;
-                    return await method.handler({ body });
+                    const accessToken = request.cookies["accessToken"];
+                    const refreshToken = request.cookies["refreshToken"];
+
+                    return await method.handler({
+                        body,
+                        accessToken,
+                        refreshToken,
+                        setCookie: setCookie(reply),
+                        unsetCookie: unsetCookie(request, reply),
+                    });
                 }
             );
         }

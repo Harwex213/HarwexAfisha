@@ -1,5 +1,5 @@
-const { userRoles } = require("../../../constants");
-const dataProvider = require("../../../data-access/data-providers/sessionProvider");
+const { userRoles } = require("../index").constants;
+const dataProvider = require("../index").sessionProvider;
 
 const schema = {
     type: "object",

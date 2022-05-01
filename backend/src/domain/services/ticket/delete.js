@@ -1,10 +1,10 @@
-const { userRoles } = require("../../../constants");
-const getSchemas = require("../../schemas/schemas");
-const { mapDelete } = require("../../schemas/mapper");
-const { throwBadRequest } = require("../../exceptions");
-const { executeTransaction } = require("../../../data-access/connection");
-const genericProvider = require("../../../data-access/data-providers/genericProvider");
-const sessionProvider = require("../../../data-access/data-providers/sessionProvider");
+const { userRoles } = require("../index").constants;
+const getSchemas = require("../index").schemas;
+const { mapDelete } = require("../index").mapper;
+const { throwBadRequest } = require("../index").exceptions;
+const { executeTransaction } = require("../index").connection;
+const genericProvider = require("../index").genericProvider;
+const sessionProvider = require("../index").sessionProvider;
 
 const handler = async ({ body }) =>
     await executeTransaction(async (transaction) => {

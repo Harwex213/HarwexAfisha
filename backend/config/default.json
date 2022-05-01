@@ -6,9 +6,15 @@
     "host": "localhost",
     "dialect": "mssql"
   },
-  "secrets": {
-    "accessToken": "accessToken",
-    "refreshToken": "refreshToken"
+  "jwt": {
+    "accessToken": {
+      "secret": "accessToken",
+      "expiresIn": "1d"
+    },
+    "refreshToken": {
+      "secret": "refreshToken",
+      "expiresIn": "1d"
+    }
   },
   "port": 5000
 }

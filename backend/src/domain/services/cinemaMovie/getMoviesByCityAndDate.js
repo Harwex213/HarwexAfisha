@@ -1,5 +1,5 @@
-const dataProvider = require("../../../data-access/data-providers/cinemaMovieProvider");
-const { userRoles } = require("../../../constants");
+const dataProvider = require("../index").cinemaMovieProvider;
+const { userRoles } = require("../index").constants;
 
 const schema = {
     type: "object",
