@@ -1,6 +1,6 @@
 const { userRoles } = require("../../../constants");
 const getSchemas = require("../../schemas/schemas");
-const { throwBadRequest } = require("../../exceptions");
+const { throwNotFound } = require("../../exceptions");
 
 const schema = {
     type: "object",
@@ -13,15 +13,14 @@ const schema = {
 };
 
 const handler = async ({ body }) => {
-    try {
-        const { schemas, validateSchemaExisting } = await getSchemas();
-        const { schemaName } = body;
-        validateSchemaExisting(schemaName);
-
-        return schemas[schemaName];
-    } catch (e) {
-        throwBadRequest(e.message);
+    const schemas = await getSchemas();
+    const { schemaName } = body;
+    const schema = schemas[schemaName];
+    if (!schema) {
+        throwNotFound();
     }
+
+    return schema;
 };
 
 module.exports = async () => {

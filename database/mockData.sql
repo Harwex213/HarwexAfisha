@@ -32,6 +32,12 @@ insert into session(cinemaMovieId, hallId, time, price, ticketsOrdered) values
     (1, 2, '2000-01-01 16:30:00', 7.99, 0),
     (1, 1, '2000-01-01 20:00:00', 11.99, 0)
 
+insert into userRole(name) values
+    ('USER'), ('ADMIN')
+
+insert into [user](username, password, firstName, lastName, patronymic, roleId) values
+    ('aleg', '1111', 'aleg', 'aleg', null, 1)
+
 -- select * from city
 -- select * from movie
 -- select * from cinema

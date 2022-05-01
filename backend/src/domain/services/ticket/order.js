@@ -6,7 +6,7 @@ const { executeTransaction } = require("../../../data-access/connection");
 const genericProvider = require("../../../data-access/data-providers/genericProvider");
 const sessionProvider = require("../../../data-access/data-providers/sessionProvider");
 
-const handler = async ({ body }) =>
+const handler = async ({ body, userContext }) =>
     await executeTransaction(async (transaction) => {
         const session = await genericProvider.getById({
             modelName: "session",
@@ -42,7 +42,10 @@ const handler = async ({ body }) =>
         try {
             const ticket = await genericProvider.create({
                 modelName: "ticket",
-                instance: body,
+                instance: {
+                    ...body,
+                    userId: userContext.id,
+                },
                 transaction,
             });
 
@@ -58,7 +61,7 @@ module.exports = async () => {
 
     return {
         handler,
-        expectedRoles: [userRoles.ADMIN],
+        expectedRoles: [userRoles.USER],
         schema: await mapCreate(ticket),
     };
 };

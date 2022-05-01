@@ -44,3 +44,41 @@ module.exports.getSessionAvailableTicketsAmount = async ({ sessionId, transactio
 
     return sessionToFind.hall.seatsAmount - sessionToFind.ticketsOrdered;
 };
+
+module.exports.incrementOrderedTickets = async ({ id, amount, transaction = null }) => {
+    const { models } = await getContext();
+    const { session } = models;
+
+    return await session.update(
+        { ticketsOrdered: amount + 1 },
+        {
+            where: {
+                id,
+            },
+            transaction,
+            raw: true,
+            nest: true,
+        }
+    );
+};
+
+module.exports.decrementOrderedTickets = async ({ id, amount, transaction = null }) => {
+    if (amount === 0) {
+        throw new Error("decrementOrderedTickets - amount was received zero");
+    }
+
+    const { models } = await getContext();
+    const { session } = models;
+
+    return await session.update(
+        { ticketsOrdered: amount - 1 },
+        {
+            where: {
+                id,
+            },
+            transaction,
+            raw: true,
+            nest: true,
+        }
+    );
+};
