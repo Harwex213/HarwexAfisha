@@ -67,8 +67,8 @@ create table [hall]
 (
     id bigint constraint hall_pk primary key identity,
     cinemaId bigint not null constraint hall_cinema_fk foreign key references [cinema] (id),
-    rows int not null,
-    cols int not null,
+    rows int not null check (rows >= 1),
+    cols int not null check (cols >= 3),
 );
 
 create table [session]
@@ -90,6 +90,8 @@ create table [ticket]
     position int not null,
     constraint ticket_unique unique (sessionId, row, position)
 );
+
+delete from city where id = 2
 
 -- drop index if exists sessions_by_time_movie on [session]
 -- go

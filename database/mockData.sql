@@ -36,7 +36,8 @@ insert into userRole(name) values
     ('USER'), ('ADMIN')
 
 insert into [user](username, password, firstName, lastName, patronymic, roleId) values
-    ('aleg', '1111', 'aleg', 'aleg', null, 1)
+    ('aleg', '1111', 'aleg', 'aleg', null, 1),
+    ('harwex', '1111', 'aleg', 'aleg', null, 2)
 
 -- select * from city
 -- select * from movie

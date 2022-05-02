@@ -48,14 +48,12 @@ const handler = async ({ body, setCookie }) => {
     setCookie("accessToken", accessToken, {
         path: "/",
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        sameSite: "Strict",
     });
     setCookie("refreshToken", refreshToken, {
         path: "/auth",
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        sameSite: "Strict",
     });
 
     return {
