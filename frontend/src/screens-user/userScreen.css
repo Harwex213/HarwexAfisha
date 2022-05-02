@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    flex-direction: row;
+}
+
+.header__title {
+    color: #fff;
+}
+
+.header__avatar {
+    margin: auto 0 auto auto;
+}
+
+.screen {
+    height: calc(100vh - 64px);
+}
