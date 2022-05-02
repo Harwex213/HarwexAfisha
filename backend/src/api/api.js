@@ -2,7 +2,7 @@ const config = require("config");
 const apiGenerator = require("./apiGenerator");
 const fs = require("fs/promises");
 
-const toInclude = ["set", "register"];
+const toInclude = ["set", "register", "controllers"];
 
 const includeModules = async (fastify) => {
     for (const pathName of toInclude) {

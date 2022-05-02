@@ -6,10 +6,6 @@ const setCookie = (reply) => (key, value, options) => {
     });
 };
 
-const unsetCookie = (req, reply) => (key) => {
-    req.unsignCookie(req.cookies[key]);
-};
-
 module.exports = async (fastify) => {
     const ports = await getPorts();
 
@@ -35,7 +31,6 @@ module.exports = async (fastify) => {
                         accessToken,
                         refreshToken,
                         setCookie: setCookie(reply),
-                        unsetCookie: unsetCookie(request, reply),
                     });
                 }
             );
