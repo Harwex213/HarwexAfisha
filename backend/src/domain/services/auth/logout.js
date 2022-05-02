@@ -4,13 +4,15 @@ const handler = async ({ setCookie }) => {
     setCookie("accessToken", "", {
         path: "/",
         httpOnly: true,
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         expires: Date.now(),
     });
     setCookie("refreshToken", "", {
         path: "/auth",
         httpOnly: true,
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         expires: Date.now(),
     });
 

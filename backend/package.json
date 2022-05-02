@@ -20,6 +20,7 @@
   "dependencies": {
     "@alt3/sequelize-to-json-schemas": "^0.3.56",
     "@fastify/cookie": "^6.0.0",
+    "@fastify/cors": "^7.0.0",
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "config": "^3.3.7",
