@@ -27,6 +27,24 @@ const addDefaultPorts = async (ports) => {
     for (const [schema, schemaValue] of Object.entries(schemas)) {
         ports[schema] = {};
 
+        ports[schema].get = {
+            schema: {
+                type: "object",
+                properties: {
+                    offset: {
+                        type: "number",
+                        format: "int32",
+                        minimum: 0,
+                    },
+                },
+                required: ["offset"],
+            },
+            handler: createHandler({
+                expectedRoles: [userRoles.ADMIN],
+                handler: ({ body }) => genericProvider.getPart({ modelName: schema, offset: body.offset }),
+            }),
+        };
+
         ports[schema].create = {
             schema: mapCreate(schemaValue),
             handler: createHandler({
