@@ -39,7 +39,7 @@ const App = () => {
                 }
             />
             <Route
-                path="/admin"
+                path="/admin/*"
                 element={
                     <RouteRole roles={[userRoles.ADMIN]} to="/">
                         <AdminScreen />
