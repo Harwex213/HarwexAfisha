@@ -1,16 +1,21 @@
-.header {
+.adminScreen {
+    height: calc(100vh - 64px);
+}
+
+.adminHeader {
     display: flex;
     flex-direction: row;
 }
 
-.header__title {
+.adminHeader__title {
     color: #fff;
 }
 
-.header__avatar {
+.adminHeader__avatar {
     margin: auto 0 auto auto;
+    cursor: pointer;
 }
 
-.screen {
-    height: calc(100vh - 64px);
+.adminHeader__accountMenu {
+    width: 120px;
 }

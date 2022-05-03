@@ -1,16 +1,21 @@
-.header {
+.userContent {
+    height: calc(100vh - 64px);
+}
+
+.userHeader {
     display: flex;
     flex-direction: row;
 }
 
-.header__title {
+.userHeader__title {
     color: #fff;
 }
 
-.header__avatar {
+.userHeader__accountAvatar {
     margin: auto 0 auto auto;
+    cursor: pointer;
 }
 
-.screen {
-    height: calc(100vh - 64px);
+.userHeader__accountMenu {
+    width: 120px;
 }

@@ -1,11 +1,12 @@
 import React from "react";
-import { Layout, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Layout } from "antd";
 import { Routes, useNavigate, Route, Navigate } from "react-router-dom";
 import AdminLeftMenu from "./containers/Menu/AdminLeftMenu";
 import Movies from "./containers/Movies/Movies";
 import Cities from "./containers/Cities/Cities";
 import "./adminScreen.css";
+import AccountMenu from "../components/AccountMenu/AccountMenu";
+import Logout from "../containers/Logout/Logout";
 
 const defaultContent = "movies";
 
@@ -18,11 +19,17 @@ const AdminScreen = () => {
 
     return (
         <Layout>
-            <Layout.Header className="header">
-                <h1 className="header__title">Harwex Tickets | Dashboard</h1>
-                <Avatar className="header__avatar" size="large" icon={<UserOutlined />} />
+            <Layout.Header className="adminHeader">
+                <h1 className="adminHeader__title">Harwex Tickets | Dashboard</h1>
+                <div className="adminHeader__avatar">
+                    <AccountMenu
+                        menuClassName="adminHeader__accountMenu"
+                        menuItems={[[<Logout />, "logout"]]}
+                        dropdownPlacement="bottomRight"
+                    />
+                </div>
             </Layout.Header>
-            <Layout className="screen">
+            <Layout className="adminScreen">
                 <Layout.Sider>
                     <AdminLeftMenu onSelect={onMenuSelect} defaultSelectedKeys={[defaultContent]} />
                 </Layout.Sider>
