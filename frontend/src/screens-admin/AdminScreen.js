@@ -7,7 +7,7 @@ import Movies from "./containers/Movies/Movies";
 import Cities from "./containers/Cities/Cities";
 import "./adminScreen.css";
 
-const defaultContent = "cities";
+const defaultContent = "movies";
 
 const AdminScreen = () => {
     const navigate = useNavigate();

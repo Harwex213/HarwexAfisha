@@ -32,11 +32,11 @@ const items = [
     ]),
 ];
 
-const AdminLeftMenu = () => {
+const AdminLeftMenu = ({ onSelect, defaultSelectedKeys }) => {
     return (
         <Menu
             mode="inline"
-            defaultSelectedKeys={["cinemas"]}
+            defaultSelectedKeys={defaultSelectedKeys}
             defaultOpenKeys={["cinemas"]}
             style={{
                 height: "100%",
@@ -45,6 +45,7 @@ const AdminLeftMenu = () => {
                 overflowX: "clip",
             }}
             items={items}
+            onSelect={onSelect}
         />
     );
 };
