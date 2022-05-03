@@ -6,10 +6,16 @@ const setCookie = (reply) => (key, value, options) => {
     });
 };
 
+const toExclude = ["file"];
+
 module.exports = async (fastify) => {
     const ports = await getPorts();
 
     for (const [portName, port] of Object.entries(ports)) {
+        if (toExclude.includes(portName)) {
+            continue;
+        }
+
         for (const [methodName, method] of Object.entries(port)) {
             const endpoint = `/${portName}/${methodName}`;
 
