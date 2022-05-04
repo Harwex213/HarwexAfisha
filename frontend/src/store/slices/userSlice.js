@@ -1,13 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userRoles } from "../../constants/userRoles";
 
 export const slice = createSlice({
     name: "user",
-    initialState: {
-        id: -1,
-        username: "Guest",
-        role: userRoles.GUEST,
-    },
+    initialState: {},
     reducers: {
         setUser: (state, { payload }) => {
             state.id = payload.id;

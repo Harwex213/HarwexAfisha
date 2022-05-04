@@ -6,7 +6,6 @@ import { movie } from "../../../store/api/generic";
 import apiConfig from "../../../constants/apiConfig";
 import { imageFallback } from "../../../constants/imageFallback";
 import FormMovie from "./UpdateMovie/FormMovie";
-import "./movies.css";
 
 const movieInitialValues = {
     name: "",
@@ -89,7 +88,7 @@ const Movies = () => {
     });
 
     return (
-        <div className="movies">
+        <div>
             <BackTop />
             <Button type="primary" onClick={handleCreate}>
                 Add movie

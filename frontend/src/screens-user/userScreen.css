@@ -1,14 +1,17 @@
 .userContent {
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
 }
 
 .userHeader {
     display: flex;
     flex-direction: row;
+    background: #fff;
+    box-shadow: 0 2px 8px #f0f1f2;
+    z-index: 1000;
 }
 
 .userHeader__title {
-    color: #fff;
+    color: #000;
 }
 
 .userHeader__accountAvatar {

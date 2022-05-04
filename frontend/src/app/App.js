@@ -5,22 +5,32 @@ import UserScreen from "../screens-user/UserScreen";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
 import { useCheckQuery } from "../store/api/user";
-import { useDispatch } from "react-redux";
-import { setUser } from "../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setUser } from "../store/slices/userSlice";
 import { Spin } from "antd";
 import "./app.css";
 
 const App = () => {
     const dispatch = useDispatch();
-    const { data: user, error, isLoading } = useCheckQuery();
+    const { data: fetchedUser, isSuccess, isError } = useCheckQuery();
+    const user = useSelector(selectUser);
 
     useEffect(() => {
-        if (!isLoading && !error) {
-            dispatch(setUser(user));
+        if (isSuccess) {
+            dispatch(setUser(fetchedUser));
+        }
+        if (isError) {
+            dispatch(
+                setUser({
+                    id: -1,
+                    username: "Guest",
+                    role: userRoles.GUEST,
+                })
+            );
         }
     });
 
-    if (isLoading) {
+    if (Object.keys(user).length === 0) {
         return (
             <div className="spin">
                 <Spin size="large" />
@@ -31,7 +41,7 @@ const App = () => {
     return (
         <Routes>
             <Route
-                path="/*"
+                path="/"
                 element={
                     <RouteRole roles={[userRoles.GUEST, userRoles.USER]} to="/admin">
                         <UserScreen />

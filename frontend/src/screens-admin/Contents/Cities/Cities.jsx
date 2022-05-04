@@ -19,6 +19,7 @@ const Cities = () => {
                 columns={columns}
                 dataSource={cities.rows}
                 rowKey="id"
+                bordered
                 pagination={{
                     current: page,
                     onChange: (page) => setPage(page),

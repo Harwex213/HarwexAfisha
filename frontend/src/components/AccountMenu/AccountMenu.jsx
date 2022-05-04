@@ -17,7 +17,7 @@ const AccountMenu = ({ menuItems, menuClassName, dropdownPlacement }) => {
             trigger={["click"]}
             placement={dropdownPlacement}
         >
-            <Avatar size="large" icon={<UserOutlined />} />
+            <Avatar style={{ backgroundColor: "#000" }} size="large" icon={<UserOutlined />} />
         </Dropdown>
     );
 };

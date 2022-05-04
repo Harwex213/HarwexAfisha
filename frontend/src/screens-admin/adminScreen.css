@@ -2,6 +2,11 @@
     min-height: calc(100vh - 64px);
 }
 
+.adminScreen__content {
+    padding: 50px;
+    background: #fff;
+}
+
 .adminHeader {
     display: flex;
     flex-direction: row;
