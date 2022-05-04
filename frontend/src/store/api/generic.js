@@ -38,7 +38,7 @@ for (const tag of tags) {
                 invalidatesTags: [tag],
             }),
             ["put" + capitalizeFirstLetter(tag)]: builder.mutation({
-                query: ({ body }) => ({
+                query: (body) => ({
                     url: tag + "/update",
                     method: "POST",
                     headers: {

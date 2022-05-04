@@ -36,11 +36,11 @@ const AdminLeftMenu = ({ onSelect, defaultSelectedKeys }) => {
     return (
         <Menu
             mode="inline"
+            theme="light"
             defaultSelectedKeys={defaultSelectedKeys}
             defaultOpenKeys={["cinemas"]}
             style={{
                 height: "100%",
-                borderRight: 0,
                 overflowY: "auto",
                 overflowX: "clip",
             }}
