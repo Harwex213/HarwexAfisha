@@ -91,7 +91,6 @@ create table [ticket]
     constraint ticket_unique unique (sessionId, row, position)
 );
 
-delete from city where id = 2
 
 -- drop index if exists sessions_by_time_movie on [session]
 -- go

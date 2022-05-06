@@ -2,17 +2,24 @@ const { userRoles } = require("../index").constants;
 const fs = require("fs");
 const util = require("util");
 const { pipeline } = require("stream");
+const path = require("path");
 const pump = util.promisify(pipeline);
+const jimp = require("jimp");
 
 const schema = {};
 
-const handler = async ({ parts }) => {
-    for await (const part of parts) {
-        if (part.file) {
-            await pump(part.file, fs.createWriteStream(part.fieldname));
-        } else {
-            console.log(part);
-        }
+const handler = async ({ file }) => {
+    const filePath = "./static/" + file.fieldname;
+    const dirPath = path.dirname(filePath);
+    if (!fs.existsSync(dirPath)) {
+        await fs.promises.mkdir(dirPath, { recursive: true });
+    }
+
+    await pump(file.file, fs.createWriteStream(filePath));
+
+    if (path.extname(filePath) === ".png") {
+        const image = await jimp.read(filePath);
+        await image.writeAsync(dirPath + path.basename(filePath, ".png") + ".jpg");
     }
 
     return {

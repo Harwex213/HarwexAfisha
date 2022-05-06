@@ -56,7 +56,7 @@ create or alter trigger [Delete_Movie]
     as
 begin
     set nocount on;
-    DELETE FROM [cinemaMovie] WHERE cinemaId IN (SELECT d.id FROM DELETED d)
+    DELETE FROM [cinemaMovie] WHERE movieId IN (SELECT d.id FROM DELETED d)
 
     DELETE FROM [movie] WHERE id IN (SELECT d.id FROM DELETED d)
 end
