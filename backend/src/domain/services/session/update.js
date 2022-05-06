@@ -1,3 +1,4 @@
+const { throwNotFound } = require("../../exceptions");
 const { userRoles } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { mapCreate } = require("../index").mapper;
@@ -10,10 +11,17 @@ const handler = async ({ body }) => {
         throwBadRequest("Time of session must be more than 15 minutes from current");
     }
 
-    return await genericProvider.create({
+    const [rowsAffected] = await genericProvider.update({
         modelName: "session",
         instance: body,
     });
+    if (rowsAffected === 0) {
+        throwNotFound();
+    }
+
+    return {
+        message: "Success",
+    };
 };
 
 module.exports = async () => {
