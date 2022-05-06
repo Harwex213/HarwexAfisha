@@ -10,10 +10,9 @@ import { selectUser, setUser } from "../store/slices/userSlice";
 import { Spin } from "antd";
 import "./app.css";
 
-const App = () => {
+const PreAuth = () => {
     const dispatch = useDispatch();
     const { data: fetchedUser, isSuccess, isError } = useCheckQuery();
-    const user = useSelector(selectUser);
 
     useEffect(() => {
         if (isSuccess) {
@@ -29,6 +28,11 @@ const App = () => {
             );
         }
     });
+    return <App />;
+};
+
+const App = () => {
+    const user = useSelector(selectUser);
 
     if (Object.keys(user).length === 0) {
         return (
@@ -41,7 +45,7 @@ const App = () => {
     return (
         <Routes>
             <Route
-                path="/"
+                path="/*"
                 element={
                     <RouteRole roles={[userRoles.GUEST, userRoles.USER]} to="/admin">
                         <UserScreen />
@@ -61,4 +65,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default PreAuth;

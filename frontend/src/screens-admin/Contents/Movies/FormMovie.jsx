@@ -3,10 +3,10 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { notification } from "antd";
 import { Form, Input, SubmitButton, InputNumber } from "formik-antd";
-import { movie } from "../../../../store/api/generic";
-import UploadAvatar from "../../../containers/UploadAvatar/UploadAvatar";
-import { extractFileExt } from "../../../../helpers/extractFileExt";
-import { useUploadMutation } from "../../../../store/api/file";
+import { movie } from "../../../store/api/generic";
+import UploadAvatar from "../../containers/UploadAvatar/UploadAvatar";
+import { extractFileExt } from "../../../helpers/extractFileExt";
+import { useUploadMutation } from "../../../store/api/file";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -52,7 +52,6 @@ const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
     };
 
     const handleEdit = async (values) => {
-        values.id = Number(values.id);
         await updateMovie({ ...values }).unwrap();
 
         if (fileList.length !== 0) {

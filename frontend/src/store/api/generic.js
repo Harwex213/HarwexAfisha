@@ -22,6 +22,17 @@ for (const tag of tags) {
                         offset: Number(page),
                     },
                 }),
+                transformResponse: (response) => {
+                    const rows = response.rows;
+                    for (const row of rows) {
+                        row.id = Number(row.id);
+                    }
+
+                    return {
+                        ...response,
+                        rows,
+                    };
+                },
                 providesTags: [tag],
             }),
             ["post" + capitalizeFirstLetter(tag)]: builder.mutation({

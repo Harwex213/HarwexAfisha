@@ -5,7 +5,7 @@ import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import { movie } from "../../../store/api/generic";
 import apiConfig from "../../../constants/apiConfig";
 import { imageFallback } from "../../../constants/imageFallback";
-import FormMovie from "./UpdateMovie/FormMovie";
+import FormMovie from "./FormMovie";
 
 const movieInitialValues = {
     name: "",
@@ -14,7 +14,7 @@ const movieInitialValues = {
 
 const Movies = () => {
     const [formInitialValues, setFormInitialValues] = useState(movieInitialValues);
-    const [addMovieVisible, setAddMovieVisible] = useState(false);
+    const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
     const [page, setPage] = useLocalStorage("moviesPage", 1);
     const [time, setTime] = useState(new Date());
@@ -23,7 +23,7 @@ const Movies = () => {
     const [deleteMovie] = movie.useDeleteMovieMutation();
 
     const onSubmit = () => {
-        setAddMovieVisible(false);
+        setFormVisible(false);
         setTime(new Date());
         notification["success"]({
             message: "Success.",
@@ -35,27 +35,29 @@ const Movies = () => {
             name: "",
             description: "",
         });
-        setAddMovieVisible(true);
+        setFormVisible(true);
         setIsCreateForm(true);
     };
     const handleEdit = (event, record) => {
         event.preventDefault();
+
         setFormInitialValues({ ...record });
-        setAddMovieVisible(true);
+        setFormVisible(true);
         setIsCreateForm(false);
     };
     const handleDelete = async (event, id) => {
         event.preventDefault();
 
         try {
-            await deleteMovie({ id: Number(id) }).unwrap();
+            await deleteMovie({ id }).unwrap();
 
             notification["success"]({
                 message: "Success.",
             });
         } catch (e) {
-            notification["success"]({
-                message: "Success.",
+            notification["error"]({
+                message: "Cannot delete",
+                description: e.data?.message ?? e.message,
             });
         }
     };
@@ -97,8 +99,8 @@ const Movies = () => {
                 width={450}
                 title={isCreateForm ? "Add Movie" : "Update Movie"}
                 placement="right"
-                onClose={() => setAddMovieVisible(false)}
-                visible={addMovieVisible}
+                onClose={() => setFormVisible(false)}
+                visible={formVisible}
                 destroyOnClose
             >
                 <FormMovie
