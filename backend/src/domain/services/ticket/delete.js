@@ -1,3 +1,4 @@
+const { emitter } = require("../index");
 const { userRoles } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { mapDelete } = require("../index").mapper;
@@ -36,6 +37,7 @@ const handler = async ({ body }) =>
             throw new Error("decrementOrderedTickets - rows affected zero");
         }
 
+        emitter.emit("ticket/onReturn", { id: body.id });
         return {
             message: "Success",
         };

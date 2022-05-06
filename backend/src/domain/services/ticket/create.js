@@ -1,3 +1,4 @@
+const emitter = require("../index").emitter;
 const { userRoles } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { mapCreate } = require("../index").mapper;
@@ -45,8 +46,8 @@ const handler = async ({ body }) =>
                 instance: body,
                 transaction,
             });
+            emitter.emit("ticket/onOrder", ticket);
 
-            // TODO: emit event onTicketOrder
             return ticket;
         } catch (e) {
             throwBadRequest("Ticket to this session with such row and position already ordered");
