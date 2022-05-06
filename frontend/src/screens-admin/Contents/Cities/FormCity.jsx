@@ -45,13 +45,13 @@ const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
                 <Form>
                     {isCreateForm === false ? (
                         <Form.Item style={{ display: "none" }} name="id">
-                            <InputNumber name="id" placeholder="Movie id" suffix={<span />} />
+                            <InputNumber name="id" placeholder="City id" suffix={<span />} />
                         </Form.Item>
                     ) : (
                         <></>
                     )}
                     <Form.Item name="name">
-                        <Input name="name" placeholder="Movie name" suffix={<span />} />
+                        <Input name="name" placeholder="City name" suffix={<span />} />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>
                 </Form>

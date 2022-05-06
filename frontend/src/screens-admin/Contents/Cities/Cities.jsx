@@ -5,12 +5,12 @@ import useLocalStorage from "../../../hooks/useLocalStorageState";
 import { city } from "../../../store/api/generic";
 import FormCity from "./FormCity";
 
-const cityInitialValues = {
+const initialValues = {
     name: "",
 };
 
 const Cities = () => {
-    const [formInitialValues, setFormInitialValues] = useState(cityInitialValues);
+    const [formInitialValues, setFormInitialValues] = useState(initialValues);
     const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
     const [page, setPage] = useLocalStorage("cityPage", 1);
@@ -26,10 +26,7 @@ const Cities = () => {
     };
 
     const handleCreate = () => {
-        setFormInitialValues({
-            name: "",
-            description: "",
-        });
+        setFormInitialValues({ ...initialValues });
         setFormVisible(true);
         setIsCreateForm(true);
     };

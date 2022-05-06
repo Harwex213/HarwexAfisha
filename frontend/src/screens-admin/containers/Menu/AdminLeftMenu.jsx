@@ -38,7 +38,7 @@ const AdminLeftMenu = ({ onSelect, defaultSelectedKeys }) => {
             mode="inline"
             theme="light"
             defaultSelectedKeys={defaultSelectedKeys}
-            defaultOpenKeys={["cinemas"]}
+            defaultOpenKeys={["cinemas-option"]}
             style={{
                 height: "100%",
                 overflowY: "auto",

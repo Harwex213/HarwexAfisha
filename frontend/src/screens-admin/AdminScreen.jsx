@@ -4,11 +4,12 @@ import { Routes, useNavigate, Route, useLocation, Navigate } from "react-router-
 import AdminLeftMenu from "./containers/Menu/AdminLeftMenu";
 import Movies from "./Contents/Movies/Movies";
 import Cities from "./Contents/Cities/Cities";
-import "./adminScreen.css";
+import Cinemas from "./Contents/Cinemas/Cinemas";
 import AccountMenu from "../components/AccountMenu/AccountMenu";
 import Logout from "../containers/Logout/Logout";
+import "./adminScreen.css";
 
-const contents = ["cities", "movies"];
+const contents = ["cities", "movies", "cinemas"];
 
 const getDefaultContent = (pathname) => {
     const defaultContent = pathname.split("/");
@@ -47,6 +48,7 @@ const AdminScreen = () => {
                     <Routes>
                         <Route path="cities" element={<Cities />} />
                         <Route path="movies" element={<Movies />} />
+                        <Route path="cinemas" element={<Cinemas />} />
                         <Route
                             path="*"
                             element={<Navigate to={defaultContent} state={{ from: location }} replace />}

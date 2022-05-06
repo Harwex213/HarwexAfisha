@@ -1,37 +1,34 @@
 import React, { useState } from "react";
-import { BackTop, Button, Drawer, Image, notification, Space, Table } from "antd";
-import useLocalStorage from "../../../hooks/useLocalStorageState";
+import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
-import { movie } from "../../../store/api/generic";
-import apiConfig from "../../../constants/apiConfig";
-import { imageFallback } from "../../../constants/imageFallback";
-import FormMovie from "./FormMovie";
+import useLocalStorage from "../../../hooks/useLocalStorageState";
+import { cinema } from "../../../store/api/generic";
+import FormCinema from "./FormCinema";
 
-const movieInitialValues = {
+const initialValues = {
     name: "",
-    description: "",
+    about: "",
+    cityId: "",
 };
 
-const Movies = () => {
-    const [formInitialValues, setFormInitialValues] = useState(movieInitialValues);
+const Cinemas = () => {
+    const [formInitialValues, setFormInitialValues] = useState(initialValues);
     const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
-    const [page, setPage] = useLocalStorage("moviesPage", 1);
-    const [time, setTime] = useState(new Date());
-    let { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({ schemaName: "movie" });
-    let { data: movies, isLoading: isMoviesLoading } = movie.useGetMovieQuery({ page: page - 1 });
-    const [deleteMovie] = movie.useDeleteMovieMutation();
+    const [page, setPage] = useLocalStorage("cinemaPage", 1);
+    const { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({ schemaName: "cinema" });
+    const { data, isLoading: isDataLoading } = cinema.useGetCinemaQuery({ page: page - 1 });
+    const [deleteCity] = cinema.useDeleteCinemaMutation();
 
     const onSubmit = () => {
         setFormVisible(false);
-        setTime(new Date());
         notification["success"]({
             message: "Success.",
         });
     };
 
     const handleCreate = () => {
-        setFormInitialValues({ ...movieInitialValues });
+        setFormInitialValues({ ...initialValues });
         setFormVisible(true);
         setIsCreateForm(true);
     };
@@ -46,7 +43,7 @@ const Movies = () => {
         event.preventDefault();
 
         try {
-            await deleteMovie({ id }).unwrap();
+            await deleteCity({ id }).unwrap();
 
             notification["success"]({
                 message: "Success.",
@@ -59,21 +56,14 @@ const Movies = () => {
         }
     };
 
-    columns.push({
-        title: "View Poster",
-        key: "poster",
-        render: (text, record) => (
-            <Image
-                width={100}
-                height={150}
-                style={{
-                    objectFit: "cover",
-                }}
-                src={`${apiConfig.baseUrl}static/movie/${record.id}/poster.jpg?${time.getTime()}`}
-                fallback={imageFallback}
-            />
-        ),
-    });
+    const cityIdCol = columns.findIndex((column) => column.key === "cityId");
+    if (cityIdCol !== -1) {
+        columns[cityIdCol] = {
+            title: "City name",
+            dataIndex: "cityName",
+            key: "cityName",
+        };
+    }
 
     columns.push({
         title: "Actions",
@@ -90,28 +80,28 @@ const Movies = () => {
         <div>
             <BackTop />
             <Button type="primary" onClick={handleCreate}>
-                Add movie
+                Add cinema
             </Button>
             <Drawer
                 width={450}
-                title={isCreateForm ? "Add Movie" : "Update Movie"}
+                title={isCreateForm ? "Add Cinema" : "Update Cinema"}
                 placement="right"
                 onClose={() => setFormVisible(false)}
                 visible={formVisible}
                 destroyOnClose
             >
-                <FormMovie
+                <FormCinema
                     isCreateForm={isCreateForm}
                     initialValues={formInitialValues}
                     onSubmit={onSubmit}
                 />
             </Drawer>
-            {isSchemaLoading || isMoviesLoading ? (
+            {isSchemaLoading || isDataLoading ? (
                 <div>Loading...</div>
             ) : (
                 <Table
                     columns={columns}
-                    dataSource={movies.rows}
+                    dataSource={data.rows}
                     rowKey="id"
                     bordered
                     pagination={{
@@ -119,7 +109,7 @@ const Movies = () => {
                         onChange: (page) => setPage(page),
                         pageSize: 15,
                         showSizeChanger: false,
-                        total: movies.count,
+                        total: data.count,
                         position: ["topLeft", "bottomLeft"],
                     }}
                 />
@@ -128,4 +118,4 @@ const Movies = () => {
     );
 };
 
-export default Movies;
+export default Cinemas;
