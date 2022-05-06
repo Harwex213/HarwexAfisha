@@ -8,7 +8,6 @@ const { mapCreate, mapDelete } = require("./schemas/mapper");
 const { throwNotFound } = require("./exceptions");
 const exclude = require("./ports-config").exclude;
 
-const SERVICE_FILES_EXCLUDE = ["index.js"];
 const PATH_TO_SERVICES = "./src/domain/services";
 const RELATIVE_PATH_TO_SERVICE = "./services/";
 let ports = null;

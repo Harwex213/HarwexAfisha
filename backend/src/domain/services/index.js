@@ -13,3 +13,5 @@ module.exports.genericProvider = require("../../data-access/data-providers/gener
 module.exports.userProvider = require("../../data-access/data-providers/userProvider");
 module.exports.sessionProvider = require("../../data-access/data-providers/sessionProvider");
 module.exports.cinemaMovieProvider = require("../../data-access/data-providers/cinemaMovieProvider");
+module.exports.cityProvider = require("../../data-access/data-providers/cityProvider");
+module.exports.cinemaProvider = require("../../data-access/data-providers/cinemaProvider");
