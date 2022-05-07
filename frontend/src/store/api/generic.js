@@ -12,7 +12,7 @@ for (const tag of tags) {
     genericApi[tag] = api.injectEndpoints({
         endpoints: (builder) => ({
             ["get" + capitalizeFirstLetter(tag)]: builder.query({
-                query: ({ page }) => ({
+                query: ({ page, where = {} }) => ({
                     url: tag + "/get",
                     method: "POST",
                     headers: {
@@ -20,6 +20,7 @@ for (const tag of tags) {
                     },
                     body: {
                         offset: Number(page),
+                        where,
                     },
                 }),
                 transformResponse: (response) => {

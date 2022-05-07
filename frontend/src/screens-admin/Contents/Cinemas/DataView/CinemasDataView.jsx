@@ -1,33 +1,42 @@
 import React, { useState } from "react";
+import useLocalStorage from "../../../../hooks/useLocalStorageState";
+import useGetColumnsFromSchema from "../../../../hooks/useGetColumnsFromSchema";
+import { cinema } from "../../../../store/api/generic";
 import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
-import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
-import useLocalStorage from "../../../hooks/useLocalStorageState";
-import { city } from "../../../store/api/generic";
-import FormCity from "./FormCity";
+import FormCinema from "./FormCinema";
 
 const initialValues = {
     name: "",
+    about: "",
 };
 
-const Cities = () => {
-    const [formInitialValues, setFormInitialValues] = useState(initialValues);
+const CinemasDataView = ({ city }) => {
+    const [formInitialValues, setFormInitialValues] = useState({ ...initialValues, cityId: city.id });
     const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
-    const [page, setPage] = useLocalStorage("cityPage", 1);
-    const { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({ schemaName: "city" });
-    const { data, isLoading: isDataLoading } = city.useGetCityQuery({ page: page - 1 });
-    const [deleteCity] = city.useDeleteCityMutation();
+    const [page, setPage] = useLocalStorage("cinemaPage", 1);
+    const { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({
+        schemaName: "cinema",
+        toExclude: ["cityId"],
+    });
+    const { data, isLoading: isDataLoading } = cinema.useGetCinemaQuery({
+        page: page - 1,
+        where: {
+            cityId: city.id,
+        },
+    });
+    const [deleteCity] = cinema.useDeleteCinemaMutation();
 
     const onSubmit = () => {
         setFormVisible(false);
+
         notification["success"]({
             message: "Success.",
-            placement: "topLeft",
         });
     };
 
     const handleCreate = () => {
-        setFormInitialValues({ ...initialValues });
+        setFormInitialValues({ ...initialValues, cityId: city.id });
         setFormVisible(true);
         setIsCreateForm(true);
     };
@@ -70,17 +79,21 @@ const Cities = () => {
         <div>
             <BackTop />
             <Button type="primary" onClick={handleCreate}>
-                Add city
+                Add cinema
             </Button>
             <Drawer
                 width={450}
-                title={isCreateForm ? "Add City" : "Update City"}
+                title={isCreateForm ? "Add Cinema" : "Update Cinema"}
                 placement="right"
                 onClose={() => setFormVisible(false)}
                 visible={formVisible}
                 destroyOnClose
             >
-                <FormCity isCreateForm={isCreateForm} initialValues={formInitialValues} onSubmit={onSubmit} />
+                <FormCinema
+                    isCreateForm={isCreateForm}
+                    initialValues={formInitialValues}
+                    onSubmit={onSubmit}
+                />
             </Drawer>
             {isSchemaLoading || isDataLoading ? (
                 <div>Loading...</div>
@@ -104,4 +117,4 @@ const Cities = () => {
     );
 };
 
-export default Cities;
+export default CinemasDataView;

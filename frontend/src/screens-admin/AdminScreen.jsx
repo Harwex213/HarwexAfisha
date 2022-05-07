@@ -9,20 +9,9 @@ import AccountMenu from "../components/AccountMenu/AccountMenu";
 import Logout from "../containers/Logout/Logout";
 import "./adminScreen.css";
 
-const contents = ["cities", "movies", "cinemas"];
-
-const getDefaultContent = (pathname) => {
-    const defaultContent = pathname.split("/");
-    if (defaultContent.length >= 3 && contents.includes(defaultContent[2])) {
-        return defaultContent[2];
-    }
-    return contents[0];
-};
-
 const AdminScreen = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const defaultContent = getDefaultContent(location.pathname);
 
     const onMenuSelect = ({ key }) => {
         navigate(key);
@@ -42,16 +31,16 @@ const AdminScreen = () => {
             </Layout.Header>
             <Layout className="adminScreen">
                 <Layout.Sider>
-                    <AdminLeftMenu onSelect={onMenuSelect} defaultSelectedKeys={defaultContent} />
+                    <AdminLeftMenu onSelect={onMenuSelect} />
                 </Layout.Sider>
                 <Layout.Content className="adminScreen__content">
                     <Routes>
                         <Route path="cities" element={<Cities />} />
                         <Route path="movies" element={<Movies />} />
-                        <Route path="cinemas" element={<Cinemas />} />
+                        <Route path="cinemas/*" element={<Cinemas />} />
                         <Route
                             path="*"
-                            element={<Navigate to={defaultContent} state={{ from: location }} replace />}
+                            element={<Navigate to="cities" state={{ from: location }} replace />}
                         />
                     </Routes>
                 </Layout.Content>

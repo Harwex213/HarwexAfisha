@@ -4,16 +4,18 @@ const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const useGetColumnsFromSchema = ({ schemaName }) => {
+const useGetColumnsFromSchema = ({ schemaName, toExclude = [] }) => {
     const { data: schema, isLoading, isError, isSuccess } = useGetSchemaQuery({ schemaName });
 
     if (isSuccess) {
         return {
-            data: Object.keys(schema.properties).map((property) => ({
-                title: capitalizeFirstLetter(property),
-                dataIndex: property,
-                key: property,
-            })),
+            data: Object.keys(schema.properties)
+                .filter((property) => toExclude.includes(property) === false)
+                .map((property) => ({
+                    title: capitalizeFirstLetter(property),
+                    dataIndex: property,
+                    key: property,
+                })),
             isLoading,
             isError,
             isSuccess,

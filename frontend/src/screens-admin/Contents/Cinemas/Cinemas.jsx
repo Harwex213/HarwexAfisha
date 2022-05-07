@@ -1,121 +1,73 @@
-import React, { useState } from "react";
-import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
-import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Divider, Select } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
-import { cinema } from "../../../store/api/generic";
-import FormCinema from "./FormCinema";
+import { useFindCityQuery } from "../../../store/api/city";
+import CinemasDataView from "./DataView/CinemasDataView";
+import ConcreteCinema from "./Concrete/ConcreteCinema";
 
-const initialValues = {
-    name: "",
-    about: "",
-    cityId: "",
-};
+const QueryCity = () => {
+    const [city, setCity] = useLocalStorage("cinemas/city");
+    const { data, isSuccess } = useFindCityQuery({});
 
-const Cinemas = () => {
-    const [formInitialValues, setFormInitialValues] = useState(initialValues);
-    const [formVisible, setFormVisible] = useState(false);
-    const [isCreateForm, setIsCreateForm] = useState(false);
-    const [page, setPage] = useLocalStorage("cinemaPage", 1);
-    const { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({ schemaName: "cinema" });
-    const { data, isLoading: isDataLoading } = cinema.useGetCinemaQuery({ page: page - 1 });
-    const [deleteCity] = cinema.useDeleteCinemaMutation();
+    const index = data?.rows?.findIndex((row) => row.id === city?.id);
 
-    const onSubmit = () => {
-        setFormVisible(false);
-        notification["success"]({
-            message: "Success.",
-        });
-    };
-
-    const handleCreate = () => {
-        setFormInitialValues({ ...initialValues });
-        setFormVisible(true);
-        setIsCreateForm(true);
-    };
-    const handleEdit = (event, record) => {
-        event.preventDefault();
-
-        setFormInitialValues({ ...record });
-        setFormVisible(true);
-        setIsCreateForm(false);
-    };
-    const handleDelete = async (event, id) => {
-        event.preventDefault();
-
-        try {
-            await deleteCity({ id }).unwrap();
-
-            notification["success"]({
-                message: "Success.",
-            });
-        } catch (e) {
-            notification["error"]({
-                message: "Cannot delete",
-                description: e.data?.message ?? e.message,
-            });
+    useEffect(() => {
+        if (isSuccess && index === -1) {
+            setCity(data.rows[0]);
         }
-    };
-
-    const cityIdCol = columns.findIndex((column) => column.key === "cityId");
-    if (cityIdCol !== -1) {
-        columns[cityIdCol] = {
-            title: "City name",
-            dataIndex: "cityName",
-            key: "cityName",
-        };
-    }
-
-    columns.push({
-        title: "Actions",
-        key: "actions",
-        render: (text, record) => (
-            <Space size="middle">
-                <a onClick={(event) => handleEdit(event, record)}>Edit</a>
-                <a onClick={(event) => handleDelete(event, record.id)}>Delete</a>
-            </Space>
-        ),
     });
 
+    if (!isSuccess || index === -1) {
+        return "Loading...";
+    }
+
+    return <ChooseCinema defaultValue={city} />;
+};
+
+const ChooseCinema = ({ defaultValue }) => {
+    const location = useLocation();
+    const [city, setCity] = useLocalStorage("cinemas/city", defaultValue);
+    const [cityName, setCityName] = useState("");
+    const { data, isLoading, isSuccess } = useFindCityQuery({ name: cityName });
+
+    const routes = (
+        <Routes>
+            <Route path="" element={<CinemasDataView city={city} />} />
+            <Route path="*" element={<ConcreteCinema city={city} />} />
+            {/*<Route path="*" element={<Navigate to="" state={{ from: location }} replace />} />*/}
+        </Routes>
+    );
+
     return (
-        <div>
-            <BackTop />
-            <Button type="primary" onClick={handleCreate}>
-                Add cinema
-            </Button>
-            <Drawer
-                width={450}
-                title={isCreateForm ? "Add Cinema" : "Update Cinema"}
-                placement="right"
-                onClose={() => setFormVisible(false)}
-                visible={formVisible}
-                destroyOnClose
+        <>
+            <p>Choose city:</p>
+            <Select
+                style={{ width: "100px" }}
+                showSearch
+                loading={isLoading}
+                filterOption={false}
+                onSearch={(text) => setCityName(text)}
+                value={city.id}
+                defaultValue={defaultValue.id}
+                onSelect={(value, option) => {
+                    setCityName("");
+                    setCity({
+                        id: option.value,
+                        name: option.children,
+                    });
+                }}
             >
-                <FormCinema
-                    isCreateForm={isCreateForm}
-                    initialValues={formInitialValues}
-                    onSubmit={onSubmit}
-                />
-            </Drawer>
-            {isSchemaLoading || isDataLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <Table
-                    columns={columns}
-                    dataSource={data.rows}
-                    rowKey="id"
-                    bordered
-                    pagination={{
-                        current: page,
-                        onChange: (page) => setPage(page),
-                        pageSize: 15,
-                        showSizeChanger: false,
-                        total: data.count,
-                        position: ["topLeft", "bottomLeft"],
-                    }}
-                />
-            )}
-        </div>
+                {data?.rows?.map((row) => (
+                    <Select.Option key={row.id} value={row.id}>
+                        {row.name}
+                    </Select.Option>
+                ))}
+            </Select>
+            <Divider />
+            {isSuccess ? routes : <div>Loading...</div>}
+        </>
     );
 };
 
-export default Cinemas;
+export default QueryCity;

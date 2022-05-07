@@ -2,18 +2,20 @@ import api from "../api";
 
 const cityApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        findCity: builder.query({
-            query: ({ name = "" }) => ({
-                url: "city/find",
+        findCinema: builder.query({
+            query: ({ name = "", cityId }) => ({
+                url: "cinema/find",
                 method: "POST",
                 body: {
                     name: name,
+                    cityId,
                 },
             }),
             transformResponse: (response) => {
                 const rows = response.rows;
                 for (const row of rows) {
                     row.id = Number(row.id);
+                    row.cityId = Number(row.cityId);
                 }
 
                 return {
@@ -21,9 +23,9 @@ const cityApi = api.injectEndpoints({
                     rows,
                 };
             },
-            providesTags: ["city"],
+            providesTags: ["cinema"],
         }),
     }),
 });
 
-export const { useFindCityQuery } = cityApi;
+export const { useFindCinemaQuery } = cityApi;
