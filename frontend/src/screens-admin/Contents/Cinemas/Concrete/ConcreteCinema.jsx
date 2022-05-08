@@ -3,6 +3,7 @@ import useLocalStorage from "../../../../hooks/useLocalStorageState";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Divider, Select } from "antd";
 import { useFindCinemaQuery } from "../../../../store/api/cinema";
+import CinemaMovies from "../Movies/CinemaMovies";
 
 const QueryCinema = ({ city }) => {
     const [cinema, setCinema] = useLocalStorage("cinemas/concrete");
@@ -31,14 +32,7 @@ const ChooseCinema = ({ defaultValue, city }) => {
 
     const routes = (
         <Routes>
-            <Route
-                path="movies"
-                element={
-                    <div>
-                        {cinema.id} - {cinema.name} - {cinema.cityId}
-                    </div>
-                }
-            />
+            <Route path="movies" element={<CinemaMovies cinema={cinema} />} />
             <Route
                 path="halls"
                 element={

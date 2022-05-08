@@ -45,7 +45,6 @@ const items = [
 
 const getValueFromPathName = (pathname) => {
     const split = pathname.split("/");
-    console.log(split.slice(2).join("/"));
     if (split.length >= 3 && keys.includes(split.slice(2).join("/"))) {
         return split.slice(2).join("/");
     }

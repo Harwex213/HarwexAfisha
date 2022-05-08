@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Divider, Select } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import { useFindCityQuery } from "../../../store/api/city";
@@ -26,7 +26,6 @@ const QueryCity = () => {
 };
 
 const ChooseCinema = ({ defaultValue }) => {
-    const location = useLocation();
     const [city, setCity] = useLocalStorage("cinemas/city", defaultValue);
     const [cityName, setCityName] = useState("");
     const { data, isLoading, isSuccess } = useFindCityQuery({ name: cityName });
@@ -35,7 +34,6 @@ const ChooseCinema = ({ defaultValue }) => {
         <Routes>
             <Route path="" element={<CinemasDataView city={city} />} />
             <Route path="*" element={<ConcreteCinema city={city} />} />
-            {/*<Route path="*" element={<Navigate to="" state={{ from: location }} replace />} />*/}
         </Routes>
     );
 
