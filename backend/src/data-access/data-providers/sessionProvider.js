@@ -82,3 +82,18 @@ module.exports.decrementOrderedTickets = async ({ id, amount, transaction = null
         }
     );
 };
+
+module.exports.deleteAllByThresholdDate = async ({ threshold, cinemaMovieId, transaction = null }) => {
+    const { models } = await getContext();
+    const { session } = models;
+
+    return session.destroy({
+        where: {
+            cinemaMovieId,
+            time: {
+                [Op.gte]: threshold,
+            },
+        },
+        transaction,
+    });
+};

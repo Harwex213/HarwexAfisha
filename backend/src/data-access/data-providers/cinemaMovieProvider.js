@@ -97,3 +97,35 @@ module.exports.getMoviesByCinema = async ({ cinemaId, offset, transaction = null
         rows,
     };
 };
+
+module.exports.findExceptMoviesByCinema = async ({ cinemaId, movieName = "", transaction = null }) => {
+    const { models } = await getContext();
+    const { cinemaMovie, movie } = models;
+
+    const movies = await movie.findAll({
+        where: {
+            name: {
+                [Op.like]: `${movieName}%`,
+            },
+        },
+        transaction,
+        raw: true,
+        nest: true,
+    });
+
+    const cinemaMovies = await cinemaMovie.findAll({
+        where: {
+            cinemaId,
+        },
+        order: [["movieId", "ASC"]],
+        transaction,
+        limit: 30,
+        offset: 0,
+        raw: true,
+        nest: true,
+    });
+
+    return movies.filter(
+        (movie) => cinemaMovies.findIndex((cinemaMovie) => cinemaMovie.movieId === movie.id) === -1
+    );
+};

@@ -42,5 +42,7 @@ insert into [user](username, password, firstName, lastName, patronymic, roleId) 
 -- select * from city
 -- select * from movie
 -- select * from cinema
--- select * from cinemaMovie
+-- select * from cinemaMovie where cinemaId = 1
 -- select * from session
+
+select id [movieId] from movie except select movieId from cinemaMovie where cinemaId = 1

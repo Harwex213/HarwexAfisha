@@ -1,3 +1,5 @@
+const { throwNotFound } = require("../../exceptions");
+const { sessionProvider } = require("../index");
 const { userRoles } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { throwBadRequest } = require("../index").exceptions;
@@ -8,10 +10,22 @@ const handler = async ({ body }) => {
         throwBadRequest("Range of movie showing must be valid");
     }
 
-    return await genericProvider.update({
+    const [rowsAffected] = await genericProvider.update({
         modelName: "cinemaMovie",
         instance: body,
     });
+    if (rowsAffected === 0) {
+        throwNotFound();
+    }
+
+    await sessionProvider.deleteAllByThresholdDate({
+        cinemaMovieId: body.id,
+        threshold: body.finish,
+    });
+
+    return {
+        message: "Success",
+    };
 };
 
 module.exports = async () => {
