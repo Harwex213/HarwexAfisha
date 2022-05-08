@@ -4,6 +4,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Divider, Select } from "antd";
 import { useFindCinemaQuery } from "../../../../store/api/cinema";
 import CinemaMovies from "../Movies/CinemaMovies";
+import Halls from "../Halls/Halls";
 
 const QueryCinema = ({ city }) => {
     const [cinema, setCinema] = useLocalStorage("cinemas/concrete");
@@ -33,14 +34,7 @@ const ChooseCinema = ({ defaultValue, city }) => {
     const routes = (
         <Routes>
             <Route path="movies" element={<CinemaMovies cinema={cinema} />} />
-            <Route
-                path="halls"
-                element={
-                    <div>
-                        {cinema.id} - {cinema.name} - {cinema.cityId}
-                    </div>
-                }
-            />
+            <Route path="halls" element={<Halls cinema={cinema} />} />
             <Route path="*" element={<Navigate to="movies" state={{ from: location }} replace />} />
         </Routes>
     );
