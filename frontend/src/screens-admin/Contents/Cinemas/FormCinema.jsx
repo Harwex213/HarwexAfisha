@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { notification } from "antd";
 import { Form, Input, SubmitButton, InputNumber } from "formik-antd";
-import { cinema } from "../../../../store/api/generic";
+import { cinema } from "../../../store/api/generic";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useLocalStorage from "../../../../hooks/useLocalStorageState";
 import useGetColumnsFromSchema from "../../../../hooks/useGetColumnsFromSchema";
 import { hall } from "../../../../store/api/generic";
-import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
+import { BackTop, Button, Divider, Drawer, notification, Space, Table } from "antd";
 import FormHall from "./FormHall";
 
 const initialValues = {
@@ -73,8 +73,12 @@ const Halls = ({ cinema }) => {
         key: "actions",
         render: (text, record) => (
             <Space size="middle">
-                <a onClick={(event) => handleEdit(event, record)}>Edit</a>
-                <a onClick={(event) => handleDelete(event, record.id)}>Delete</a>
+                <Button type="default" onClick={(event) => handleEdit(event, record)}>
+                    Edit
+                </Button>
+                <Button type="default" danger onClick={(event) => handleDelete(event, record.id)}>
+                    Delete
+                </Button>
             </Space>
         ),
     });
@@ -82,9 +86,13 @@ const Halls = ({ cinema }) => {
     return (
         <div>
             <BackTop />
-            <Button type="primary" onClick={handleCreate}>
-                Add hall
-            </Button>
+            <div>
+                <h4>Actions</h4>
+                <Button type="primary" onClick={handleCreate}>
+                    Add hall
+                </Button>
+            </div>
+            <Divider />
             <Drawer
                 width={450}
                 title={isCreateForm ? "Add hall" : "Update hall"}

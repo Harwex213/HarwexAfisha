@@ -5,6 +5,7 @@ import { Divider, Select } from "antd";
 import { useFindCinemaQuery } from "../../../../store/api/cinema";
 import CinemaMovies from "../Movies/CinemaMovies";
 import Halls from "../Halls/Halls";
+import Sessions from "../Sessions/Sessions";
 
 const QueryCinema = ({ city }) => {
     const [cinema, setCinema] = useLocalStorage("cinemas/concrete");
@@ -18,6 +19,10 @@ const QueryCinema = ({ city }) => {
         }
     });
 
+    if (isSuccess && data.rows.length === 0) {
+        return <h2>No cinemas</h2>;
+    }
+
     if (!isSuccess || index === -1) {
         return "Loading...";
     }
@@ -29,12 +34,13 @@ const ChooseCinema = ({ defaultValue, city }) => {
     const location = useLocation();
     const [cinema, setCinema] = useLocalStorage("cinemas/concrete", defaultValue);
     const [cinemaName, setCinemaName] = useState("");
-    const { data, isLoading, isSuccess } = useFindCinemaQuery({ city: cinemaName, cityId: city.id });
+    const { data, isLoading, isSuccess } = useFindCinemaQuery({ name: cinemaName, cityId: city.id });
 
     const routes = (
         <Routes>
             <Route path="movies" element={<CinemaMovies cinema={cinema} />} />
             <Route path="halls" element={<Halls cinema={cinema} />} />
+            <Route path="sessions" element={<Sessions cinema={cinema} />} />
             <Route path="*" element={<Navigate to="movies" state={{ from: location }} replace />} />
         </Routes>
     );

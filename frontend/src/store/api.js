@@ -8,7 +8,7 @@ const api = createApi({
         credentials: "include",
     }),
     endpoints: () => ({}),
-    tagTypes: ["city", "movie", "user", "cinema", "cinemaMovie", "hall"],
+    tagTypes: ["city", "movie", "user", "cinema", "cinemaMovie", "hall", "session"],
 });
 
 export default api;

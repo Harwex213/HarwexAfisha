@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import useLocalStorage from "../../../../hooks/useLocalStorageState";
-import useGetColumnsFromSchema from "../../../../hooks/useGetColumnsFromSchema";
-import { cinema } from "../../../../store/api/generic";
-import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
+import useLocalStorage from "../../../hooks/useLocalStorageState";
+import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
+import { cinema } from "../../../store/api/generic";
+import { BackTop, Button, Divider, Drawer, notification, Space, Table } from "antd";
 import FormCinema from "./FormCinema";
 
 const initialValues = {
@@ -32,6 +32,7 @@ const CinemasDataView = ({ city }) => {
 
         notification["success"]({
             message: "Success.",
+            placement: "topLeft",
         });
     };
 
@@ -55,11 +56,13 @@ const CinemasDataView = ({ city }) => {
 
             notification["success"]({
                 message: "Success.",
+                placement: "topLeft",
             });
         } catch (e) {
             notification["error"]({
                 message: "Cannot delete",
                 description: e.data?.message ?? e.message,
+                placement: "topLeft",
             });
         }
     };
@@ -78,9 +81,13 @@ const CinemasDataView = ({ city }) => {
     return (
         <div>
             <BackTop />
-            <Button type="primary" onClick={handleCreate}>
-                Add cinema
-            </Button>
+            <div>
+                <h4>Actions</h4>
+                <Button type="primary" onClick={handleCreate}>
+                    Add cinema
+                </Button>
+            </div>
+            <Divider />
             <Drawer
                 width={450}
                 title={isCreateForm ? "Add Cinema" : "Update Cinema"}

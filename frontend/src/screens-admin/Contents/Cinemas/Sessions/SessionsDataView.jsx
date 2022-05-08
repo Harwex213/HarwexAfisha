@@ -1,37 +1,46 @@
 import React, { useState } from "react";
+import { session } from "../../../../store/api/generic";
 import { BackTop, Button, Divider, Drawer, notification, Space, Table } from "antd";
-import useLocalStorage from "../../../../hooks/useLocalStorageState";
-import { cinemaMovie } from "../../../../store/api/generic";
-import { useGetMoviesByCinemaQuery } from "../../../../store/api/cinemaMovie";
-import CreateFormCinemaMovie from "./CreateFormCinemaMovie";
-import UpdateFormCinemaMovie from "./UpdateFormCinemaMovie";
+import { useGetSessionsByHallAndDateQuery } from "../../../../store/api/session";
+import CreateFormSession from "./CreateFormSession";
+import UpdateFormSession from "./UpdateFormSession";
 import moment from "moment";
 
 const initialValues = {
-    movieId: "",
-    date: "",
+    time: "",
+    price: 0.99,
+    ticketsOrdered: 0,
 };
 
 const columns = [
     { title: "Id", dataIndex: "id", key: "id" },
     { title: "Movie", dataIndex: "movieName", key: "movieName" },
-    { title: "Start Date", dataIndex: "start", key: "start" },
-    { title: "Finish Date", dataIndex: "finish", key: "finish" },
+    {
+        title: "Time",
+        key: "time",
+        render: (text, record) => moment(record.time).format("HH:mm:ss"),
+    },
+    { title: "Price", dataIndex: "price", key: "price" },
     { title: "Actions", key: "actions" },
 ];
 
 const ACTIONS_INDEX = 4;
 
-const CinemaMovies = ({ cinema }) => {
-    const [formInitialValues, setFormInitialValues] = useState({ ...initialValues, cinemaId: cinema.id });
+const SessionsDataView = ({ cinema, hall, date }) => {
+    const [formInitialValues, setFormInitialValues] = useState({
+        ...initialValues,
+        hallId: hall.id,
+        cinemaId: cinema.id,
+        date,
+    });
     const [createFormVisible, setCreateFormVisible] = useState(false);
     const [updateFormVisible, setUpdateFormVisible] = useState(false);
-    const [page, setPage] = useLocalStorage("cinemaMoviesPage", 1);
-    const { data, isLoading: isDataLoading } = useGetMoviesByCinemaQuery({
-        page: page - 1,
-        cinemaId: cinema.id,
+    const { data, isLoading: isDataLoading } = useGetSessionsByHallAndDateQuery({
+        hallId: hall.id,
+        date,
+        includeMovie: true,
     });
-    const [deleteCinemaMovie] = cinemaMovie.useDeleteCinemaMovieMutation();
+    const [deleteSession] = session.useDeleteSessionMutation();
 
     const onCreateSubmit = () => {
         setCreateFormVisible(false);
@@ -51,24 +60,20 @@ const CinemaMovies = ({ cinema }) => {
     };
 
     const handleCreate = () => {
-        setFormInitialValues({ ...initialValues, cinemaId: cinema.id });
+        setFormInitialValues({ ...initialValues, hallId: hall.id, cinemaId: cinema.id, date });
         setCreateFormVisible(true);
     };
     const handleEdit = (event, record) => {
         event.preventDefault();
 
-        setFormInitialValues({
-            ...record,
-            cinemaId: cinema.id,
-            date: [moment(record.start), moment(record.finish)],
-        });
+        setFormInitialValues({ ...record, cinemaId: cinema.id, date });
         setUpdateFormVisible(true);
     };
     const handleDelete = async (event, id) => {
         event.preventDefault();
 
         try {
-            await deleteCinemaMovie({ id }).unwrap();
+            await deleteSession({ id }).unwrap();
 
             notification["success"]({
                 message: "Success.",
@@ -83,9 +88,11 @@ const CinemaMovies = ({ cinema }) => {
         }
     };
 
+    const isActionDisabled = moment(date) < moment().endOf("day").add(-1, "day");
+
     columns[ACTIONS_INDEX].render = (text, record) => (
         <Space size="middle">
-            <Button type="default" onClick={(event) => handleEdit(event, record)}>
+            <Button type="default" disabled={isActionDisabled} onClick={(event) => handleEdit(event, record)}>
                 Edit
             </Button>
             <Button type="default" danger onClick={(event) => handleDelete(event, record.id)}>
@@ -99,51 +106,38 @@ const CinemaMovies = ({ cinema }) => {
             <BackTop />
             <div>
                 <h4>Actions</h4>
-                <Button type="primary" onClick={handleCreate}>
-                    Add movie
+                <Button type="primary" disabled={isActionDisabled} onClick={handleCreate}>
+                    Add session
                 </Button>
             </div>
             <Divider />
             <Drawer
                 width={450}
-                title="Add movie to cinema"
+                title="Add session"
                 placement="right"
                 onClose={() => setCreateFormVisible(false)}
                 visible={createFormVisible}
                 destroyOnClose
             >
-                <CreateFormCinemaMovie initialValues={formInitialValues} onSubmit={onCreateSubmit} />
+                <CreateFormSession initialValues={formInitialValues} onSubmit={onCreateSubmit} />
             </Drawer>
             <Drawer
                 width={450}
-                title="Edit cinema's movie"
+                title="Update session"
                 placement="right"
                 onClose={() => setUpdateFormVisible(false)}
                 visible={updateFormVisible}
                 destroyOnClose
             >
-                <UpdateFormCinemaMovie initialValues={formInitialValues} onSubmit={onUpdateSubmit} />
+                <UpdateFormSession initialValues={formInitialValues} onSubmit={onUpdateSubmit} />
             </Drawer>
             {isDataLoading ? (
                 <div>Loading...</div>
             ) : (
-                <Table
-                    columns={columns}
-                    dataSource={data.rows}
-                    rowKey="id"
-                    bordered
-                    pagination={{
-                        current: page,
-                        onChange: (page) => setPage(page),
-                        pageSize: 15,
-                        showSizeChanger: false,
-                        total: data.count,
-                        position: ["topLeft", "bottomLeft"],
-                    }}
-                />
+                <Table columns={columns} dataSource={data.rows} rowKey="id" bordered />
             )}
         </div>
     );
 };
 
-export default CinemaMovies;
+export default SessionsDataView;

@@ -44,7 +44,28 @@ const cinemaMovieApi = api.injectEndpoints({
             },
             providesTags: ["cinemaMovie"],
         }),
+        findMoviesByCinemaDate: builder.query({
+            query: ({ movieName = "", cinemaId, date }) => ({
+                url: "cinemaMovie/findMoviesByCinemaDate",
+                method: "POST",
+                body: {
+                    name: movieName,
+                    cinemaId,
+                    date,
+                },
+            }),
+            transformResponse: (response) => {
+                const rows = response;
+                for (const row of rows) {
+                    row.id = Number(row.id);
+                }
+
+                return rows;
+            },
+            providesTags: ["cinemaMovie"],
+        }),
     }),
 });
 
-export const { useGetMoviesByCinemaQuery, useFindExceptMoviesByCinemaQuery } = cinemaMovieApi;
+export const { useGetMoviesByCinemaQuery, useFindExceptMoviesByCinemaQuery, useFindMoviesByCinemaDateQuery } =
+    cinemaMovieApi;

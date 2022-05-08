@@ -3,15 +3,7 @@ import { Menu } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 
-const keys = [
-    "cities",
-    "movies",
-    "cinemas",
-    "cinemas/movies",
-    "cinemas/halls",
-    "cinemas/sessions",
-    "cinemas/tickets",
-];
+const keys = ["cities", "movies", "cinemas", "cinemas/movies", "cinemas/halls", "cinemas/sessions"];
 
 const getItem = (label, key, icon, children, type) => {
     return {
@@ -36,7 +28,6 @@ const items = [
                 getItem("Movies", "cinemas/movies"),
                 getItem("Halls", "cinemas/halls"),
                 getItem("Sessions", "cinemas/sessions"),
-                getItem("Tickets", "cinemas/tickets"),
             ],
             "group"
         ),

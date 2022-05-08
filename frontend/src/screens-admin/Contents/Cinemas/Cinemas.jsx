@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Divider, Select } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import { useFindCityQuery } from "../../../store/api/city";
-import CinemasDataView from "./DataView/CinemasDataView";
+import CinemasDataView from "./CinemasDataView";
 import ConcreteCinema from "./Concrete/ConcreteCinema";
 
 const QueryCity = () => {
