@@ -15,3 +15,4 @@ module.exports.sessionProvider = require("../../data-access/data-providers/sessi
 module.exports.cinemaMovieProvider = require("../../data-access/data-providers/cinemaMovieProvider");
 module.exports.cityProvider = require("../../data-access/data-providers/cityProvider");
 module.exports.cinemaProvider = require("../../data-access/data-providers/cinemaProvider");
+module.exports.ticketProvider = require("../../data-access/data-providers/ticketProvider");

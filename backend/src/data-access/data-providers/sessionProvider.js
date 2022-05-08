@@ -91,7 +91,7 @@ module.exports.deleteAllByThresholdDate = async ({ threshold, cinemaMovieId, tra
         where: {
             cinemaMovieId,
             time: {
-                [Op.gte]: threshold,
+                [Op.gt]: threshold,
             },
         },
         transaction,

@@ -65,6 +65,7 @@ create table [cinemaMovie]
 create table [hall]
 (
     id bigint constraint hall_pk primary key identity,
+    name nvarchar(50) not null,
     cinemaId bigint not null constraint hall_cinema_fk foreign key references [cinema] (id),
     rows int not null check (rows >= 1),
     cols int not null check (cols >= 3),
