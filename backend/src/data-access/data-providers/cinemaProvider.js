@@ -1,33 +1,21 @@
 const getContext = require("../sequelize");
+const { Op } = require("sequelize");
 
-module.exports.getPart = async ({ offset, transaction = null }) => {
+module.exports.find = async ({ name = "", cityId, offset = 0, transaction = null }) => {
     const { models } = await getContext();
-    const { cinema, city } = models;
+    const { cinema } = models;
 
-    const cinemas = await cinema.findAndCountAll({
-        attributes: { exclude: ["cityId"] },
-        include: [
-            {
-                model: city,
-                as: "city",
+    return cinema.findAndCountAll({
+        where: {
+            cityId,
+            name: {
+                [Op.like]: `${name}%`,
             },
-        ],
-        limit: 15,
-        offset: offset * 15,
+        },
         transaction,
+        limit: 30,
+        offset: offset * 30,
         raw: true,
         nest: true,
     });
-
-    const rows = cinemas.rows.map((row) => {
-        const newRow = { ...row };
-        newRow.cityId = row.city.id;
-        newRow.cityName = row.city.name;
-        delete newRow.city;
-        return newRow;
-    });
-    return {
-        count: cinemas.count,
-        rows,
-    };
 };

@@ -41,13 +41,20 @@ const addDefaultPorts = async (ports) => {
                             format: "int32",
                             minimum: 0,
                         },
+                        where: {
+                            type: "object",
+                        },
                     },
                     required: ["offset"],
                 },
                 handler: createHandler({
                     expectedRoles: [userRoles.ADMIN],
                     handler: ({ body }) =>
-                        genericProvider.getPart({ modelName: schema, offset: body.offset }),
+                        genericProvider.getPart({
+                            modelName: schema,
+                            offset: body.offset,
+                            where: body.where,
+                        }),
                 }),
             },
             create: {

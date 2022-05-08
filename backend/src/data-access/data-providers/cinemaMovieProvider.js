@@ -59,3 +59,41 @@ module.exports.getCinemasByCityDateMovie = async ({ cityId, movieId, date, trans
 
     return cinemaMovies.map((cinemaMovie) => cinemaMovie.cinema);
 };
+
+module.exports.getMoviesByCinema = async ({ cinemaId, offset, transaction = null }) => {
+    const { models } = await getContext();
+    const { cinemaMovie, movie } = models;
+
+    const cinemaMovies = await cinemaMovie.findAndCountAll({
+        attributes: ["id", "start", "finish"],
+        where: {
+            cinemaId: cinemaId,
+        },
+        include: [
+            {
+                model: movie,
+                as: "movie",
+                attributes: ["id", "name"],
+            },
+        ],
+        order: [["start", "DESC"]],
+        transaction,
+        raw: true,
+        nest: true,
+        limit: 15,
+        offset: offset * 15,
+    });
+
+    const rows = cinemaMovies.rows.map((row) => {
+        const newRow = row;
+        newRow.movieId = row.movie.id;
+        newRow.movieName = row.movie.name;
+        delete newRow.movie;
+        return newRow;
+    });
+
+    return {
+        count: cinemaMovies.count,
+        rows,
+    };
+};

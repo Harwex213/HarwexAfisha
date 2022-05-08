@@ -1,22 +1,16 @@
+const { schemas: getSchemas } = require("../index");
+const { map } = require("../../schemas/mapper");
 const dataProvider = require("../index").cityProvider;
 const { userRoles } = require("../index").constants;
-
-const schema = {
-    type: "object",
-    properties: {
-        city: {
-            type: "string",
-            maxLength: 50,
-        },
-    },
-};
 
 const handler = ({ body }) => dataProvider.find({ cityName: body.city });
 
 module.exports = async () => {
+    const { city } = await getSchemas();
+
     return {
         handler,
         expectedRoles: [userRoles.GUEST, userRoles.USER, userRoles.ADMIN],
-        schema,
+        schema: map(city, ["name"], ["name"]),
     };
 };

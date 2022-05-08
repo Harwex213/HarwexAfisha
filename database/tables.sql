@@ -59,7 +59,6 @@ create table [cinemaMovie]
     cinemaId bigint not null constraint cinemaMovie_cinema_fk foreign key references [cinema] (id),
     start date not null,
     finish date not null,
-    constraint cinemaMovie_finish_more_start check (start <= finish),
     constraint cinemaMovie_unique unique (movieId, cinemaId)
 );
 

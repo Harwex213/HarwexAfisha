@@ -10,7 +10,7 @@ module.exports.getById = async ({ modelName, id, transaction = null }) => {
     return model.findByPk(id, { transaction });
 };
 
-module.exports.getPart = async ({ modelName, offset, transaction = null }) => {
+module.exports.getPart = async ({ modelName, offset, where = {}, transaction = null }) => {
     const { models } = await getContext();
     const model = models[modelName];
     if (!model) {
@@ -18,6 +18,7 @@ module.exports.getPart = async ({ modelName, offset, transaction = null }) => {
     }
 
     return model.findAndCountAll({
+        where,
         limit: 15,
         offset: offset * 15,
         transaction,

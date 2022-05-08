@@ -1,7 +1,7 @@
 const getContext = require("../sequelize");
 const { Op } = require("sequelize");
 
-module.exports.find = async ({ cityName = "", transaction = null }) => {
+module.exports.find = async ({ cityName = "", offset = 0, transaction = null }) => {
     const { models } = await getContext();
     const { city } = models;
 
@@ -13,7 +13,7 @@ module.exports.find = async ({ cityName = "", transaction = null }) => {
         },
         transaction,
         limit: 30,
-        offset: 0,
+        offset: offset * 30,
         raw: true,
         nest: true,
     });
