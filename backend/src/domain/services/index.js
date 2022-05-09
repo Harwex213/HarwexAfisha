@@ -16,3 +16,4 @@ module.exports.cinemaMovieProvider = require("../../data-access/data-providers/c
 module.exports.cityProvider = require("../../data-access/data-providers/cityProvider");
 module.exports.cinemaProvider = require("../../data-access/data-providers/cinemaProvider");
 module.exports.ticketProvider = require("../../data-access/data-providers/ticketProvider");
+module.exports.hallProvider = require("../../data-access/data-providers/hallProvider");

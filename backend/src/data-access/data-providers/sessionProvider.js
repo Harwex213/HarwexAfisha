@@ -2,9 +2,14 @@ const { getNextDay } = require("../../helpers/time");
 const { Op } = require("sequelize");
 const getContext = require("../sequelize");
 
-module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date, transaction = null }) => {
+module.exports.getSessionsByCinemaAndDate = async ({
+    cinemaId,
+    date,
+    includeMovie = false,
+    transaction = null,
+}) => {
     const { models } = await getContext();
-    const { session, cinemaMovie } = models;
+    const { session, movie, cinemaMovie } = models;
 
     const sessions = await session.findAll({
         where: {
@@ -16,12 +21,76 @@ module.exports.getSessionsByCinemaAndDate = async ({ cinemaId, date, transaction
                 as: "cinemaMovie",
                 where: { cinemaId: cinemaId },
                 attributes: [],
+                include: includeMovie
+                    ? [
+                          {
+                              model: movie,
+                              as: "movie",
+                              attributes: ["id", "name"],
+                          },
+                      ]
+                    : [],
             },
         ],
         transaction,
         raw: true,
         nest: true,
     });
+
+    for (const _session of sessions) {
+        _session.movieId = _session.cinemaMovie.movie.id;
+        _session.movieName = _session.cinemaMovie.movie.name;
+        delete _session.cinemaMovie;
+    }
+
+    return sessions;
+};
+
+module.exports.getSessionsByHallAndDate = async ({
+    hallId,
+    date,
+    includeMovie = false,
+    transaction = null,
+}) => {
+    const { models } = await getContext();
+    const { session, movie, cinemaMovie } = models;
+
+    const sessions = await session.findAll({
+        where: {
+            time: { [Op.between]: [date, getNextDay(date)] },
+            hallId,
+        },
+        include: [
+            {
+                model: cinemaMovie,
+                as: "cinemaMovie",
+                attributes: [],
+                include: includeMovie
+                    ? [
+                          {
+                              model: movie,
+                              as: "movie",
+                              attributes: ["id", "name"],
+                          },
+                      ]
+                    : [],
+            },
+        ],
+        transaction,
+        raw: true,
+        nest: true,
+    });
+
+    if (includeMovie) {
+        for (const _session of sessions) {
+            if (!_session.cinemaMovie) {
+                continue;
+            }
+            _session.movieId = _session.cinemaMovie.movie.id;
+            _session.movieName = _session.cinemaMovie.movie.name;
+            delete _session.cinemaMovie;
+        }
+    }
 
     return sessions;
 };

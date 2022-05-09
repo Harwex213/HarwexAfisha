@@ -4,7 +4,7 @@ const dataProvider = require("../index").sessionProvider;
 const schema = {
     type: "object",
     properties: {
-        cinemaId: {
+        hallId: {
             type: "number",
             format: "int64",
         },
@@ -16,10 +16,10 @@ const schema = {
             type: "boolean",
         },
     },
-    required: ["cinemaId", "date"],
+    required: ["hallId", "date"],
 };
 
-const handler = ({ body }) => dataProvider.getSessionsByCinemaAndDate({ ...body });
+const handler = ({ body }) => dataProvider.getSessionsByHallAndDate({ ...body });
 
 module.exports = async () => {
     return {

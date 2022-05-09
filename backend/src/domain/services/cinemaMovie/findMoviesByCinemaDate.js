@@ -1,9 +1,14 @@
+const dataProvider = require("../index").cinemaMovieProvider;
 const { userRoles } = require("../index").constants;
-const dataProvider = require("../index").sessionProvider;
+
+const handler = ({ body }) => dataProvider.findMoviesByCinemaDate({ ...body });
 
 const schema = {
     type: "object",
     properties: {
+        name: {
+            type: "string",
+        },
         cinemaId: {
             type: "number",
             format: "int64",
@@ -12,14 +17,9 @@ const schema = {
             type: "string",
             format: "date",
         },
-        includeMovie: {
-            type: "boolean",
-        },
     },
     required: ["cinemaId", "date"],
 };
-
-const handler = ({ body }) => dataProvider.getSessionsByCinemaAndDate({ ...body });
 
 module.exports = async () => {
     return {

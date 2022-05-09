@@ -10,6 +10,6 @@ module.exports.getNextDay = (date) => {
 
 module.exports.getWithAddMinutes = (date, add) => {
     const newDate = new Date(date);
-    newDate.setUTCMinutes(date.getUTCMinutes() + add);
+    newDate.setUTCMinutes(newDate.getUTCMinutes() + add);
     return newDate;
 };

@@ -108,6 +108,8 @@ module.exports.findExceptMoviesByCinema = async ({ cinemaId, movieName = "", tra
                 [Op.like]: `${movieName}%`,
             },
         },
+        limit: 30,
+        offset: 0,
         transaction,
         raw: true,
         nest: true,
@@ -117,10 +119,7 @@ module.exports.findExceptMoviesByCinema = async ({ cinemaId, movieName = "", tra
         where: {
             cinemaId,
         },
-        order: [["movieId", "ASC"]],
         transaction,
-        limit: 30,
-        offset: 0,
         raw: true,
         nest: true,
     });
@@ -128,4 +127,39 @@ module.exports.findExceptMoviesByCinema = async ({ cinemaId, movieName = "", tra
     return movies.filter(
         (movie) => cinemaMovies.findIndex((cinemaMovie) => cinemaMovie.movieId === movie.id) === -1
     );
+};
+
+module.exports.findMoviesByCinemaDate = async ({ name = "", cinemaId, date, transaction = null }) => {
+    const { models } = await getContext();
+    const { cinemaMovie, movie } = models;
+
+    const cinemaMovies = await cinemaMovie.findAll({
+        attributes: [],
+        where: {
+            cinemaId: cinemaId,
+            [Op.and]: {
+                finish: { [Op.gte]: date },
+                start: { [Op.lte]: date },
+            },
+        },
+        include: [
+            {
+                model: movie,
+                as: "movie",
+                attributes: ["id", "name"],
+                where: {
+                    name: {
+                        [Op.like]: `${name}%`,
+                    },
+                },
+            },
+        ],
+        transaction,
+        raw: true,
+        nest: true,
+        limit: 30,
+        offset: 0,
+    });
+
+    return cinemaMovies.map((row) => row.movie);
 };
