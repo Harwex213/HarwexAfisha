@@ -5,6 +5,7 @@ import useLocalStorage from "../../../hooks/useLocalStorageState";
 import { useFindCityQuery } from "../../../store/api/city";
 import CinemasDataView from "./CinemasDataView";
 import ConcreteCinema from "./Concrete/ConcreteCinema";
+import debounce from "../../../helpers/debounce";
 
 const QueryCity = () => {
     const [city, setCity] = useLocalStorage("cinemas/city");
@@ -28,14 +29,11 @@ const QueryCity = () => {
 const ChooseCinema = ({ defaultValue }) => {
     const [city, setCity] = useLocalStorage("cinemas/city", defaultValue);
     const [cityName, setCityName] = useState("");
-    const { data, isLoading, isSuccess } = useFindCityQuery({ name: cityName });
+    const { data, isLoading } = useFindCityQuery({ name: cityName });
 
-    const routes = (
-        <Routes>
-            <Route path="" element={<CinemasDataView city={city} />} />
-            <Route path="*" element={<ConcreteCinema city={city} />} />
-        </Routes>
-    );
+    const setCityNameDebounced = debounce((text) => {
+        setCityName(text);
+    }, 100);
 
     return (
         <>
@@ -45,7 +43,7 @@ const ChooseCinema = ({ defaultValue }) => {
                 showSearch
                 loading={isLoading}
                 filterOption={false}
-                onSearch={(text) => setCityName(text)}
+                onSearch={(text) => setCityNameDebounced(text)}
                 value={city.id}
                 defaultValue={defaultValue.id}
                 onSelect={(value, option) => {
@@ -63,7 +61,10 @@ const ChooseCinema = ({ defaultValue }) => {
                 ))}
             </Select>
             <Divider />
-            {isSuccess ? routes : <div>Loading...</div>}
+            <Routes>
+                <Route path="" element={<CinemasDataView city={city} />} />
+                <Route path="*" element={<ConcreteCinema city={city} />} />
+            </Routes>
         </>
     );
 };
