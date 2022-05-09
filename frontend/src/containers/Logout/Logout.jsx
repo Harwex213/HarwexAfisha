@@ -1,7 +1,6 @@
 import React from "react";
 import { useLogoutMutation } from "../../store/api/user";
-import { setUser } from "../../store/slices/userSlice";
-import { userRoles } from "../../constants/userRoles";
+import { logout as logoutAction } from "../../store/slices/userSlice";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 
@@ -13,20 +12,16 @@ const Logout = () => {
         event.preventDefault();
         try {
             await logout().unwrap();
-            dispatch(
-                setUser({
-                    id: -1,
-                    username: "Guest",
-                    role: userRoles.GUEST,
-                })
-            );
+            dispatch(logoutAction());
             notification["success"]({
                 message: "Success.",
+                placement: "topLeft",
             });
         } catch (e) {
             notification["error"]({
                 message: "Cannot logout.",
                 description: e.data.message,
+                placement: "topLeft",
             });
         }
     };

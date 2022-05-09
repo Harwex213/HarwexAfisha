@@ -22,6 +22,16 @@ const userApi = api.injectEndpoints({
                 body: { username, password },
             }),
         }),
+        register: builder.mutation({
+            query: (body) => ({
+                url: "auth/register",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: body,
+            }),
+        }),
         logout: builder.mutation({
             query: () => ({
                 url: "auth/logout",
@@ -35,4 +45,4 @@ const userApi = api.injectEndpoints({
     }),
 });
 
-export const { useCheckQuery, useLoginMutation, useLogoutMutation } = userApi;
+export const { useCheckQuery, useLoginMutation, useRegisterMutation, useLogoutMutation } = userApi;

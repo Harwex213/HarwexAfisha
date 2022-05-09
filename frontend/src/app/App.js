@@ -6,7 +6,7 @@ import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
 import { useCheckQuery } from "../store/api/user";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUser } from "../store/slices/userSlice";
+import { logout, selectUser, setUser } from "../store/slices/userSlice";
 import { Spin } from "antd";
 import "./app.css";
 
@@ -19,13 +19,7 @@ const PreAuth = () => {
             dispatch(setUser(fetchedUser));
         }
         if (isError) {
-            dispatch(
-                setUser({
-                    id: -1,
-                    username: "Guest",
-                    role: userRoles.GUEST,
-                })
-            );
+            dispatch(logout());
         }
     });
     return <App />;
@@ -60,7 +54,6 @@ const App = () => {
                     </RouteRole>
                 }
             />
-            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
 };

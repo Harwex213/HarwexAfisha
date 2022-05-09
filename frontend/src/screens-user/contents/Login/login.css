@@ -1,0 +1,9 @@
+.login {
+    margin-top: 12rem;
+    display: flex;
+    justify-content: center;
+}
+
+.login__submitButton {
+    width: 100%;
+}

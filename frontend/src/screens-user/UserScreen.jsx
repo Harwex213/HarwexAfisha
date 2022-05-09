@@ -1,16 +1,17 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Login from "./containers/Login/Login";
-import Account from "./containers/Account/Account";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
+import Login from "./contents/Login/Login";
+import Account from "./contents/Account/Account";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
 import { Layout } from "antd";
-import Afisha from "./containers/Afisha/Afisha";
+import Afisha from "./contents/Afisha/Afisha";
 import AccountMenu from "../components/AccountMenu/AccountMenu";
 import "./userScreen.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/slices/userSlice";
 import Logout from "../containers/Logout/Logout";
+import Register from "./contents/Register/Register";
 
 const UserScreen = () => {
     const user = useSelector(selectUser);
@@ -27,7 +28,7 @@ const UserScreen = () => {
               ];
 
     return (
-        <Layout>
+        <Layout className="userScreen">
             <Layout.Header className="userHeader">
                 <Link to="/">
                     <h1 className="userHeader__title">Harwex Tickets</h1>
@@ -40,7 +41,7 @@ const UserScreen = () => {
                     />
                 </div>
             </Layout.Header>
-            <Layout.Content className="userContent">
+            <Layout.Content className="userScreen__content">
                 <Routes>
                     <Route path="/" element={<Afisha />} />
                     <Route
@@ -52,6 +53,14 @@ const UserScreen = () => {
                         }
                     />
                     <Route
+                        path="register"
+                        element={
+                            <RouteRole roles={[userRoles.GUEST]} to="/account">
+                                <Register />
+                            </RouteRole>
+                        }
+                    />
+                    <Route
                         path="account"
                         element={
                             <RouteRole roles={[userRoles.USER]} to="/login">
@@ -59,6 +68,7 @@ const UserScreen = () => {
                             </RouteRole>
                         }
                     />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout.Content>
         </Layout>

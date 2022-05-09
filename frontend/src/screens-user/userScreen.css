@@ -1,5 +1,9 @@
-.userContent {
+.userScreen {
     min-height: calc(100vh - 64px);
+}
+
+.userScreen__content {
+    background: #fff;
 }
 
 .userHeader {
