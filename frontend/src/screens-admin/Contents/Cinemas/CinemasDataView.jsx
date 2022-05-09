@@ -42,15 +42,11 @@ const CinemasDataView = ({ city }) => {
         setIsCreateForm(true);
     };
     const handleEdit = (event, record) => {
-        event.preventDefault();
-
         setFormInitialValues({ ...record });
         setFormVisible(true);
         setIsCreateForm(false);
     };
     const handleDelete = async (event, id) => {
-        event.preventDefault();
-
         try {
             await deleteCity({ id }).unwrap();
 
@@ -72,8 +68,12 @@ const CinemasDataView = ({ city }) => {
         key: "actions",
         render: (text, record) => (
             <Space size="middle">
-                <a onClick={(event) => handleEdit(event, record)}>Edit</a>
-                <a onClick={(event) => handleDelete(event, record.id)}>Delete</a>
+                <Button type="default" onClick={(event) => handleEdit(event, record)}>
+                    Edit
+                </Button>
+                <Button type="default" danger onClick={(event) => handleDelete(event, record.id)}>
+                    Delete
+                </Button>
             </Space>
         ),
     });

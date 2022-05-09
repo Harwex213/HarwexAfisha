@@ -64,14 +64,10 @@ const SessionsDataView = ({ cinema, hall, date }) => {
         setCreateFormVisible(true);
     };
     const handleEdit = (event, record) => {
-        event.preventDefault();
-
         setFormInitialValues({ ...record, cinemaId: cinema.id, date });
         setUpdateFormVisible(true);
     };
     const handleDelete = async (event, id) => {
-        event.preventDefault();
-
         try {
             await deleteSession({ id }).unwrap();
 

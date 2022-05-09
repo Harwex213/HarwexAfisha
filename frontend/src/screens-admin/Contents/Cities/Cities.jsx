@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BackTop, Button, Drawer, notification, Space, Table } from "antd";
+import { BackTop, Button, Divider, Drawer, notification, Space, Table } from "antd";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import { city } from "../../../store/api/generic";
@@ -60,8 +60,12 @@ const Cities = () => {
         key: "actions",
         render: (text, record) => (
             <Space size="middle">
-                <a onClick={(event) => handleEdit(event, record)}>Edit</a>
-                <a onClick={(event) => handleDelete(event, record.id)}>Delete</a>
+                <Button type="default" onClick={(event) => handleEdit(event, record)}>
+                    Edit
+                </Button>
+                <Button type="default" danger onClick={(event) => handleDelete(event, record.id)}>
+                    Delete
+                </Button>
             </Space>
         ),
     });
@@ -69,9 +73,13 @@ const Cities = () => {
     return (
         <div>
             <BackTop />
-            <Button type="primary" onClick={handleCreate}>
-                Add city
-            </Button>
+            <div>
+                <h4>Actions</h4>
+                <Button type="primary" onClick={handleCreate}>
+                    Add city
+                </Button>
+            </div>
+            <Divider />
             <Drawer
                 width={450}
                 title={isCreateForm ? "Add City" : "Update City"}

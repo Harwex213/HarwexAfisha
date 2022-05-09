@@ -4,6 +4,7 @@ import useLocalStorage from "../../../../hooks/useLocalStorageState";
 import { useFindHallQuery } from "../../../../store/api/hall";
 import SessionsDataView from "./SessionsDataView";
 import moment from "moment";
+import debounce from "../../../../helpers/debounce";
 
 const QueryHall = ({ cinema }) => {
     const [hall, setHall] = useLocalStorage("cinemas/hall");
@@ -32,7 +33,11 @@ const ChooseHall = ({ defaultValue, cinema }) => {
     const [hall, setHall] = useLocalStorage("cinemas/hall", defaultValue);
     const [date, setDate] = useLocalStorage("cinemas/sessions/time", moment());
     const [hallName, setHallName] = useState("");
-    const { data, isLoading, isSuccess } = useFindHallQuery({ name: hallName, cinemaId: cinema.id });
+    const { data, isLoading } = useFindHallQuery({ name: hallName, cinemaId: cinema.id });
+
+    const setHallNameDebounced = debounce((text) => {
+        setHallName(text);
+    }, 100);
 
     return (
         <>
@@ -44,7 +49,7 @@ const ChooseHall = ({ defaultValue, cinema }) => {
                         showSearch
                         loading={isLoading}
                         filterOption={false}
-                        onSearch={(text) => setHallName(text)}
+                        onSearch={(text) => setHallNameDebounced(text)}
                         value={hall.id}
                         defaultValue={defaultValue.id}
                         onSelect={(value, option) => {
@@ -67,7 +72,7 @@ const ChooseHall = ({ defaultValue, cinema }) => {
                 </div>
             </div>
             <Divider />
-            {isSuccess && date ? (
+            {date ? (
                 <SessionsDataView cinema={cinema} hall={hall} date={moment(date).format("YYYY-MM-DD")} />
             ) : (
                 <div>Loading...</div>

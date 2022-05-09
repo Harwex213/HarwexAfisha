@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BackTop, Button, Drawer, Image, notification, Space, Table } from "antd";
+import { BackTop, Button, Divider, Drawer, Image, notification, Space, Table } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import { movie } from "../../../store/api/generic";
@@ -36,15 +36,11 @@ const Movies = () => {
         setIsCreateForm(true);
     };
     const handleEdit = (event, record) => {
-        event.preventDefault();
-
         setFormInitialValues({ ...record });
         setFormVisible(true);
         setIsCreateForm(false);
     };
     const handleDelete = async (event, id) => {
-        event.preventDefault();
-
         try {
             await deleteMovie({ id }).unwrap();
 
@@ -80,8 +76,12 @@ const Movies = () => {
         key: "actions",
         render: (text, record) => (
             <Space size="middle">
-                <a onClick={(event) => handleEdit(event, record)}>Edit</a>
-                <a onClick={(event) => handleDelete(event, record.id)}>Delete</a>
+                <Button type="default" onClick={(event) => handleEdit(event, record)}>
+                    Edit
+                </Button>
+                <Button type="default" danger onClick={(event) => handleDelete(event, record.id)}>
+                    Delete
+                </Button>
             </Space>
         ),
     });
@@ -89,9 +89,13 @@ const Movies = () => {
     return (
         <div>
             <BackTop />
-            <Button type="primary" onClick={handleCreate}>
-                Add movie
-            </Button>
+            <div>
+                <h4>Actions</h4>
+                <Button type="primary" onClick={handleCreate}>
+                    Add movie
+                </Button>
+            </div>
+            <Divider />
             <Drawer
                 width={450}
                 title={isCreateForm ? "Add Movie" : "Update Movie"}
