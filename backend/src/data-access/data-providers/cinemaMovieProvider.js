@@ -20,11 +20,7 @@ module.exports.getMoviesByCityAndDate = async ({ cityId, date, transaction = nul
             {
                 model: movie,
                 as: "movie",
-                attributes: [
-                    [Sequelize.fn("DISTINCT", Sequelize.col("movie.name")), "name"],
-                    "id",
-                    "description",
-                ],
+                attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("movie.name")), "name"], "id"],
             },
         ],
         transaction,
@@ -50,6 +46,7 @@ module.exports.getCinemasByCityDateMovie = async ({ cityId, movieId, date, trans
                 model: cinema,
                 as: "cinema",
                 where: { cityId: cityId },
+                attributes: ["id", "name"],
             },
         ],
         transaction,
@@ -134,7 +131,7 @@ module.exports.findMoviesByCinemaDate = async ({ name = "", cinemaId, date, tran
     const { cinemaMovie, movie } = models;
 
     const cinemaMovies = await cinemaMovie.findAll({
-        attributes: [],
+        attributes: ["id"],
         where: {
             cinemaId: cinemaId,
             [Op.and]: {
@@ -161,5 +158,11 @@ module.exports.findMoviesByCinemaDate = async ({ name = "", cinemaId, date, tran
         offset: 0,
     });
 
-    return cinemaMovies.map((row) => row.movie);
+    for (const _cinemaMovie of cinemaMovies) {
+        _cinemaMovie.movieId = _cinemaMovie.movie.id;
+        _cinemaMovie.movieName = _cinemaMovie.movie.name;
+        delete _cinemaMovie.movie;
+    }
+
+    return cinemaMovies;
 };

@@ -6,7 +6,7 @@ const genericProvider = require("../index").genericProvider;
 const { time } = require("../index").helpers;
 
 const handler = async ({ body }) => {
-    if (new Date(body.time).toUTCString() < time.getWithAddMinutes(new Date(), 15).toUTCString()) {
+    if (new Date(body.time) < time.getWithAddMinutes(new Date(), 15)) {
         throwBadRequest("Time of session must be more than 15 minutes from current");
     }
 

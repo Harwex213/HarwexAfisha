@@ -1,11 +1,12 @@
-const jwt = require("jsonwebtoken");
-const jwtConfig = require("config").get("jwt");
 const { throwBadRequest } = require("../../exceptions");
 const { userRoles } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { map } = require("../index").mapper;
 const { genericProvider, userProvider } = require("../index");
 const { throwNotFound } = require("../index").exceptions;
+const _login = require("./_login");
+const { createHash } = require("crypto");
+const getSequelizeContext = require("../../../data-access/sequelize");
 
 const handler = async ({ body, setCookie }) => {
     const user = await userProvider.getUserByUsername({
@@ -14,7 +15,10 @@ const handler = async ({ body, setCookie }) => {
     if (!user) {
         throwNotFound("User with such username doesn't exist");
     }
-    if (user.password !== body.password) {
+
+    const hash = createHash("sha256");
+    hash.update(body.password);
+    if (user.password !== hash.digest("hex")) {
         throwBadRequest("Password was incorrect");
     }
     const role = await genericProvider.getById({
@@ -22,53 +26,26 @@ const handler = async ({ body, setCookie }) => {
         id: user.roleId,
     });
 
-    const accessToken = jwt.sign(
-        {
-            id: user.id,
-            username: user.username,
-            role: role.name,
-        },
-        jwtConfig.accessToken.secret,
-        {
-            expiresIn: jwtConfig.accessToken.expiresIn,
-        }
-    );
-    const refreshToken = jwt.sign(
-        {
-            id: user.id,
-            username: user.username,
-            role: role.name,
-        },
-        jwtConfig.refreshToken.secret,
-        {
-            expiresIn: jwtConfig.refreshToken.expiresIn,
-        }
-    );
-
-    setCookie("accessToken", accessToken, {
-        path: "/",
-        httpOnly: true,
-        sameSite: "Strict",
-    });
-    setCookie("refreshToken", refreshToken, {
-        path: "/auth",
-        httpOnly: true,
-        sameSite: "Strict",
-    });
-
     return {
-        id: user.id,
-        username: user.username,
-        role: role.name,
+        ...(await _login({ user, role, setCookie })),
+        firstName: user.firstName,
+        lastName: user.lastName,
     };
 };
 
 module.exports = async () => {
     const { user } = await getSchemas();
+    const { models } = await getSequelizeContext();
+
+    models.user.addHook("beforeCreate", async (user, options) => {
+        const hash = createHash("sha256");
+        hash.update(user.password);
+        user.password = hash.digest("hex");
+    });
 
     return {
         handler,
-        expectedRoles: [userRoles.GUEST, userRoles.USER, userRoles.ADMIN],
+        expectedRoles: [userRoles.GUEST],
         schema: await map(user, ["username", "password"], ["username", "password"]),
     };
 };

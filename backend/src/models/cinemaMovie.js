@@ -40,6 +40,7 @@ module.exports = function (sequelize, DataTypes) {
             sequelize,
             tableName: "cinemaMovie",
             schema: "dbo",
+            hasTrigger: true,
             timestamps: false,
             indexes: [
                 {

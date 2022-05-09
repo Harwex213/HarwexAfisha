@@ -17,9 +17,9 @@ insert into cinema(name, about, cityId) values
     ('Cinema 3', null, 2)
 
 insert into cinemaMovie(cinemaId, movieId, start, finish) values
-    (1,1, '2023-01-01', '2023-01-10'), (1,2, '2023-01-01', '2023-01-08'), (1,3, '2023-01-01', '2023-01-04'),
-    (2,1, '2023-01-01', '2023-01-09'), (2,2, '2023-01-01', '2023-01-12'),
-    (3,3, '2023-01-01', '2023-01-12'), (3,2, '2023-01-01', '2023-01-06')
+    (1,1, '2022-01-01', '2022-06-01'), (1,2, '2022-01-01', '2022-01-08'), (1,3, '2022-01-01', '2022-01-04'),
+    (2,1, '2022-01-01', '2022-01-09'), (2,2, '2022-01-01', '2022-01-12'),
+    (3,3, '2022-01-01', '2022-01-12'), (3,2, '2022-01-01', '2022-01-06')
 
 insert into hall(cinemaId, rows, cols, name) values
     (1, 4, 12, 'Hall 1'), (1, 3, 20, 'Hall 2'),
@@ -27,22 +27,24 @@ insert into hall(cinemaId, rows, cols, name) values
     (3, 5, 10, 'Hall')
 
 insert into session(cinemaMovieId, hallId, time, price, ticketsOrdered) values
-    (1, 1, '2023-01-01 9:00:00', 4.99, 0),
-    (1, 1, '2023-01-01 11:00:00', 4.99, 0),
-    (1, 2, '2023-01-01 16:30:00', 7.99, 0),
-    (1, 1, '2023-01-01 20:00:00', 11.99, 0)
+    (1, 1, '2022-05-11 9:00:00', 4.99, 0),
+    (1, 1, '2022-05-11 11:00:00', 4.99, 0),
+    (1, 2, '2022-05-11 16:30:00', 7.99, 0),
+    (1, 1, '2022-05-11 20:00:00', 11.99, 0)
 
 insert into userRole(name) values
     ('USER'), ('ADMIN')
 
 insert into [user](username, password, firstName, lastName, patronymic, roleId) values
-    ('aleg', '1111', 'aleg', 'aleg', null, 1),
-    ('harwex', '1111', 'aleg', 'aleg', null, 2)
+    ('aleg', '0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c', 'aleg', 'aleg', null, 1),
+    ('harwex', '0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c', 'aleg', 'aleg', null, 2)
 
 -- select * from city
 -- select * from movie
 -- select * from cinema
 -- select * from cinemaMovie where cinemaId = 1
 -- select * from session
+-- select * from [user]
+-- select * from [userRole]
 
 -- select id [movieId] from movie except select movieId from cinemaMovie where cinemaId = 1

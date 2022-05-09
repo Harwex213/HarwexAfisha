@@ -32,6 +32,32 @@ const addDefaultPorts = async (ports) => {
         ports[schema] = {};
 
         const methods = {
+            getById: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "number",
+                            format: "int64",
+                        },
+                    },
+                    required: ["id"],
+                },
+                handler: createHandler({
+                    expectedRoles: [userRoles.GUEST, userRoles.USER, userRoles.ADMIN],
+                    handler: async ({ body }) => {
+                        const result = await genericProvider.getById({
+                            modelName: schema,
+                            id: body.id,
+                        });
+                        if (result === null) {
+                            throwNotFound();
+                        }
+
+                        return result;
+                    },
+                }),
+            },
             get: {
                 schema: {
                     type: "object",
@@ -123,7 +149,10 @@ const addServiceExports = async (ports) => {
         const servicePorts = {};
 
         for (const method of methods) {
-            if (typeof exclude[service] === "object" && exclude[service].includes(method)) {
+            if (
+                typeof exclude[service] === "object" &&
+                exclude[service].includes(path.basename(method, ".js"))
+            ) {
                 continue;
             }
 

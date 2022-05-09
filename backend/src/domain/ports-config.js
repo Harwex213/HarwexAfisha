@@ -1,4 +1,6 @@
 module.exports.exclude = {
     "index.js": "all",
-    hall: ["update"],
+    auth: ["_login"],
+    refreshToken: "all",
+    user: ["getById"],
 };

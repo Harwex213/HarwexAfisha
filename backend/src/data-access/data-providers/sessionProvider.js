@@ -46,6 +46,46 @@ module.exports.getSessionsByCinemaAndDate = async ({
     return sessions;
 };
 
+module.exports.getSessionsByCinemaDateMovie = async ({ cinemaId, movieId, date, transaction = null }) => {
+    const { models } = await getContext();
+    const { session, hall, cinemaMovie } = models;
+
+    const sessions = await session.findAll({
+        where: {
+            time: { [Op.between]: [date, getNextDay(date)] },
+        },
+        include: [
+            {
+                model: cinemaMovie,
+                as: "cinemaMovie",
+                where: {
+                    [Op.and]: {
+                        cinemaId: cinemaId,
+                        movieId: movieId,
+                    },
+                },
+                attributes: [],
+            },
+            {
+                model: hall,
+                as: "hall",
+                attributes: ["cols", "rows"],
+            },
+        ],
+        transaction,
+        raw: true,
+        nest: true,
+    });
+
+    for (const _session of sessions) {
+        _session.isAllTicketsOrdered = _session.hall.rows * _session.hall.cols === _session.ticketsOrdered;
+        delete _session.hall;
+        delete _session.ticketsOrdered;
+    }
+
+    return sessions;
+};
+
 module.exports.getSessionsByHallAndDate = async ({
     hallId,
     date,
@@ -93,25 +133,6 @@ module.exports.getSessionsByHallAndDate = async ({
     }
 
     return sessions;
-};
-
-module.exports.getSessionAvailableTicketsAmount = async ({ sessionId, transaction = null }) => {
-    const { models } = await getContext();
-    const { session, hall } = models;
-
-    const sessionToFind = await session.findByPk(sessionId, {
-        attributes: ["ticketsOrdered"],
-        include: {
-            model: hall,
-            as: "hall",
-            attributes: ["seatsAmount"],
-        },
-        transaction,
-        raw: true,
-        nest: true,
-    });
-
-    return sessionToFind.hall.seatsAmount - sessionToFind.ticketsOrdered;
 };
 
 module.exports.incrementOrderedTickets = async ({ id, amount, transaction = null }) => {

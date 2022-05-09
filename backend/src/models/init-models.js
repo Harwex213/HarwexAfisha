@@ -4,6 +4,7 @@ var _cinemaMovie = require("./cinemaMovie");
 var _city = require("./city");
 var _hall = require("./hall");
 var _movie = require("./movie");
+var _refreshToken = require("./refreshToken");
 var _session = require("./session");
 var _ticket = require("./ticket");
 var _user = require("./user");
@@ -15,6 +16,7 @@ function initModels(sequelize) {
     var city = _city(sequelize, DataTypes);
     var hall = _hall(sequelize, DataTypes);
     var movie = _movie(sequelize, DataTypes);
+    var refreshToken = _refreshToken(sequelize, DataTypes);
     var session = _session(sequelize, DataTypes);
     var ticket = _ticket(sequelize, DataTypes);
     var user = _user(sequelize, DataTypes);
@@ -45,6 +47,7 @@ function initModels(sequelize) {
         city,
         hall,
         movie,
+        refreshToken,
         session,
         ticket,
         user,

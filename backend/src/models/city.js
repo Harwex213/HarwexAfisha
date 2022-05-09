@@ -19,6 +19,7 @@ module.exports = function (sequelize, DataTypes) {
             sequelize,
             tableName: "city",
             schema: "dbo",
+            hasTrigger: true,
             timestamps: false,
             indexes: [
                 {

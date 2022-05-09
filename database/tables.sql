@@ -13,6 +13,7 @@ drop table if exists [city];
 drop table if exists [movie];
 drop table if exists [user];
 drop table if exists [userRole];
+drop table if exists [refreshToken];
 
 create table [userRole]
 (
@@ -24,7 +25,7 @@ create table [user]
 (
     id bigint constraint user_pk primary key identity,
     username nvarchar(50) constraint user_username_unique unique not null,
-    password nvarchar(max) not null,
+    password nvarchar(256) not null,
     firstName nvarchar(50) not null,
     lastName nvarchar(50) not null,
     patronymic nvarchar(50),
@@ -91,6 +92,10 @@ create table [ticket]
     constraint ticket_unique unique (sessionId, row, position)
 );
 
+create table [refreshToken]
+(
+    id nvarchar(256) primary key
+)
 
 -- drop index if exists sessions_by_time_movie on [session]
 -- go

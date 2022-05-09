@@ -19,6 +19,7 @@ module.exports = function (sequelize, DataTypes) {
             sequelize,
             tableName: "userRole",
             schema: "dbo",
+            hasTrigger: true,
             timestamps: false,
             indexes: [
                 {
