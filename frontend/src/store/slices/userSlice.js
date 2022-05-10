@@ -9,11 +9,15 @@ export const slice = createSlice({
             state.id = payload.id;
             state.username = payload.username;
             state.role = payload.role;
+            state.firstName = payload.firstName;
+            state.lastName = payload.lastName;
         },
         logout: (state) => {
             state.id = -1;
             state.username = "Guest";
             state.role = userRoles.GUEST;
+            state.firstName = "???";
+            state.lastName = "???";
         },
     },
 });

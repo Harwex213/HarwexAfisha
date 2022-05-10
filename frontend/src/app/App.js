@@ -22,6 +22,7 @@ const PreAuth = () => {
             dispatch(logout());
         }
     });
+
     return <App />;
 };
 

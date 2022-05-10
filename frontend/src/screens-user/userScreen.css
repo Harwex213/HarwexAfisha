@@ -1,28 +1,4 @@
-.userScreen {
-    min-height: calc(100vh - 64px);
-}
-
 .userScreen__content {
+    height: calc(100vh - 64px);
     background: #fff;
-}
-
-.userHeader {
-    display: flex;
-    flex-direction: row;
-    background: #fff;
-    box-shadow: 0 2px 8px #f0f1f2;
-    z-index: 1000;
-}
-
-.userHeader__title {
-    color: #000;
-}
-
-.userHeader__accountAvatar {
-    margin: auto 0 auto auto;
-    cursor: pointer;
-}
-
-.userHeader__accountMenu {
-    width: 120px;
 }

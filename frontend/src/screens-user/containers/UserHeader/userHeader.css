@@ -1,0 +1,41 @@
+.userHeader {
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+    box-shadow: 0 2px 8px #f0f1f2;
+    z-index: 1000;
+}
+
+.userHeader__title {
+    color: #000;
+}
+
+.userHeader__content {
+    display: flex;
+    flex-direction: row;
+    margin: auto 20px auto auto;
+}
+
+.userHeader__selectCity {
+    margin-left: 20px;
+    width: 120px;
+}
+
+.userHeader__userGreetings {
+    margin: 0 15px 0 0;
+}
+
+.userHeader__accountAvatar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userHeader__accountIcon {
+    background-color: #000;
+    cursor: pointer;
+}
+
+.userHeader__accountMenu {
+    width: 120px;
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, Dropdown, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
-const AccountMenu = ({ menuItems, menuClassName, dropdownPlacement }) => {
+const AccountMenu = ({ menuItems, menuClassName, iconClassName, dropdownPlacement }) => {
     return (
         <Dropdown
             overlay={
@@ -17,7 +17,7 @@ const AccountMenu = ({ menuItems, menuClassName, dropdownPlacement }) => {
             trigger={["click"]}
             placement={dropdownPlacement}
         >
-            <Avatar style={{ backgroundColor: "#000" }} size="large" icon={<UserOutlined />} />
+            <Avatar className={iconClassName} style={{}} size="large" icon={<UserOutlined />} />
         </Dropdown>
     );
 };

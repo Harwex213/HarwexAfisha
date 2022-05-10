@@ -1,8 +1,10 @@
-.afisha_seats {
+.afisha__preloader {
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: column;
-    overflow-x: clip;
-    margin-top: 50px;
+    align-items: center;
+    height: 100%;
+}
+
+.afisha__preloaderIcon {
+    font-size: 64px;
 }
