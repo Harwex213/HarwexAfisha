@@ -135,6 +135,21 @@ module.exports.getSessionsByHallAndDate = async ({
     return sessions;
 };
 
+module.exports.getSessionOrderedSeats = async ({ sessionId, transaction = null }) => {
+    const { models } = await getContext();
+    const { ticket } = models;
+
+    const sessions = await ticket.findAll({
+        attributes: ["row", "position"],
+        where: { sessionId },
+        transaction,
+        raw: true,
+        nest: true,
+    });
+
+    return sessions.map((session) => [session.row, session.position]);
+};
+
 module.exports.incrementOrderedTickets = async ({ id, amount, transaction = null }) => {
     const { models } = await getContext();
     const { session } = models;

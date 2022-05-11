@@ -31,7 +31,7 @@ const handler = async ({ body, userContext }) =>
             throwBadRequest("Ticket position must be in range of rows of hall");
         }
 
-        const [rowsAffected] = await sessionProvider.decrementOrderedTickets({
+        const [rowsAffected] = await sessionProvider.incrementOrderedTickets({
             id: session.id,
             amount: session.ticketsOrdered,
             transaction,
