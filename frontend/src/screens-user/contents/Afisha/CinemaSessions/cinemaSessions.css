@@ -8,3 +8,7 @@
 .session__price {
     margin: 5px 0 0 0;
 }
+
+.session__modal {
+    width: calc(100vw - 100px);
+}

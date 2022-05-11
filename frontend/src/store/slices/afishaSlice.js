@@ -1,11 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
+const getDateInitialValue = () => {
+    let datePersist = JSON.parse(localStorage.getItem("afisha/date"));
+    if (!datePersist || moment(datePersist) < moment()) {
+        datePersist = moment().format("YYYY-MM-DD");
+        localStorage.removeItem("afisha/date");
+    }
+
+    return datePersist;
+};
+
 export const slice = createSlice({
     name: "afisha",
     initialState: {
         city: null,
-        date: moment().format("YYYY-MM-DD"),
+        date: getDateInitialValue(),
     },
     reducers: {
         setCity: (state, { payload }) => {

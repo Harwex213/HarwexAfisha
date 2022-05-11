@@ -33,7 +33,7 @@ const AfishaMovies = () => {
             <h4 className="afisha_title">
                 Все фильмы в {city.name} на {date}
             </h4>
-            <Row gutter={[32, 24]}>
+            <Row gutter={[32, 24]} type="flex">
                 {movies.map((movie) => (
                     <Col onClick={() => onMovieClick(movie.id)} key={movie.id} md={6} xl={4}>
                         <Card

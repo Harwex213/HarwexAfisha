@@ -4,7 +4,7 @@ import Login from "./contents/Login/Login";
 import Account from "./contents/Account/Account";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
-import { Divider, Layout } from "antd";
+import { Layout } from "antd";
 import Afisha from "./contents/Afisha/Afisha";
 import Register from "./contents/Register/Register";
 import UserHeader from "./containers/UserHeader/UserHeader";

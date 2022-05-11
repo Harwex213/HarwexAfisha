@@ -34,7 +34,7 @@ const api = createApi({
     reducerPath: "api",
     baseQuery: baseQueryWithReauth,
     endpoints: () => ({}),
-    tagTypes: ["city", "movie", "user", "cinema", "cinemaMovie", "hall", "session"],
+    tagTypes: ["city", "movie", "user", "cinema", "cinemaMovie", "hall", "session", "ticket"],
 });
 
 export default api;

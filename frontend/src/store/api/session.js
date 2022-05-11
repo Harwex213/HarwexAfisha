@@ -42,7 +42,19 @@ const sessionApi = api.injectEndpoints({
             },
             providesTags: ["session"],
         }),
+        getSessionOrderedSeats: builder.query({
+            query: ({ sessionId }) => ({
+                url: "session/getSessionOrderedSeats",
+                method: "POST",
+                body: { sessionId: Number(sessionId) },
+            }),
+            providesTags: ["session"],
+        }),
     }),
 });
 
-export const { useGetSessionsByHallAndDateQuery, useGetSessionsByCinemaDateMovieQuery } = sessionApi;
+export const {
+    useGetSessionsByHallAndDateQuery,
+    useGetSessionsByCinemaDateMovieQuery,
+    useGetSessionOrderedSeatsQuery,
+} = sessionApi;

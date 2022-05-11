@@ -1,12 +1,14 @@
 import React from "react";
-import { createSearchParams, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { movie as movieApi } from "../../../../store/api/generic";
 import { Divider, Image, PageHeader } from "antd";
 import apiConfig from "../../../../constants/apiConfig";
-import "./movie.css";
-import MovieCinemas from "./MovieCinemas";
-import { useSelector } from "react-redux";
+import MovieCinemas from "../MovieCinemas/MovieCinemas";
 import { selectDate } from "../../../../store/slices/afishaSlice";
+import "./movie.css";
+import moment from "moment";
+import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
 
 const Movie = () => {
     const date = useSelector(selectDate);
@@ -56,7 +58,10 @@ const Movie = () => {
             </div>
             <Divider />
             <div className="movieContent__sessions">
-                <h2>Сеансы на {date}</h2>
+                <h2>
+                    Сеансы на {moment(date).format("D [число], dddd. ")}
+                    {capitalizeFirstLetter(moment(date).format("MMMM"))}
+                </h2>
                 <MovieCinemas movie={movie} />
             </div>
         </PageHeader>

@@ -1,8 +1,5 @@
 import { useGetSchemaQuery } from "../store/api/schema";
-
-const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-};
+import capitalizeFirstLetter from "../helpers/capitalizeFirstLetter";
 
 const useGetColumnsFromSchema = ({ schemaName, toExclude = [] }) => {
     const { data: schema, isLoading, isError, isSuccess } = useGetSchemaQuery({ schemaName });

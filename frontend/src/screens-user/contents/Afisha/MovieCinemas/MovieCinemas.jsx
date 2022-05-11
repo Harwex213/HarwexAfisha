@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { selectCity, selectDate } from "../../../../store/slices/afishaSlice";
 import { List } from "antd";
 import { useGetCinemasByCityDateMovieQuery } from "../../../../store/api/cinemaMovie";
-import CinemaSessions from "./CinemaSessions";
+import CinemaSessions from "../CinemaSessions/CinemaSessions";
 import "./movieCinemas.css";
 
 const MovieCinemas = ({ movie }) => {

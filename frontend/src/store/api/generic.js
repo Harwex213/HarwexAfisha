@@ -4,7 +4,7 @@ const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const tags = ["city", "movie", "cinema", "cinemaMovie", "hall", "session"];
+const tags = ["city", "movie", "cinema", "cinemaMovie", "hall", "session", "ticket"];
 
 const genericApi = {};
 
@@ -96,4 +96,4 @@ for (const tag of tags) {
     });
 }
 
-export const { city, movie, cinema, cinemaMovie, hall, session } = genericApi;
+export const { city, movie, cinema, cinemaMovie, hall, session, ticket } = genericApi;
