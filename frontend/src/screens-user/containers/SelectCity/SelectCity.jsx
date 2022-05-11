@@ -10,13 +10,13 @@ const key = "afisha/city";
 
 const InitialCityFetch = (props) => {
     const dispatch = useDispatch();
-    const city = localStorage.getItem(key);
+    const city = JSON.parse(localStorage.getItem(key));
     const { data, isSuccess } = useFindCityQuery({ name: "" });
     const index = city && isSuccess ? data.rows.findIndex((row) => row.id === city.id) : 0;
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(setCityAction({ city }));
+            dispatch(setCityAction({ city: data.rows[index] }));
         }
     });
 

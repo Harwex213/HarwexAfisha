@@ -1,0 +1,9 @@
+.cinema {
+    justify-content: flex-start;
+}
+
+.cinema__title {
+    margin: 0;
+    width: 200px;
+    word-break: break-all;
+}

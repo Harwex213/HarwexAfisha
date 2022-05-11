@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useSearchParams, createSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeOutlined } from "@ant-design/icons";
 import { selectUser } from "../../../store/slices/userSlice";
@@ -7,11 +7,10 @@ import { userRoles } from "../../../constants/userRoles";
 import Logout from "../../../containers/Logout/Logout";
 import AccountMenu from "../../../components/AccountMenu/AccountMenu";
 import SelectCity from "../SelectCity/SelectCity";
-import "./userHeader.css";
-import useLocalStorage from "../../../hooks/useLocalStorageState";
 import moment from "moment";
 import { DatePicker } from "antd";
 import { setDate } from "../../../store/slices/afishaSlice";
+import "./userHeader.css";
 
 const guestAccountMenuItems = [
     [<Link to="login">Вход</Link>, "login"],
@@ -28,23 +27,43 @@ const disabledDate = (current) => {
 };
 
 const Header = () => {
+    let [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     const isGuest = user.role === userRoles.GUEST;
+    const queryStringDate = searchParams.get("date");
 
     const accountMenuItems = isGuest ? guestAccountMenuItems : userAccountMenuItems;
 
     const onDateChange = (date) => {
         dispatch(setDate({ date: date.format("YYYY-MM-DD") }));
+        setSearchParams(
+            createSearchParams({
+                date: date.format("YYYY-MM-DD"),
+            })
+        );
+    };
+
+    const onTitleClick = () => {
+        navigate({
+            pathname: "/movies",
+            search: searchParams.toString(),
+        });
     };
 
     return (
         <>
-            <Link className="userHeader__title" to="/">
+            <h1 className="userHeader__title" onClick={onTitleClick}>
                 <h1>Harwex Tickets</h1>
-            </Link>
+            </h1>
             <div className="userHeader__content">
-                <DatePicker defaultValue={moment()} onChange={onDateChange} disabledDate={disabledDate} />
+                <DatePicker
+                    allowClear={false}
+                    defaultValue={queryStringDate ? moment(queryStringDate) : moment()}
+                    onChange={onDateChange}
+                    disabledDate={disabledDate}
+                />
                 <SelectCity className="userHeader__selectCity" placeholder={<HomeOutlined />} size="large" />
             </div>
             <div className="userHeader__accountAvatar">

@@ -1,4 +1,17 @@
 .userScreen__content {
-    height: calc(100vh - 64px);
     background: #fff;
+    min-height: calc(100vh - 110px);
+}
+
+.userScreen__footer {
+    padding: 12px 25px;
+    background: #fff;
+}
+
+.userScreen__footerDivider {
+    margin: 12px 0;
+}
+
+.userScreen__footerText {
+    font-size: 12px;
 }

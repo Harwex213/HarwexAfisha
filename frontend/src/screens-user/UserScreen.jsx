@@ -4,7 +4,7 @@ import Login from "./contents/Login/Login";
 import Account from "./contents/Account/Account";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
-import { Layout } from "antd";
+import { Divider, Layout } from "antd";
 import Afisha from "./contents/Afisha/Afisha";
 import Register from "./contents/Register/Register";
 import UserHeader from "./containers/UserHeader/UserHeader";
@@ -18,7 +18,7 @@ const UserScreen = () => {
             </Layout.Header>
             <Layout.Content className="userScreen__content">
                 <Routes>
-                    <Route path="/" element={<Afisha />} />
+                    <Route path="movies/*" element={<Afisha />} />
                     <Route
                         path="login"
                         element={
@@ -43,9 +43,12 @@ const UserScreen = () => {
                             </RouteRole>
                         }
                     />
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="*" element={<Navigate to="movies" replace />} />
                 </Routes>
             </Layout.Content>
+            <Layout.Footer className="userScreen__footer">
+                <p className="userScreen__footerText">(c) Harwex. 2022</p>
+            </Layout.Footer>
         </Layout>
     );
 };

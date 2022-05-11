@@ -24,7 +24,25 @@ const sessionApi = api.injectEndpoints({
             },
             providesTags: ["session"],
         }),
+        getSessionsByCinemaDateMovie: builder.query({
+            query: ({ cinemaId, movieId, date }) => ({
+                url: "session/getSessionsByCinemaDateMovie",
+                method: "POST",
+                body: { cinemaId: Number(cinemaId), movieId: Number(movieId), date },
+            }),
+            transformResponse: (response) => {
+                const rows = response;
+                for (const row of rows) {
+                    row.id = Number(row.id);
+                    row.cinemaMovieId = Number(row.cinemaMovieId);
+                    row.hallId = Number(row.hallId);
+                }
+
+                return rows;
+            },
+            providesTags: ["session"],
+        }),
     }),
 });
 
-export const { useGetSessionsByHallAndDateQuery } = sessionApi;
+export const { useGetSessionsByHallAndDateQuery, useGetSessionsByCinemaDateMovieQuery } = sessionApi;

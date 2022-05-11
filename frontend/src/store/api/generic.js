@@ -11,6 +11,25 @@ const genericApi = {};
 for (const tag of tags) {
     genericApi[tag] = api.injectEndpoints({
         endpoints: (builder) => ({
+            ["getById" + capitalizeFirstLetter(tag)]: builder.query({
+                query: ({ id }) => ({
+                    url: tag + "/getById",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8",
+                    },
+                    body: {
+                        id,
+                    },
+                }),
+                transformResponse: (response) => {
+                    return {
+                        ...response,
+                        id: Number(response.id),
+                    };
+                },
+                providesTags: [tag],
+            }),
             ["get" + capitalizeFirstLetter(tag)]: builder.query({
                 query: ({ page, where = {} }) => ({
                     url: tag + "/get",

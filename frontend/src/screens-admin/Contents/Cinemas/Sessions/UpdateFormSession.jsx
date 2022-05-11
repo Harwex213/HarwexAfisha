@@ -25,7 +25,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
         try {
             await updateSession({
                 ...values,
-                time: values.date + values.time.slice(10),
+                time: values.time,
             }).unwrap();
 
             formikBag.resetForm();
@@ -53,7 +53,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
                         >
                             {movies?.map((row) => (
                                 <Select.Option key={row.id} value={row.id}>
-                                    {row.name}
+                                    {row.movieName}
                                 </Select.Option>
                             ))}
                         </Select>

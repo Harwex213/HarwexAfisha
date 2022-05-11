@@ -8,6 +8,7 @@
 
 .userHeader__title {
     color: #000;
+    cursor: pointer;
 }
 
 .userHeader__content {

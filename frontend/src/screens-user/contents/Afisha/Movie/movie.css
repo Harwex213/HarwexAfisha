@@ -1,0 +1,18 @@
+.movie {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie__image {
+    height: 400px;
+    width: 250px;
+    object-fit: cover;
+}
+
+.movie__info {
+    margin-left: 25px;
+}
+
+.movieContent__description {
+    margin-top: 25px;
+}

@@ -1,10 +1,22 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectCity, selectDate } from "../../../store/slices/afishaSlice";
-import "./afisha.css";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCity, setDate } from "../../../store/slices/afishaSlice";
+import AfishaMovies from "./AfishaMovies/AfishaMovies";
+import Movie from "./Movie/Movie";
 
 const AfishaPreloader = (props) => {
     const city = useSelector(selectCity);
+    const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const date = searchParams.get("date");
+        if (date) {
+            dispatch(setDate({ date }));
+        }
+    });
+
     if (!city) {
         return <></>;
     }
@@ -12,10 +24,17 @@ const AfishaPreloader = (props) => {
 };
 
 const Afisha = () => {
-    const date = useSelector(selectDate);
-    const city = useSelector(selectCity);
+    const location = useLocation();
 
-    return <div>aga zdarova!</div>;
+    return (
+        <>
+            <Routes>
+                <Route path="" element={<AfishaMovies />} />
+                <Route path=":movieId" element={<Movie />} />
+                <Route path="*" element={<Navigate to="" state={{ from: location }} replace />} />
+            </Routes>
+        </>
+    );
 };
 
 export default AfishaPreloader;

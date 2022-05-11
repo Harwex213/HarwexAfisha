@@ -53,7 +53,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
                         >
                             {movies?.map((row) => (
                                 <Select.Option key={row.id} value={row.id}>
-                                    {row.name}
+                                    {row.movieName}
                                 </Select.Option>
                             ))}
                         </Select>

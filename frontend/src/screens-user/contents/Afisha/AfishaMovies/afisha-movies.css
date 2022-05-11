@@ -1,0 +1,13 @@
+.afisha {
+    padding: 25px;
+}
+
+.afisha__movieTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.afisha_title {
+    margin-bottom: 25px;
+}
