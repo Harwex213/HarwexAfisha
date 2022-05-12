@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, createSearchParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeOutlined } from "@ant-design/icons";
 import { selectUser } from "../../../store/slices/userSlice";
@@ -20,6 +20,7 @@ const guestAccountMenuItems = [
 
 const userAccountMenuItems = [
     [<Link to="account">Аккаунт</Link>, "account"],
+    [<Link to="tickets">Билеты</Link>, "tickets"],
     [<Logout />, "logout"],
 ];
 

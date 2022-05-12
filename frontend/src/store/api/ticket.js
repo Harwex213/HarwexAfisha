@@ -16,9 +16,30 @@ const ticketApi = api.injectEndpoints({
                     position,
                 },
             }),
-            invalidatesTags: "ticket",
+            invalidatesTags: ["ticket"],
+        }),
+        getUserTickets: builder.query({
+            query: ({ userId, thresholdDate, offset, isBefore = false }) => ({
+                url: "ticket/getUserTickets",
+                method: "POST",
+                body: { userId: Number(userId), offset, thresholdDate, isBefore },
+            }),
+            transformResponse: (response) => {
+                const rows = response.rows;
+                for (const row of rows) {
+                    row.id = Number(row.id);
+                    row.movieId = Number(row.movieId);
+                    row.hallId = Number(row.hallId);
+                }
+
+                return {
+                    count: response.count,
+                    rows,
+                };
+            },
+            providesTags: ["ticket"],
         }),
     }),
 });
 
-export const { useOrderTicketMutation } = ticketApi;
+export const { useOrderTicketMutation, useGetUserTicketsQuery } = ticketApi;

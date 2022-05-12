@@ -9,6 +9,7 @@ import Afisha from "./contents/Afisha/Afisha";
 import Register from "./contents/Register/Register";
 import UserHeader from "./containers/UserHeader/UserHeader";
 import "./userScreen.css";
+import Tickets from "./contents/Tickets/Tickets";
 
 const UserScreen = () => {
     return (
@@ -40,6 +41,14 @@ const UserScreen = () => {
                         element={
                             <RouteRole roles={[userRoles.USER]} to="/login">
                                 <Account />
+                            </RouteRole>
+                        }
+                    />
+                    <Route
+                        path="tickets"
+                        element={
+                            <RouteRole roles={[userRoles.USER]} to="/login">
+                                <Tickets />
                             </RouteRole>
                         }
                     />
