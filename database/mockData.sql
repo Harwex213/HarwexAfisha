@@ -5,11 +5,11 @@ insert into city values
     ('Vitebsk'),
     ('Minshk')
 
-insert into movie(name, description) values
-    ('Inception', null),
-    ('Suicide Squad', null),
-    ('Warcraft', null),
-    ('Avengers', null)
+insert into movie(name, description, year, slogan, country, age, director, duration) values
+    ('Inception', null, 2022, N'Твой разум - место преступления', 'USA', 12, N'Кристофер Нолан', 148),
+    ('Suicide Squad', null, 2021, N'Какой-то крутой слоган', 'USA', 16, N'Режиссер', 118),
+    ('Warcraft', null, 2019, N'War craft', 'USA, China', 12, N'Дункан Джонсон', 110),
+    ('Avengers', null, 2019, N'hulk', 'USA', 12, N'Железный человек', 98)
 
 insert into cinema(name, about, cityId) values
     ('Cinema 1', null, 1),

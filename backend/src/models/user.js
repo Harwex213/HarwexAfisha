@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
                 unique: "user_username_unique",
             },
             password: {
-                type: DataTypes.TEXT,
+                type: DataTypes.STRING(256),
                 allowNull: false,
             },
             firstName: {

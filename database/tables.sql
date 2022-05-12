@@ -37,7 +37,26 @@ create table [movie]
     id bigint constraint movie_pk primary key identity,
     name nvarchar(50) unique not null,
     description nvarchar(max),
+    year smallint not null,
+    slogan nvarchar(50),
+    country nvarchar(50),
+    age smallint,
+    director nvarchar(50),
+    duration smallint,
 );
+
+-- create table [genre]
+-- (
+--     id nvarchar(50) constraint movieGenre_pk primary key
+-- );
+
+-- create table [movieGenre]
+-- (
+--     id bigint constraint movieGenre_pk primary key identity,
+--     movieId bigint not null constraint movieGenre_movie_fk foreign key references [movie] (id),
+--     genre nvarchar(50) not null constraint movieGenre_genre_fk foreign key references [genre] (id)
+--     constraint movieGenre_unique unique (movieId, genre)
+-- );
 
 create table [city]
 (
