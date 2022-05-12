@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BackTop, Button, Divider, Drawer, Image, notification, Space, Table } from "antd";
+import { BackTop, Button, Divider, Drawer, Image, notification, Space, Table, Typography } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import { movie } from "../../../store/api/generic";
@@ -12,13 +12,24 @@ const movieInitialValues = {
     description: "",
 };
 
+const specialRender = {
+    description: (text, record) => (
+        <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "More" }}>
+            {record.description}
+        </Typography.Paragraph>
+    ),
+};
+
 const Movies = () => {
     const [formInitialValues, setFormInitialValues] = useState(movieInitialValues);
     const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
     const [page, setPage] = useLocalStorage("moviesPage", 1);
     const [time, setTime] = useState(new Date());
-    let { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({ schemaName: "movie" });
+    let { data: columns, isLoading: isSchemaLoading } = useGetColumnsFromSchema({
+        schemaName: "movie",
+        specialRender,
+    });
     let { data: movies, isLoading: isMoviesLoading } = movie.useGetMovieQuery({ page: page - 1 });
     const [deleteMovie] = movie.useDeleteMovieMutation();
 
