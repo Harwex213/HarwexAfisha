@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+.orderTicket__preloader {
+    margin: auto;
+}
+
 .orderTicket__body {
     display: flex;
     flex-direction: row;

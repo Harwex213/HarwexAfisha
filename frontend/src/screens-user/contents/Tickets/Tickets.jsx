@@ -13,7 +13,7 @@ const columns = [
     {
         title: "Время",
         key: "time",
-        render: (text, record) => moment(record.sessionTime).format("D [число], MMMM. YYYY год"),
+        render: (text, record) => moment(record.sessionTime).format("D [число], MMMM. YYYY год. HH:mm"),
     },
     { title: "Цена (руб.)", dataIndex: "sessionPrice", key: "sessionPrice" },
     { title: "Действия", key: "actions" },

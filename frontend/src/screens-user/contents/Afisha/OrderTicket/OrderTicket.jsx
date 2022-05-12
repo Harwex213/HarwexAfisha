@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, notification } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import Seats from "../../../components/Seats/Seats";
 import { hall as hallApi } from "../../../../store/api/generic";
 import { useGetSessionOrderedSeatsQuery } from "../../../../store/api/session";
@@ -31,7 +32,13 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
     });
 
     if (!hall) {
-        return <></>;
+        return (
+            <div className="orderTicket">
+                <div className="orderTicket__preloader">
+                    <LoadingOutlined />
+                </div>
+            </div>
+        );
     }
 
     const orderTicket = async () => {

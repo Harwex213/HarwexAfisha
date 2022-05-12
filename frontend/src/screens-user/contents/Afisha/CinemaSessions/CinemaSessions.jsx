@@ -8,7 +8,7 @@ import OrderTicket from "../OrderTicket/OrderTicket";
 import "./cinemaSessions.css";
 
 const CinemaSessions = ({ cinema, movie }) => {
-    const [modalWidth, setModalWidth] = useState(0);
+    const [modalWidth, setModalWidth] = useState(700);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedSession, setSelectedSession] = useState(null);
     const date = useSelector(selectDate);
@@ -39,7 +39,10 @@ const CinemaSessions = ({ cinema, movie }) => {
             <Space size="middle">
                 {sessions?.map((session) => (
                     <div key={session.id} onClick={() => handleSessionClick(session)} className="session">
-                        <Button disabled={session.isAllTicketsOrdered} type="default">
+                        <Button
+                            disabled={session.isAllTicketsOrdered || moment(session.time) < moment()}
+                            type="default"
+                        >
                             {moment(session.time).format("HH:mm")}
                         </Button>
                         <p className="session__price">{session.price} руб.</p>
