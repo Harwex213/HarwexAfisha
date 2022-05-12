@@ -16,7 +16,7 @@ const ticketApi = api.injectEndpoints({
                     position,
                 },
             }),
-            invalidatesTags: ["ticket"],
+            invalidatesTags: ["ticket", "session"],
         }),
         getUserTickets: builder.query({
             query: ({ userId, thresholdDate, offset, isBefore = false }) => ({

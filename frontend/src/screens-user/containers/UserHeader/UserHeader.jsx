@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { HomeOutlined } from "@ant-design/icons";
 import { selectUser } from "../../../store/slices/userSlice";
 import { userRoles } from "../../../constants/userRoles";
 import Logout from "../../../containers/Logout/Logout";
@@ -9,9 +8,10 @@ import AccountMenu from "../../../components/AccountMenu/AccountMenu";
 import SelectCity from "../SelectCity/SelectCity";
 import moment from "moment";
 import { DatePicker } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { setDate as setDateAction } from "../../../store/slices/afishaSlice";
-import "./userHeader.css";
 import useLocalStorageState from "../../../hooks/useLocalStorageState";
+import "./userHeader.css";
 
 const guestAccountMenuItems = [
     [<Link to="login">Вход</Link>, "login"],
@@ -43,26 +43,38 @@ const Header = () => {
 
     return (
         <>
-            <Link className="userHeader__title" to="movies">
-                <h1>Harwex Tickets</h1>
+            <Link className="userHeader__logo" to="movies">
+                <h1 className="userHeader__logoTitle">
+                    Harwex <br /> Tickets
+                </h1>
+                <img className="userHeader__logoIcon" src="/images/logo.svg" alt="logo" />
             </Link>
             <div className="userHeader__content">
+                <div className="userHeader__citySelect">
+                    <FontAwesomeIcon className="userHeader__citySelectIcon" icon="fa-solid fa-location-dot" />
+                    <SelectCity
+                        className="userHeader__citySelector"
+                        size="large"
+                        showArrow={false}
+                        bordered={false}
+                    />
+                </div>
                 <DatePicker
+                    bordered={false}
                     allowClear={false}
                     defaultValue={moment(date)}
                     onChange={onDateChange}
                     disabledDate={disabledDate}
                 />
-                <SelectCity className="userHeader__selectCity" placeholder={<HomeOutlined />} size="large" />
             </div>
             <div className="userHeader__accountAvatar">
-                {isGuest ? <></> : <h3 className="userHeader__userGreetings">Привет, {user.firstName}</h3>}
                 <AccountMenu
                     menuClassName="userHeader__accountMenu"
                     iconClassName="userHeader__accountIcon"
                     menuItems={accountMenuItems}
-                    dropdownPlacement="bottomRight"
+                    dropdownPlacement="bottom"
                 />
+                {isGuest ? <></> : <h3 className="userHeader__userGreetings">Привет, {user.firstName}</h3>}
             </div>
         </>
     );

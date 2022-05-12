@@ -33,9 +33,7 @@ const Tickets = () => {
 
     columns[ACTIONS_INDEX].render = (text, record) => (
         <Space size="middle">
-            <Button type="default" danger>
-                Вернуть
-            </Button>
+            <Button type="default">Вернуть</Button>
         </Space>
     );
 

@@ -8,11 +8,7 @@ import { useCheckQuery } from "../store/api/user";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser, setUser } from "../store/slices/userSlice";
 import { Spin } from "antd";
-import moment from "moment";
-import "moment/locale/ru";
 import "./app.css";
-
-moment.locale("ru");
 
 const PreAuth = () => {
     const dispatch = useDispatch();

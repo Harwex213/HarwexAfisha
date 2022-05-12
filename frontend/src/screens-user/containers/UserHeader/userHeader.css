@@ -2,24 +2,46 @@
     display: flex;
     flex-direction: row;
     background: #fff;
-    box-shadow: 0 2px 8px #f0f1f2;
     z-index: 1000;
+    padding: 0;
 }
 
-.userHeader__title {
-    color: #000;
-    cursor: pointer;
+.userHeader__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userHeader__logoIcon {
+    width: 64px;
+}
+
+.userHeader__logoTitle {
+    line-height: 30px;
+    letter-spacing: 1px;
+    margin: 0 15px 0 0;
+    font-size: 24px;
+    color: #f55c51;
 }
 
 .userHeader__content {
     display: flex;
     flex-direction: row;
-    margin: auto 20px auto auto;
+    margin: auto auto auto 25px;
+    justify-content: center;
 }
 
-.userHeader__selectCity {
-    margin-left: 20px;
-    width: 120px;
+.userHeader__citySelect {
+    margin-right: 25px;
+}
+
+.userHeader__citySelectIcon {
+    font-size: 18px;
+    color: #f55c51;
+}
+
+.userHeader__citySelector {
+    min-width: 80px;
 }
 
 .userHeader__userGreetings {
@@ -33,7 +55,8 @@
 }
 
 .userHeader__accountIcon {
-    background-color: #000;
+    color: #f55c51;
+    background: #fff;
     cursor: pointer;
 }
 

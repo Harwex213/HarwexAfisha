@@ -13,7 +13,12 @@ const validationSchema = Yup.object().shape({
     description: Yup.string().min(15, "Too Short!").max(500, "Too Long!").nullable(),
 });
 
-const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
+const movieInitialValues = {
+    name: "",
+    description: "",
+};
+
+const FormMovie = ({ initialValues = movieInitialValues, onSubmit, isCreateForm }) => {
     const [createMovie] = movie.usePostMovieMutation();
     const [updateMovie] = movie.usePutMovieMutation();
     const [uploadPoster] = useUploadMutation();

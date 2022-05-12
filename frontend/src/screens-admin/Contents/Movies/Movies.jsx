@@ -6,11 +6,11 @@ import { movie } from "../../../store/api/generic";
 import apiConfig from "../../../constants/apiConfig";
 import { imageFallback } from "../../../constants/imageFallback";
 import FormMovie from "./FormMovie";
+import moment from "moment";
 
-const movieInitialValues = {
-    name: "",
-    description: "",
-};
+const zeroTime = moment().utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+console.log(zeroTime.format());
+console.log(zeroTime.add(137, "minutes").format("HH:mm:ss"));
 
 const specialRender = {
     description: (text, record) => (
@@ -21,7 +21,7 @@ const specialRender = {
 };
 
 const Movies = () => {
-    const [formInitialValues, setFormInitialValues] = useState(movieInitialValues);
+    const [formInitialValues, setFormInitialValues] = useState(undefined);
     const [formVisible, setFormVisible] = useState(false);
     const [isCreateForm, setIsCreateForm] = useState(false);
     const [page, setPage] = useLocalStorage("moviesPage", 1);
@@ -42,7 +42,7 @@ const Movies = () => {
     };
 
     const handleCreate = () => {
-        setFormInitialValues({ ...movieInitialValues });
+        setFormInitialValues(undefined);
         setFormVisible(true);
         setIsCreateForm(true);
     };
