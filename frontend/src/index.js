@@ -10,13 +10,6 @@ import moment from "moment";
 import "moment/locale/ru";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { ConfigProvider } from "antd";
-
-ConfigProvider.config({
-    theme: {
-        primaryColor: "#ff4d4f",
-    },
-});
 
 library.add(fas);
 

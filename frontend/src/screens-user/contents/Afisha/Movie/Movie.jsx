@@ -9,6 +9,7 @@ import { selectDate } from "../../../../store/slices/afishaSlice";
 import "./movie.css";
 import moment from "moment";
 import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
+import MoviePoster from "../../../../components/MoviePoster";
 
 const Movie = () => {
     const date = useSelector(selectDate);
@@ -41,11 +42,7 @@ const Movie = () => {
     return (
         <PageHeader onBack={handleBack} title={movie.name}>
             <div className="movie">
-                <Image
-                    className="movie__image"
-                    alt="movie-poster"
-                    src={`${apiConfig.baseUrl}static/movie/${movie.id}/poster.jpg`}
-                />
+                <MoviePoster className="movie__image" name={movie.name} />
                 <div className="movie__info">
                     <div>
                         <span>Какая-то инфа:</span> ВАУ!!!

@@ -2,11 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCity, selectDate } from "../../../../store/slices/afishaSlice";
 import { useGetMoviesByCityAndDateQuery } from "../../../../store/api/cinemaMovie";
-import { Card, Col, Row } from "antd";
-import apiConfig from "../../../../constants/apiConfig";
+import { Card, Col, Image, Row } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./afisha-movies.css";
-import SmoothImage from "react-smooth-image";
+import MoviePoster from "../../../../components/MoviePoster";
 
 const AfishaMovies = () => {
     const navigate = useNavigate();
@@ -37,17 +36,7 @@ const AfishaMovies = () => {
             <Row gutter={[32, 24]} type="flex">
                 {movies.map((movie) => (
                     <Col onClick={() => onMovieClick(movie.id)} key={movie.id} md={6} xl={4}>
-                        <Card
-                            hoverable
-                            cover={
-                                <SmoothImage
-                                    alt="movie-poster"
-                                    src={`${apiConfig.baseUrl}static/movie/${movie.id}/poster.jpg`}
-                                    transitionTime={0.3}
-                                />
-                            }
-                            bordered={false}
-                        >
+                        <Card hoverable cover={<MoviePoster name={movie.name} />} bordered={false}>
                             <Card.Meta title={<h2 className="afisha__movieTitle">{movie.name}</h2>} />
                         </Card>
                     </Col>

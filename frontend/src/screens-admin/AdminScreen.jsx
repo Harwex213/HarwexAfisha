@@ -8,6 +8,17 @@ import Cinemas from "./Contents/Cinemas/Cinemas";
 import AccountMenu from "../components/AccountMenu/AccountMenu";
 import Logout from "../containers/Logout/Logout";
 import "./adminScreen.css";
+import { ConfigProvider } from "antd";
+
+const Preload = () => {
+    ConfigProvider.config({
+        theme: {
+            primaryColor: "#1890ff",
+        },
+    });
+
+    return <AdminScreen />;
+};
 
 const AdminScreen = () => {
     const navigate = useNavigate();
@@ -49,4 +60,4 @@ const AdminScreen = () => {
     );
 };
 
-export default AdminScreen;
+export default Preload;
