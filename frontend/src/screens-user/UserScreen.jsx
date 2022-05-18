@@ -4,22 +4,12 @@ import Login from "./contents/Login/Login";
 import Account from "./contents/Account/Account";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
-import { ConfigProvider, Divider, Layout } from "antd";
+import { Divider, Layout } from "antd";
 import Afisha from "./contents/Afisha/Afisha";
 import Register from "./contents/Register/Register";
 import UserHeader from "./containers/UserHeader/UserHeader";
 import Tickets from "./contents/Tickets/Tickets";
 import "./userScreen.css";
-
-const Preload = () => {
-    ConfigProvider.config({
-        theme: {
-            primaryColor: "#ff4d4f",
-        },
-    });
-
-    return <UserScreen />;
-};
 
 const UserScreen = () => {
     return (
@@ -75,4 +65,4 @@ const UserScreen = () => {
     );
 };
 
-export default Preload;
+export default UserScreen;

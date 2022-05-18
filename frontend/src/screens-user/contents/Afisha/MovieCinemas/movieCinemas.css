@@ -4,6 +4,8 @@
 
 .cinema__title {
     margin: 0;
-    width: 200px;
+    width: 150px;
     word-break: break-all;
+    font-size: 14px;
+    font-weight: 400;
 }

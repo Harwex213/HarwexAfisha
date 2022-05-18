@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "antd/dist/antd.variable.css";
+import "antd/dist/antd.dark.css";
 import "./index.css";
 import App from "./app/App";
 import { store } from "./store/store";

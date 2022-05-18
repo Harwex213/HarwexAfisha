@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { setDate as setDateAction } from "../../../store/slices/afishaSlice";
 import useLocalStorageState from "../../../hooks/useLocalStorageState";
 import "./userHeader.css";
+import UserTopMenu from "../UserTopMenu/UserTopMenu";
 
 const guestAccountMenuItems = [
     [<Link to="login">Вход</Link>, "login"],
@@ -43,21 +44,17 @@ const Header = () => {
 
     return (
         <>
-            <Link className="userHeader__logo" to="movies">
+            <div className="userHeader__logo">
                 <h1 className="userHeader__logoTitle">
                     Harwex <br /> Tickets
                 </h1>
                 <img className="userHeader__logoIcon" src="/images/logo.svg" alt="logo" />
-            </Link>
+            </div>
+            <UserTopMenu className="userHeader__menu" />
             <div className="userHeader__content">
                 <div className="userHeader__citySelect">
                     <FontAwesomeIcon className="userHeader__citySelectIcon" icon="fa-solid fa-location-dot" />
-                    <SelectCity
-                        className="userHeader__citySelector"
-                        size="large"
-                        showArrow={false}
-                        bordered={false}
-                    />
+                    <SelectCity className="userHeader__citySelector" showArrow={false} bordered={false} />
                 </div>
                 <DatePicker
                     bordered={false}

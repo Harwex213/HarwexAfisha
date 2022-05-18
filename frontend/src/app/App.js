@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import RouteRole from "../containers/RouteRole/RouteRole";
 import { userRoles } from "../constants/userRoles";
@@ -7,9 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser, setUser } from "../store/slices/userSlice";
 import { Spin } from "antd";
 import "./app.css";
-
-const AdminScreen = lazy(() => import("../screens-admin/AdminScreen"));
-const UserScreen = lazy(() => import("../screens-user/UserScreen"));
+import UserScreen from "../screens-user/UserScreen";
+import AdminScreen from "../screens-admin/AdminScreen";
 
 const PreAuth = () => {
     const dispatch = useDispatch();
@@ -41,26 +40,24 @@ const App = () => {
     }
 
     return (
-        <Suspense fallback={fallback}>
-            <Routes>
-                <Route
-                    path="/*"
-                    element={
-                        <RouteRole roles={[userRoles.GUEST, userRoles.USER]} to="/admin">
-                            <UserScreen />
-                        </RouteRole>
-                    }
-                />
-                <Route
-                    path="/admin/*"
-                    element={
-                        <RouteRole roles={[userRoles.ADMIN]} to="/">
-                            <AdminScreen />
-                        </RouteRole>
-                    }
-                />
-            </Routes>
-        </Suspense>
+        <Routes>
+            <Route
+                path="/*"
+                element={
+                    <RouteRole roles={[userRoles.GUEST, userRoles.USER]} to="/admin">
+                        <UserScreen />
+                    </RouteRole>
+                }
+            />
+            <Route
+                path="/admin/*"
+                element={
+                    <RouteRole roles={[userRoles.ADMIN]} to="/">
+                        <AdminScreen />
+                    </RouteRole>
+                }
+            />
+        </Routes>
     );
 };
 

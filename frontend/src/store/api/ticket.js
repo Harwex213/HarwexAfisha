@@ -10,7 +10,7 @@ const ticketApi = api.injectEndpoints({
                     "Content-Type": "application/json;charset=utf-8",
                 },
                 body: {
-                    sessionId,
+                    sessionId: Number(sessionId),
                     userId,
                     row,
                     position,

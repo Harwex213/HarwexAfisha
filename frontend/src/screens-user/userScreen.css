@@ -2,15 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f7f7f7;
+    background: #141414;
 }
 
 .userScreen__container {
     width: 100%;
-    max-width: 83.75rem;
+    max-width: 80rem;
     box-shadow: 0 0 0.625rem 0.0625rem rgb(0 0 0 / 10%);
-    padding: 2.5rem 1.25rem;
-    background: #fff;
+    padding: 1.25rem 1.5rem;
+    background: #1f1f1f;
 }
 
 .userScreen__content {
@@ -19,7 +19,7 @@
 
 .userScreen__footer {
     padding: 12px 25px;
-    background: #fff;
+    background: #1f1f1f;
 }
 
 .userScreen__footerDivider {

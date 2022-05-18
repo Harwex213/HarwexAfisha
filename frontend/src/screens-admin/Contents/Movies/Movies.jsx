@@ -6,11 +6,6 @@ import { movie } from "../../../store/api/generic";
 import apiConfig from "../../../constants/apiConfig";
 import { imageFallback } from "../../../constants/imageFallback";
 import FormMovie from "./FormMovie";
-import moment from "moment";
-
-const zeroTime = moment().utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-console.log(zeroTime.format());
-console.log(zeroTime.add(137, "minutes").format("HH:mm:ss"));
 
 const specialRender = {
     description: (text, record) => (

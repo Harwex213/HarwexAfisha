@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300&display=swap');
+
 .userHeader {
     display: flex;
     flex-direction: row;
-    background: #fff;
+    background: #1f1f1f;
     z-index: 1000;
     padding: 0;
 }
 
 .userHeader__logo {
+    cursor: default;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,14 +24,22 @@
     letter-spacing: 1px;
     margin: 0 15px 0 0;
     font-size: 24px;
-    color: #f55c51;
+    color: #fff;
+    font-family: 'Roboto Flex', sans-serif;
+}
+
+.userHeader__menu {
+    margin-left: 25px;
+    border-bottom: 0;
+    /*font-size: 18px;*/
+    background: #1f1f1f;
 }
 
 .userHeader__content {
     display: flex;
     flex-direction: row;
-    margin: auto auto auto 25px;
-    justify-content: center;
+    margin: auto 25px auto auto;
+    justify-content: flex-end;
 }
 
 .userHeader__citySelect {
@@ -36,8 +47,8 @@
 }
 
 .userHeader__citySelectIcon {
-    font-size: 18px;
-    color: #f55c51;
+    /*font-size: 18px;*/
+    color: #147ad9;
 }
 
 .userHeader__citySelector {
@@ -45,7 +56,7 @@
 }
 
 .userHeader__userGreetings {
-    margin: 0 15px 0 0;
+    margin: 0 0 0 15px;
 }
 
 .userHeader__accountAvatar {
@@ -55,8 +66,8 @@
 }
 
 .userHeader__accountIcon {
-    color: #f55c51;
-    background: #fff;
+    color: #147ad9;
+    background: #141414;
     cursor: pointer;
 }
 

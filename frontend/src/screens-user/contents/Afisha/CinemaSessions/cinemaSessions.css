@@ -3,6 +3,22 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 12px;
+}
+
+.session button {
+    font-size: 14px;
+}
+
+.session button span {
+    position: relative;
+    color: #fff;
+}
+
+.session__buttonIcon {
+    position: absolute;
+    top: 4px;
+    left: 1px;
 }
 
 .session__price {

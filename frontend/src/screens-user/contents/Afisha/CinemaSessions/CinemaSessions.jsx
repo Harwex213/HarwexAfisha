@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Button, Modal, notification, Space } from "antd";
+import { Button, Modal, notification, Space, Tooltip } from "antd";
 import moment from "moment";
-import { useGetSessionsByCinemaDateMovieQuery } from "../../../../store/api/session";
-import { selectDate } from "../../../../store/slices/afishaSlice";
 import OrderTicket from "../OrderTicket/OrderTicket";
 import "./cinemaSessions.css";
+import SessionButtonIcon from "./SessionButtonIcon";
 
-const CinemaSessions = ({ cinema, movie }) => {
+const CinemaSessions = ({ sessions }) => {
     const [modalWidth, setModalWidth] = useState(700);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedSession, setSelectedSession] = useState(null);
-    const date = useSelector(selectDate);
-    const { data: sessions } = useGetSessionsByCinemaDateMovieQuery({
-        cinemaId: cinema.id,
-        movieId: movie.id,
-        date,
-    });
 
     const handleSessionClick = (session) => {
         setIsModalVisible(true);
@@ -36,16 +28,19 @@ const CinemaSessions = ({ cinema, movie }) => {
 
     return (
         <>
-            <Space size="middle">
+            <Space size="small">
                 {sessions?.map((session) => (
                     <div key={session.id} onClick={() => handleSessionClick(session)} className="session">
-                        <Button
-                            disabled={session.isAllTicketsOrdered || moment(session.time) < moment()}
-                            type="default"
-                        >
-                            {moment(session.time).format("HH:mm")}
-                        </Button>
-                        <p className="session__price">{session.price} руб.</p>
+                        <Tooltip placement="bottom" title={`${session.price} руб.`}>
+                            <Button
+                                size="large"
+                                disabled={session.isAllTicketsOrdered || moment(session.time) < moment()}
+                                type="link"
+                            >
+                                <SessionButtonIcon className="session__buttonIcon" />
+                                {moment(session.time).format("HH:mm")}
+                            </Button>
+                        </Tooltip>
                     </div>
                 ))}
             </Space>

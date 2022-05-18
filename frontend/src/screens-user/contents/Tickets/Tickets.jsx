@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Button, Space, Table } from "antd";
 import { useGetUserTicketsQuery } from "../../../store/api/ticket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../store/slices/userSlice";
 import "./tickets.css";
+import { setNoneRoute } from "../../../store/slices/afishaSlice";
 
 const columns = [
     { title: "Фильм", dataIndex: "movieName", key: "movieName" },
@@ -22,6 +23,7 @@ const columns = [
 const ACTIONS_INDEX = columns.length - 1;
 
 const Tickets = () => {
+    const dispatch = useDispatch();
     const user = useSelector(selectUser);
     const [page, setPage] = useState(1);
     const { data, isSuccess } = useGetUserTicketsQuery({
@@ -29,6 +31,10 @@ const Tickets = () => {
         offset: page - 1,
         thresholdDate: moment().endOf("day").add(-1, "day").format("YYYY-MM-DD"),
         isBefore: false,
+    });
+
+    useEffect(() => {
+        dispatch(setNoneRoute());
     });
 
     columns[ACTIONS_INDEX].render = (text, record) => (

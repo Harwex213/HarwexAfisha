@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectCity } from "../../../store/slices/afishaSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCity, setAfishaRoute } from "../../../store/slices/afishaSlice";
 import AfishaMovies from "./AfishaMovies/AfishaMovies";
 import Movie from "./Movie/Movie";
 
@@ -16,6 +16,11 @@ const AfishaPreloader = (props) => {
 
 const Afisha = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setAfishaRoute());
+    });
 
     return (
         <>

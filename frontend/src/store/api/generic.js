@@ -19,7 +19,7 @@ for (const tag of tags) {
                         "Content-Type": "application/json;charset=utf-8",
                     },
                     body: {
-                        id,
+                        id: Number(id),
                     },
                 }),
                 transformResponse: (response) => {

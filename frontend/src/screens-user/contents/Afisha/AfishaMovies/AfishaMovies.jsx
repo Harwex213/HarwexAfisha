@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCity, selectDate } from "../../../../store/slices/afishaSlice";
 import { useGetMoviesByCityAndDateQuery } from "../../../../store/api/cinemaMovie";
-import { Card, Col, Image, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./afisha-movies.css";
 import MoviePoster from "../../../../components/MoviePoster";

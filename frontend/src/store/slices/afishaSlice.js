@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
+import { userScreenRoutes } from "../../constants/userScreenRoutes";
 
 const getDateInitialValue = () => {
     let datePersist = JSON.parse(localStorage.getItem("afisha/date"));
@@ -16,8 +17,15 @@ export const slice = createSlice({
     initialState: {
         city: null,
         date: getDateInitialValue(),
+        currentRoute: userScreenRoutes.AFISHA,
     },
     reducers: {
+        setNoneRoute: (state) => {
+            state.currentRoute = userScreenRoutes.NONE;
+        },
+        setAfishaRoute: (state) => {
+            state.currentRoute = userScreenRoutes.AFISHA;
+        },
         setCity: (state, { payload }) => {
             state.city = payload.city;
         },
@@ -27,9 +35,10 @@ export const slice = createSlice({
     },
 });
 
-export const { setCity, setDate } = slice.actions;
+export const { setCity, setDate, setAfishaRoute, setNoneRoute } = slice.actions;
 
 export const selectCity = (state) => state.afisha.city;
 export const selectDate = (state) => state.afisha.date;
+export const selectCurrentRoute = (state) => state.afisha.currentRoute;
 
 export default slice.reducer;

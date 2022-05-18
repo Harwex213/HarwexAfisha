@@ -17,11 +17,11 @@ const MovieCinemas = ({ movie }) => {
 
     return (
         <List
-            dataSource={cinemas}
+            dataSource={cinemas?.filter((cinema) => !!cinema.sessions.length)}
             renderItem={(cinema) => (
                 <List.Item className="cinema">
                     <h3 className="cinema__title">{cinema.name}: </h3>
-                    <CinemaSessions cinema={cinema} movie={movie} />
+                    <CinemaSessions sessions={cinema.sessions} />
                 </List.Item>
             )}
         />
