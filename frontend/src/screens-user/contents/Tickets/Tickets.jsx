@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { Button, Space, Table } from "antd";
-import { useGetUserTicketsQuery } from "../../../store/api/ticket";
+import { Button, notification, Space, Table } from "antd";
+import { useGetUserTicketsQuery, useReturnBackMutation } from "../../../store/api/ticket";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../store/slices/userSlice";
 import "./tickets.css";
 import { setNoneRoute } from "../../../store/slices/afishaSlice";
+import { Link } from "react-router-dom";
 
 const columns = [
-    { title: "Фильм", dataIndex: "movieName", key: "movieName" },
+    {
+        title: "Фильм",
+        key: "movieName",
+        render: (text, record) => <Link to={`/movies/${record.movieId}`}>{record.movieName}</Link>,
+    },
+    { title: "Кинотеатр", dataIndex: "cinemaName", key: "cinemaName" },
+    { title: "Город", dataIndex: "cityName", key: "cityName" },
+    { title: "Зал", dataIndex: "hallName", key: "hallName" },
     { title: "Ряд", dataIndex: "row", render: (text, record) => record.row + 1 },
     { title: "Место", dataIndex: "position", render: (text, record) => record.position + 1 },
     {
         title: "Время",
         key: "time",
-        render: (text, record) => moment(record.sessionTime).format("D [число], MMMM. YYYY год. HH:mm"),
+        render: (text, record) => moment(record.sessionTime).format(" HH:mm. D [число], MMMM. YYYY год"),
     },
     { title: "Цена (руб.)", dataIndex: "sessionPrice", key: "sessionPrice" },
     { title: "Действия", key: "actions" },
@@ -32,14 +40,34 @@ const Tickets = () => {
         thresholdDate: moment().endOf("day").add(-1, "day").format("YYYY-MM-DD"),
         isBefore: false,
     });
+    const [returnBack] = useReturnBackMutation();
 
     useEffect(() => {
         dispatch(setNoneRoute());
     });
 
+    const handleReturnBack = async (id) => {
+        try {
+            await returnBack({ id }).unwrap();
+
+            notification["success"]({
+                message: "Успешно возвращено",
+                placement: "topLeft",
+            });
+        } catch (e) {
+            notification["error"]({
+                message: "Ошибка",
+                description: e.data?.message ?? e.message,
+                placement: "topLeft",
+            });
+        }
+    };
+
     columns[ACTIONS_INDEX].render = (text, record) => (
         <Space size="middle">
-            <Button type="default">Вернуть</Button>
+            <Button onClick={() => handleReturnBack(record.id)} type="default">
+                Вернуть Билет
+            </Button>
         </Space>
     );
 

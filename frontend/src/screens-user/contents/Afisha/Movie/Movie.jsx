@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { movie as movieApi } from "../../../../store/api/generic";
 import MovieCinemas from "../MovieCinemas/MovieCinemas";
-import { selectDate } from "../../../../store/slices/afishaSlice";
+import { selectCity, selectDate } from "../../../../store/slices/afishaSlice";
 import "./movie.css";
 import moment from "moment";
 import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
@@ -15,6 +15,7 @@ import { useGetRatingsQuery } from "../../../../store/api/rating";
 
 const Movie = () => {
     const date = useSelector(selectDate);
+    const city = useSelector(selectCity);
     const navigate = useNavigate();
     const [search] = useSearchParams();
     const { movieId } = useParams();
@@ -91,13 +92,15 @@ const Movie = () => {
                         <div className="movie__infoRow">
                             <p>Длительность: </p>
                             <p>
-                                {movie.duration} мин. / {zeroTime.clone().add("96", "minute").format("HH:mm")}
+                                {movie.duration} мин. /{" "}
+                                {zeroTime.clone().add(movie.duration, "minute").format("HH:mm")}
                             </p>
                         </div>
                         <Divider />
                     </div>
                     <h2>
-                        Сеансы на {moment(date).format("D [число], dddd. ")}
+                        {capitalizeFirstLetter(city.name)}. Сеансы на{" "}
+                        {moment(date).format("D [число], dddd. ")}
                         {capitalizeFirstLetter(moment(date).format("MMMM"))}
                     </h2>
                     <MovieCinemas movie={movie} />

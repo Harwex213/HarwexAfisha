@@ -18,6 +18,19 @@ const ticketApi = api.injectEndpoints({
             }),
             invalidatesTags: ["ticket", "session"],
         }),
+        returnBack: builder.mutation({
+            query: ({ id }) => ({
+                url: "ticket/returnBack",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: {
+                    id: Number(id),
+                },
+            }),
+            invalidatesTags: ["ticket", "session"],
+        }),
         getUserTickets: builder.query({
             query: ({ userId, thresholdDate, offset, isBefore = false }) => ({
                 url: "ticket/getUserTickets",
@@ -42,4 +55,4 @@ const ticketApi = api.injectEndpoints({
     }),
 });
 
-export const { useOrderTicketMutation, useGetUserTicketsQuery } = ticketApi;
+export const { useOrderTicketMutation, useGetUserTicketsQuery, useReturnBackMutation } = ticketApi;

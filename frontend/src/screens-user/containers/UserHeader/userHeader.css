@@ -55,7 +55,7 @@
 }
 
 .userHeader__citySelector {
-    min-width: 100%;
+    min-width: 85px;
 }
 
 .userHeader__userGreetings {

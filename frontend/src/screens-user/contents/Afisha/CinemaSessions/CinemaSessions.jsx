@@ -19,11 +19,6 @@ const CinemaSessions = ({ sessions }) => {
     };
     const handleOk = () => {
         setIsModalVisible(false);
-
-        notification["success"]({
-            message: "Успех",
-            placement: "topLeft",
-        });
     };
 
     return (

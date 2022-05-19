@@ -57,6 +57,12 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
             }).unwrap();
 
             onOrder();
+
+            navigate("/tickets");
+            notification["success"]({
+                message: "Успешно заказно",
+                placement: "topLeft",
+            });
         } catch (e) {
             notification["error"]({
                 message: "Ошибка",
