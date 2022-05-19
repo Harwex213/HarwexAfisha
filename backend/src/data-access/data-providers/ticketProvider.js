@@ -47,7 +47,7 @@ module.exports.getUserTickets = async ({
     transaction = null,
 }) => {
     const { models } = await getContext();
-    const { ticket, session, cinemaMovie, movie, hall } = models;
+    const { ticket, session, cinemaMovie, movie, hall, cinema, city } = models;
 
     const tickets = await ticket.findAndCountAll({
         attributes: ["id", "row", "position"],
@@ -67,7 +67,15 @@ module.exports.getUserTickets = async ({
                         model: cinemaMovie,
                         as: "cinemaMovie",
                         attributes: [],
-                        include: [{ model: movie, as: "movie", attributes: ["id", "name"] }],
+                        include: [
+                            { model: movie, as: "movie", attributes: ["id", "name"] },
+                            {
+                                model: cinema,
+                                as: "cinema",
+                                attributes: ["id", "name"],
+                                include: [{ model: city, as: "city", attributes: ["id", "name"] }],
+                            },
+                        ],
                     },
                     {
                         model: hall,
@@ -76,8 +84,8 @@ module.exports.getUserTickets = async ({
                 ],
             },
         ],
-        limit: 15,
-        offset: offset * 15,
+        limit: 5,
+        offset: offset * 5,
         transaction,
         raw: true,
         nest: true,
@@ -89,6 +97,12 @@ module.exports.getUserTickets = async ({
 
         _ticket.movieId = _ticket.session.cinemaMovie.movie.id;
         _ticket.movieName = _ticket.session.cinemaMovie.movie.name;
+
+        _ticket.cinemaId = _ticket.session.cinemaMovie.cinema.id;
+        _ticket.cinemaName = _ticket.session.cinemaMovie.cinema.name;
+
+        _ticket.cityId = _ticket.session.cinemaMovie.cinema.city.id;
+        _ticket.cityName = _ticket.session.cinemaMovie.cinema.city.name;
 
         _ticket.sessionTime = _ticket.session.time;
         _ticket.sessionPrice = _ticket.session.price;
