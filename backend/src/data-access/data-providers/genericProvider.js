@@ -7,7 +7,7 @@ module.exports.getById = async ({ modelName, id, transaction = null }) => {
         throw new Error("Undefined model");
     }
 
-    return model.findByPk(id, { transaction });
+    return model.findByPk(id, { transaction, raw: true });
 };
 
 module.exports.getPart = async ({ modelName, offset, where = {}, transaction = null }) => {

@@ -38,11 +38,12 @@ create table [movie]
     name nvarchar(50) unique not null,
     description nvarchar(max),
     year smallint not null,
-    slogan nvarchar(50),
-    country nvarchar(50),
-    age smallint,
+    slogan nvarchar(256),
+    country nvarchar(256),
+    age smallint not null,
     director nvarchar(50),
-    duration smallint,
+    duration smallint not null,
+    kinopoiskId int,
 );
 
 -- create table [genre]

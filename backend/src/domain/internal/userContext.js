@@ -15,23 +15,30 @@ const authenticate = async (accessToken) => {
     }
 };
 
-const authorize = async (userId) => {
-    if (!userId) {
-        return userRoles.GUEST;
+const authorize = async (userContext) => {
+    if (!userContext) {
+        return {
+            role: userRoles.GUEST,
+        };
     }
 
-    const user = await genericProvider.getById({ modelName: "user", id: userId });
+    const user = await genericProvider.getById({ modelName: "user", id: userContext.id });
     if (!user) {
-        return userRoles.GUEST;
+        return {
+            role: userRoles.GUEST,
+        };
     }
 
-    const userRole = await genericProvider.getById({ modelName: "userRole", id: user?.roleId });
-    return userRole.name;
+    const userRole = await genericProvider.getById({ modelName: "userRole", id: user.roleId });
+    return {
+        ...user,
+        role: userRole.name,
+    };
 };
 
 module.exports = async (accessToken, expectedRoles) => {
-    const userContext = await authenticate(accessToken);
-    userContext.role = await authorize(userContext.id);
+    let userContext = await authenticate(accessToken);
+    userContext = await authorize(userContext);
 
     if (expectedRoles.includes(userContext.role.toUpperCase()) === false) {
         throwForbidden();

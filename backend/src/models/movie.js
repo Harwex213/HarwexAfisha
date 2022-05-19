@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
-                unique: "UQ__movie__72E12F1B9687CC71",
+                unique: "UQ__movie__72E12F1B03243A83",
             },
             description: {
                 type: DataTypes.TEXT,
@@ -23,16 +23,16 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false,
             },
             slogan: {
-                type: DataTypes.STRING(50),
+                type: DataTypes.STRING(256),
                 allowNull: true,
             },
             country: {
-                type: DataTypes.STRING(50),
+                type: DataTypes.STRING(256),
                 allowNull: true,
             },
             age: {
                 type: DataTypes.SMALLINT,
-                allowNull: true,
+                allowNull: false,
             },
             director: {
                 type: DataTypes.STRING(50),
@@ -40,6 +40,10 @@ module.exports = function (sequelize, DataTypes) {
             },
             duration: {
                 type: DataTypes.SMALLINT,
+                allowNull: false,
+            },
+            kinopoiskId: {
+                type: DataTypes.INTEGER,
                 allowNull: true,
             },
         },
@@ -56,7 +60,7 @@ module.exports = function (sequelize, DataTypes) {
                     fields: [{ name: "id" }],
                 },
                 {
-                    name: "UQ__movie__72E12F1B9687CC71",
+                    name: "UQ__movie__72E12F1B03243A83",
                     unique: true,
                     fields: [{ name: "name" }],
                 },

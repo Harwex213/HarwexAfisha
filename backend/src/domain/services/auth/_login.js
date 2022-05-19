@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 const jwtConfig = require("config").get("jwt");
 
-module.exports = async ({ user, role, setCookie }) => {
+module.exports = async ({ userContext, setCookie }) => {
     const accessToken = jwt.sign(
         {
-            id: user.id,
-            username: user.username,
-            role: role.name,
+            id: userContext.id,
+            username: userContext.username,
+            role: userContext.role,
         },
         jwtConfig.accessToken.secret,
         {
@@ -15,9 +15,9 @@ module.exports = async ({ user, role, setCookie }) => {
     );
     const refreshToken = jwt.sign(
         {
-            id: user.id,
-            username: user.username,
-            role: role.name,
+            id: userContext.id,
+            username: userContext.username,
+            role: userContext.role,
         },
         jwtConfig.refreshToken.secret,
         {
@@ -36,9 +36,12 @@ module.exports = async ({ user, role, setCookie }) => {
         sameSite: "Strict",
     });
 
-    return {
-        id: user.id,
-        username: user.username,
-        role: role.name,
+    const returnData = {
+        ...userContext,
     };
+
+    delete returnData.roleId;
+    delete returnData.password;
+
+    return returnData;
 };

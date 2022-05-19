@@ -16,5 +16,10 @@
       "expiresIn": "1d"
     }
   },
-  "port": 5000
+  "port": 5000,
+  "dataMock": {
+    "mock": false,
+    "sessionsStart": "2022-05-23",
+    "sessionsDays": 7
+  }
 }

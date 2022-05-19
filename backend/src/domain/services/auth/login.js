@@ -26,11 +26,7 @@ const handler = async ({ body, setCookie }) => {
         id: user.roleId,
     });
 
-    return {
-        ...(await _login({ user, role, setCookie })),
-        firstName: user.firstName,
-        lastName: user.lastName,
-    };
+    return await _login({ userContext: { ...user, role: role.name }, setCookie });
 };
 
 module.exports = async () => {

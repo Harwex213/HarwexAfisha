@@ -1,4 +1,5 @@
 const dataProvider = require("../index").cinemaMovieProvider;
+const sessionDataProvider = require("../index").sessionProvider;
 const { userRoles } = require("../index").constants;
 
 const schema = {
@@ -20,7 +21,17 @@ const schema = {
     required: ["cityId", "movieId", "date"],
 };
 
-const handler = ({ body }) => dataProvider.getCinemasByCityDateMovie({ ...body });
+const handler = async ({ body }) => {
+    const cinemas = await dataProvider.getCinemasByCityDateMovie({ ...body });
+    for (const cinema of cinemas) {
+        cinema.sessions = await sessionDataProvider.getSessionsByCinemaDateMovie({
+            cinemaId: cinema.id,
+            movieId: body.movieId,
+            date: body.date,
+        });
+    }
+    return cinemas;
+};
 
 module.exports = async () => {
     return {

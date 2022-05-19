@@ -41,7 +41,7 @@ const handler = async ({ refreshToken, setCookie }) => {
         id: user.roleId,
     });
 
-    await _login({ user, role, setCookie });
+    await _login({ userContext: { ...user, role: role.name }, setCookie });
 
     return {
         message: "Success",
