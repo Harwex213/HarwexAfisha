@@ -8,16 +8,19 @@ import { useRegisterMutation } from "../../../store/api/user";
 import { setUser } from "../../../store/slices/userSlice";
 import "./register.css";
 import { setNoneRoute } from "../../../store/slices/afishaSlice";
+import validationMessages from "../../../constants/validationMessages";
+
+const { msgTooShort, msgTooLong, msgRequired, msgPasswordsMatch, msgRepeatPassword } = validationMessages;
 
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    lastName: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-    patronymic: Yup.string().min(2, "Too Short!").max(50, "Too Long!"),
-    username: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
-    password: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
+    firstName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
+    lastName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
+    patronymic: Yup.string().min(2, msgTooShort).max(50, msgTooLong),
+    username: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
+    password: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
     repeatPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("Please, repeat your password"),
+        .oneOf([Yup.ref("password")], msgPasswordsMatch)
+        .required(msgRepeatPassword),
 });
 
 const initialValues = {
@@ -51,13 +54,13 @@ const Register = () => {
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 <Form>
                     <Form.Item name="firstName">
-                        <Input size="large" name="firstName" placeholder="Firstname" />
+                        <Input size="large" name="firstName" placeholder="Имя" />
                     </Form.Item>
                     <Form.Item name="lastName">
-                        <Input size="large" name="lastName" placeholder="Lastname" />
+                        <Input size="large" name="lastName" placeholder="Фамилия" />
                     </Form.Item>
                     <Form.Item name="patronymic">
-                        <Input size="large" name="patronymic" placeholder="Patronymic" />
+                        <Input size="large" name="patronymic" placeholder="Отчество" />
                     </Form.Item>
                     <Form.Item name="username">
                         <Input
@@ -72,7 +75,7 @@ const Register = () => {
                             size="large"
                             name="password"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Password"
+                            placeholder="Пароль"
                         />
                     </Form.Item>
                     <Form.Item name="repeatPassword">
@@ -80,11 +83,11 @@ const Register = () => {
                             size="large"
                             name="repeatPassword"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Repeat password"
+                            placeholder="Повторите пароль"
                         />
                     </Form.Item>
                     <SubmitButton size="large" className="register__submitButton">
-                        Register
+                        Зарегистрироваться
                     </SubmitButton>
                 </Form>
             </Formik>

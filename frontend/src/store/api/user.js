@@ -42,7 +42,34 @@ const userApi = api.injectEndpoints({
                 body: {},
             }),
         }),
+        changePassword: builder.mutation({
+            query: ({ oldPassword, password, repeatPassword }) => ({
+                url: "auth/changePassword",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: { oldPassword, password, repeatPassword },
+            }),
+        }),
+        changeInfo: builder.mutation({
+            query: ({ username, firstName, lastName, patronymic }) => ({
+                url: "user/changeInfo",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: { username, firstName, lastName, patronymic },
+            }),
+        }),
     }),
 });
 
-export const { useCheckQuery, useLoginMutation, useRegisterMutation, useLogoutMutation } = userApi;
+export const {
+    useCheckQuery,
+    useLoginMutation,
+    useRegisterMutation,
+    useLogoutMutation,
+    useChangePasswordMutation,
+    useChangeInfoMutation,
+} = userApi;

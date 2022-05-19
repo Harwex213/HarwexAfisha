@@ -29,20 +29,23 @@ const CinemaSessions = ({ sessions }) => {
     return (
         <>
             <Space size="small">
-                {sessions?.map((session) => (
-                    <div key={session.id} onClick={() => handleSessionClick(session)} className="session">
-                        <Tooltip placement="bottom" title={`${session.price} руб.`}>
-                            <Button
-                                size="large"
-                                disabled={session.isAllTicketsOrdered || moment(session.time) < moment()}
-                                type="link"
-                            >
-                                <SessionButtonIcon className="session__buttonIcon" />
-                                {moment(session.time).format("HH:mm")}
-                            </Button>
-                        </Tooltip>
-                    </div>
-                ))}
+                {sessions?.map((session) => {
+                    const disabled = session.isAllTicketsOrdered || moment(session.time) < moment();
+                    return (
+                        <div
+                            key={session.id}
+                            onClick={disabled ? null : () => handleSessionClick(session)}
+                            className="session"
+                        >
+                            <Tooltip placement="bottom" title={`${session.price} руб.`}>
+                                <Button size="large" disabled={disabled} type="link">
+                                    <SessionButtonIcon className="session__buttonIcon" />
+                                    {moment(session.time).format("HH:mm")}
+                                </Button>
+                            </Tooltip>
+                        </div>
+                    );
+                })}
             </Space>
             <Modal
                 title="Заказ билета"

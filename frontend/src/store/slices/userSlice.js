@@ -11,6 +11,13 @@ export const slice = createSlice({
             state.role = payload.role;
             state.firstName = payload.firstName;
             state.lastName = payload.lastName;
+            state.patronymic = payload.patronymic ?? "";
+        },
+        setUserChange: (state, { payload }) => {
+            state.username = payload.username;
+            state.firstName = payload.firstName;
+            state.lastName = payload.lastName;
+            state.patronymic = payload.patronymic ?? "";
         },
         logout: (state) => {
             state.id = -1;
@@ -22,7 +29,7 @@ export const slice = createSlice({
     },
 });
 
-export const { setUser, logout } = slice.actions;
+export const { setUser, logout, setUserChange } = slice.actions;
 
 export const selectUser = (state) => state.user;
 

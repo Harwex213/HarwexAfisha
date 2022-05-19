@@ -58,6 +58,7 @@ const UserScreen = () => {
                     </Routes>
                 </Layout.Content>
                 <Layout.Footer className="userScreen__footer">
+                    <Divider />
                     <p className="userScreen__footerText">(c) Harwex. 2022</p>
                 </Layout.Footer>
             </Layout>

@@ -8,10 +8,13 @@ import { useLoginMutation } from "../../../store/api/user";
 import { setUser } from "../../../store/slices/userSlice";
 import "./login.css";
 import { setNoneRoute } from "../../../store/slices/afishaSlice";
+import validationMessages from "../../../constants/validationMessages";
+
+const { msgTooShort, msgTooLong, msgRequired } = validationMessages;
 
 const validationSchema = Yup.object().shape({
-    username: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
-    password: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
+    username: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
+    password: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
 });
 
 const initialValues = {
@@ -32,7 +35,7 @@ const Login = () => {
             const user = await login({ ...values }).unwrap();
             dispatch(setUser(user));
         } catch (e) {
-            formikBag.setFieldError("username", e.message);
+            formikBag.setFieldError("username", e.data?.message ?? e.message);
         }
     };
 
@@ -53,11 +56,11 @@ const Login = () => {
                             size="large"
                             name="password"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Password"
+                            placeholder="Пароль"
                         />
                     </Form.Item>
                     <SubmitButton size="large" className="login__submitButton">
-                        Log in
+                        Войти
                     </SubmitButton>
                 </Form>
             </Formik>

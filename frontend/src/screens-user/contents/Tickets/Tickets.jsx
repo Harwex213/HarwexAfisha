@@ -45,6 +45,7 @@ const Tickets = () => {
 
     return (
         <div className="tickets">
+            <h1 className="tickets__header">Заказанные билеты</h1>
             {isSuccess ? (
                 <Table
                     columns={columns}

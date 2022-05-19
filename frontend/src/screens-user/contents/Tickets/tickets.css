@@ -1,3 +1,7 @@
 .tickets {
-    padding: 50px;
+    padding: 15px 50px;
+}
+
+.tickets__header {
+    font-size: 24px;
 }
