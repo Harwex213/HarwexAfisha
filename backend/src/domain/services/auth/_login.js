@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const jwtConfig = require("config").get("jwt");
+const cookiesConfig = require("config").get("cookies");
 
 module.exports = async ({ userContext, setCookie }) => {
     const accessToken = jwt.sign(
@@ -28,12 +29,12 @@ module.exports = async ({ userContext, setCookie }) => {
     setCookie("accessToken", accessToken, {
         path: "/",
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: cookiesConfig.sameSite,
     });
     setCookie("refreshToken", refreshToken, {
         path: "/auth",
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: cookiesConfig.sameSite,
     });
 
     const returnData = {

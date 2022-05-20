@@ -16,6 +16,10 @@ const includeModules = async (fastify) => {
 module.exports = async () => {
     const fastify = require("fastify")({
         logger: true,
+        https: {
+            key: await fs.readFile("./config/harwex-tickets.key"),
+            cert: await fs.readFile("./config/harwex-tickets.crt"),
+        },
     });
 
     await includeModules(fastify);

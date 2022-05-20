@@ -17,7 +17,7 @@ module.exports = async (fastify) => {
         }
 
         for (const [methodName, method] of Object.entries(port)) {
-            const endpoint = `/${portName}/${methodName}`;
+            const endpoint = `/api/${portName}/${methodName}`;
 
             fastify.post(
                 endpoint,

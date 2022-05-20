@@ -1,16 +1,17 @@
 const { userRoles } = require("../index").constants;
+const cookiesConfig = require("config").get("cookies");
 
 const handler = async ({ setCookie }) => {
     setCookie("accessToken", "", {
         path: "/",
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: cookiesConfig.sameSite,
         expires: Date.now(),
     });
     setCookie("refreshToken", "", {
         path: "/auth",
         httpOnly: true,
-        sameSite: "Strict",
+        sameSite: cookiesConfig.sameSite,
         expires: Date.now(),
     });
 

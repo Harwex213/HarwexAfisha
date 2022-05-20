@@ -17,6 +17,9 @@
     }
   },
   "port": 5000,
+  "cookies": {
+    "sameSite": "Strict"
+  },
   "dataMock": {
     "mock": false,
     "sessionsStart": "2022-05-23",
