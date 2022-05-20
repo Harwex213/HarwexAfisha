@@ -3,7 +3,7 @@ import apiConfig from "../constants/apiConfig";
 import { logout } from "./slices/userSlice";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: apiConfig.baseUrl,
+    baseUrl: apiConfig.baseUrl + "api/",
     credentials: "include",
 });
 

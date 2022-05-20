@@ -48,7 +48,7 @@ const Header = () => {
                 <h1 className="userHeader__logoTitle">
                     Harwex <br /> Tickets
                 </h1>
-                <img className="userHeader__logoIcon" src="/images/logo.svg" alt="logo" />
+                <img className="userHeader__logoIcon" src="/static/images/logo.svg" alt="logo" />
             </div>
             <UserTopMenu className="userHeader__menu" />
             <div className="userHeader__content">
