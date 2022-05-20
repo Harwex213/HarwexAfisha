@@ -13,11 +13,32 @@ import zeroTime from "../../../../constants/zeroTime";
 import { Divider } from "antd";
 import { useGetRatingsQuery } from "../../../../store/api/rating";
 
-const Movie = () => {
+const Preload = () => {
+    const [searchParams] = useSearchParams();
     const date = useSelector(selectDate);
     const city = useSelector(selectCity);
+
+    const searchDate = searchParams.get("time");
+    const searchCityId = searchParams.get("cityId");
+    const searchCityName = searchParams.get("cityName");
+
+    if (searchDate && searchCityId && searchCityName) {
+        return (
+            <Movie
+                date={moment(searchDate).format("YYYY-MM-DD")}
+                city={{
+                    id: Number(searchCityId),
+                    name: searchCityName,
+                }}
+            />
+        );
+    }
+
+    return <Movie city={city} date={date} />;
+};
+
+const Movie = ({ date, city }) => {
     const navigate = useNavigate();
-    const [search] = useSearchParams();
     const { movieId } = useParams();
     const {
         data: movie,
@@ -40,10 +61,7 @@ const Movie = () => {
     }
 
     const handleBack = () => {
-        navigate({
-            pathname: "/movies",
-            search: search.toString(),
-        });
+        navigate("/movies");
     };
 
     return (
@@ -103,7 +121,7 @@ const Movie = () => {
                         {moment(date).format("D [число], dddd. ")}
                         {capitalizeFirstLetter(moment(date).format("MMMM"))}
                     </h2>
-                    <MovieCinemas movie={movie} />
+                    <MovieCinemas movie={movie} date={date} city={city} />
                 </div>
             </div>
             <div className="movieContent__description">
@@ -114,4 +132,4 @@ const Movie = () => {
     );
 };
 
-export default Movie;
+export default Preload;

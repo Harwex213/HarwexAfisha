@@ -12,7 +12,13 @@ const columns = [
     {
         title: "Фильм",
         key: "movieName",
-        render: (text, record) => <Link to={`/movies/${record.movieId}`}>{record.movieName}</Link>,
+        render: (text, record) => (
+            <Link
+                to={`/movies/${record.movieId}?time=${record.sessionTime}&cityId=${record.cityId}&cityName=${record.cityName}`}
+            >
+                {record.movieName}
+            </Link>
+        ),
     },
     { title: "Кинотеатр", dataIndex: "cinemaName", key: "cinemaName" },
     { title: "Город", dataIndex: "cityName", key: "cityName" },

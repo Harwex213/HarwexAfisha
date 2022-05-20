@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { selectCity, selectDate } from "../../../../store/slices/afishaSlice";
 import { useGetMoviesByCityAndDateQuery } from "../../../../store/api/cinemaMovie";
 import { Col, Row } from "antd";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./afisha-movies.css";
 import MoviePoster from "../../../../components/MoviePoster";
 import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
@@ -11,7 +11,6 @@ import moment from "moment";
 
 const AfishaMovies = () => {
     const navigate = useNavigate();
-    const [search] = useSearchParams();
     const date = useSelector(selectDate);
     const city = useSelector(selectCity);
     const { data: movies, isSuccess } = useGetMoviesByCityAndDateQuery({
@@ -24,10 +23,7 @@ const AfishaMovies = () => {
     }
 
     const onMovieClick = (id) => {
-        navigate({
-            pathname: id.toString(),
-            search: search.toString(),
-        });
+        navigate(id.toString());
     };
 
     return (
