@@ -1,4 +1,5 @@
 import api from "../api";
+import apiConfig from "../../constants/apiConfig";
 
 const sessionApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -49,6 +50,39 @@ const sessionApi = api.injectEndpoints({
                 body: { sessionId: Number(sessionId) },
             }),
             providesTags: ["session"],
+            async onCacheEntryAdded({ sessionId }, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+                const ws = new WebSocket(`${apiConfig.baseWsUrl}tickets?sessionId=${sessionId}`);
+                // console.log(arg);
+
+                try {
+                    await cacheDataLoaded;
+
+                    const listener = (event) => {
+                        const data = JSON.parse(event.data);
+
+                        if (data.type === "ordered") {
+                            updateCachedData((draft) => {
+                                draft.push(data.seat);
+                            });
+                        } else {
+                            updateCachedData((draft) => {
+                                const index = draft.findIndex(
+                                    (seat) => seat[0] === data.seat[0] && seat[1] === data.seat[1]
+                                );
+                                if (index !== -1) {
+                                    draft.splice(index, 1);
+                                }
+                            });
+                        }
+                    };
+                    ws.addEventListener("message", listener);
+                } catch {
+                    // ignored
+                }
+
+                await cacheEntryRemoved;
+                ws.close();
+            },
         }),
     }),
 });
