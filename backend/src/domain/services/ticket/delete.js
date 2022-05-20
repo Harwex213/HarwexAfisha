@@ -37,7 +37,7 @@ const handler = async ({ body }) =>
             throw new Error("decrementOrderedTickets - rows affected zero");
         }
 
-        emitter.emit("ticket/onReturn", { id: body.id });
+        emitter.emit("ticket/onReturn", ticket);
         return {
             message: "Success",
         };

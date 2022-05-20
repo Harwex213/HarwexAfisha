@@ -22,6 +22,7 @@ module.exports.getPart = async ({ modelName, offset, where = {}, transaction = n
         limit: 15,
         offset: offset * 15,
         transaction,
+        raw: true,
     });
 };
 
@@ -32,7 +33,7 @@ module.exports.create = async ({ modelName, instance, transaction = null }) => {
         throw new Error("Undefined model");
     }
 
-    return model.create(instance, { transaction });
+    return (await model.create(instance, { transaction, raw: true })).dataValues;
 };
 
 module.exports.update = async ({ modelName, instance, transaction = null }) => {
