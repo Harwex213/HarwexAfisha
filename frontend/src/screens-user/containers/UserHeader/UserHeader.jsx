@@ -15,13 +15,13 @@ import "./userHeader.css";
 import UserTopMenu from "../UserTopMenu/UserTopMenu";
 
 const guestAccountMenuItems = [
-    [<Link to="login">Вход</Link>, "login"],
-    [<Link to="register">Регистрация</Link>, "register"],
+    [<Link to="login">Login</Link>, "login"],
+    [<Link to="register">Register</Link>, "register"],
 ];
 
 const userAccountMenuItems = [
-    [<Link to="account">Аккаунт</Link>, "account"],
-    [<Link to="tickets">Билеты</Link>, "tickets"],
+    [<Link to="account">Account</Link>, "account"],
+    [<Link to="tickets">Tickets</Link>, "tickets"],
     [<Logout />, "logout"],
 ];
 
@@ -71,7 +71,7 @@ const Header = () => {
                     menuItems={accountMenuItems}
                     dropdownPlacement="bottom"
                 />
-                {isGuest ? <></> : <h3 className="userHeader__userGreetings">Привет, {user.firstName}</h3>}
+                {isGuest ? <></> : <h3 className="userHeader__userGreetings">Hello, {user.firstName}</h3>}
             </div>
         </>
     );

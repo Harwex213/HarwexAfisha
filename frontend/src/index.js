@@ -7,13 +7,13 @@ import App from "./app/App";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import moment from "moment";
-import "moment/locale/ru";
+// import "moment/locale/ru";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 
-moment.locale("ru");
+// moment.locale("ru");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

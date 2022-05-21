@@ -3,18 +3,13 @@ import api from "../api";
 const ticketApi = api.injectEndpoints({
     endpoints: (builder) => ({
         orderTicket: builder.mutation({
-            query: ({ sessionId, userId, row, position }) => ({
+            query: ({ ticket, emailInfo }) => ({
                 url: "ticket/order",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json;charset=utf-8",
                 },
-                body: {
-                    sessionId: Number(sessionId),
-                    userId,
-                    row,
-                    position,
-                },
+                body: { ticket, emailInfo },
             }),
             invalidatesTags: ["ticket", "session"],
         }),

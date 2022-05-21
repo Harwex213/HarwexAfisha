@@ -16,6 +16,7 @@ const validationSchema = Yup.object().shape({
     firstName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
     lastName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
     patronymic: Yup.string().min(2, msgTooShort).max(50, msgTooLong),
+    email: Yup.string().email().max(256, msgTooLong),
     username: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
     password: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
     repeatPassword: Yup.string()
@@ -27,6 +28,7 @@ const initialValues = {
     firstName: "",
     lastName: "",
     patronymic: "",
+    email: "",
     username: "",
     password: "",
     repeatPassword: "",
@@ -54,13 +56,16 @@ const Register = () => {
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 <Form>
                     <Form.Item name="firstName">
-                        <Input size="large" name="firstName" placeholder="Имя" />
+                        <Input size="large" name="firstName" placeholder="Firstname" />
                     </Form.Item>
                     <Form.Item name="lastName">
-                        <Input size="large" name="lastName" placeholder="Фамилия" />
+                        <Input size="large" name="lastName" placeholder="Lastname" />
                     </Form.Item>
                     <Form.Item name="patronymic">
-                        <Input size="large" name="patronymic" placeholder="Отчество" />
+                        <Input size="large" name="patronymic" placeholder="Patronymic" />
+                    </Form.Item>
+                    <Form.Item name="email">
+                        <Input size="large" name="email" placeholder="Email" />
                     </Form.Item>
                     <Form.Item name="username">
                         <Input
@@ -75,7 +80,7 @@ const Register = () => {
                             size="large"
                             name="password"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Пароль"
+                            placeholder="Password"
                         />
                     </Form.Item>
                     <Form.Item name="repeatPassword">
@@ -83,11 +88,11 @@ const Register = () => {
                             size="large"
                             name="repeatPassword"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Повторите пароль"
+                            placeholder="Password repeat"
                         />
                     </Form.Item>
                     <SubmitButton size="large" className="register__submitButton">
-                        Зарегистрироваться
+                        Register
                     </SubmitButton>
                 </Form>
             </Formik>

@@ -26,7 +26,7 @@ const Logout = () => {
         }
     };
 
-    return <a onClick={handleLogoutClick}>Выход</a>;
+    return <a onClick={handleLogoutClick}>Logout</a>;
 };
 
 export default Logout;

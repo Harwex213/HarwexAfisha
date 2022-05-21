@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const items = [
     {
-        label: "Главная",
-        key: userScreenRoutes.MAIN,
-    },
-    {
-        label: "Афиша",
+        label: "Playbill",
         key: userScreenRoutes.AFISHA,
     },
 ];

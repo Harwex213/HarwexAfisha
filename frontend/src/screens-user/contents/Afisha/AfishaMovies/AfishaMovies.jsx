@@ -8,6 +8,7 @@ import "./afisha-movies.css";
 import MoviePoster from "../../../../components/MoviePoster";
 import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
 import moment from "moment";
+import lowFirstLetter from "../../../../helpers/lowFirstLetter";
 
 const AfishaMovies = () => {
     const navigate = useNavigate();
@@ -29,9 +30,9 @@ const AfishaMovies = () => {
     return (
         <div className="afisha">
             <h1 className="afisha_title">
-                {capitalizeFirstLetter(city.name)}. Афиша фильмов на{" "}
-                {moment(date).format("D [число], dddd. ")}
-                {capitalizeFirstLetter(moment(date).format("MMMM"))}
+                {capitalizeFirstLetter(city.name)}. Playbill for {moment(date).format("D, ")}
+                {lowFirstLetter(moment(date).format("dddd. "))}
+                {moment(date).format("MMMM")}
             </h1>
             <Row gutter={[20, 32]} type="flex">
                 {movies.map((movie) => (

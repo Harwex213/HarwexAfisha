@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, Modal, notification, Space, Tooltip } from "antd";
+import { Button, Modal, Space, Tooltip } from "antd";
 import moment from "moment";
 import OrderTicket from "../OrderTicket/OrderTicket";
 import "./cinemaSessions.css";
 import SessionButtonIcon from "./SessionButtonIcon";
 
-const CinemaSessions = ({ sessions }) => {
+const CinemaSessions = ({ cinema, movie, city }) => {
+    const { sessions } = cinema;
     const [modalWidth, setModalWidth] = useState(700);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedSession, setSelectedSession] = useState(null);
@@ -43,14 +44,21 @@ const CinemaSessions = ({ sessions }) => {
                 })}
             </Space>
             <Modal
-                title="Заказ билета"
+                title="Ticket ordering"
                 width={modalWidth}
                 visible={isModalVisible}
                 onCancel={handleCancel}
                 footer={null}
                 destroyOnClose
             >
-                <OrderTicket session={selectedSession} setModalWidth={setModalWidth} onOrder={handleOk} />
+                <OrderTicket
+                    movie={movie}
+                    city={city}
+                    cinema={{ id: cinema.id, name: cinema.name }}
+                    session={selectedSession}
+                    setModalWidth={setModalWidth}
+                    onOrder={handleOk}
+                />
             </Modal>
         </>
     );

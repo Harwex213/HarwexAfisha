@@ -33,7 +33,7 @@ const ChangePasswordForm = () => {
             await changePassword({ ...values }).unwrap();
 
             notification["success"]({
-                message: "Успешно изменено",
+                message: "Successfully changed",
                 placement: "topLeft",
             });
         } catch (e) {
@@ -50,26 +50,26 @@ const ChangePasswordForm = () => {
                         <Input.Password
                             name="oldPassword"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Старый пароль"
+                            placeholder="Old password"
                         />
                     </Form.Item>
                     <Form.Item name="password">
                         <Input.Password
                             name="password"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Новый пароль"
+                            placeholder="New password"
                         />
                     </Form.Item>
                     <Form.Item name="repeatPassword">
                         <Input.Password
                             name="repeatPassword"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Повторите новый пароль"
+                            placeholder="Password repeat"
                         />
                     </Form.Item>
                     <Divider style={{ marginTop: "15px" }} />
                     <SubmitButton type="default" className="login__submitButton">
-                        Изменить пароль
+                        Change password
                     </SubmitButton>
                 </Form>
             )}

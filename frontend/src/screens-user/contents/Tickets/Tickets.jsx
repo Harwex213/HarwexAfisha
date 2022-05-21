@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const columns = [
     {
-        title: "Фильм",
+        title: "Movie",
         key: "movieName",
         render: (text, record) => (
             <Link
@@ -20,18 +20,18 @@ const columns = [
             </Link>
         ),
     },
-    { title: "Кинотеатр", dataIndex: "cinemaName", key: "cinemaName" },
-    { title: "Город", dataIndex: "cityName", key: "cityName" },
-    { title: "Зал", dataIndex: "hallName", key: "hallName" },
-    { title: "Ряд", dataIndex: "row", render: (text, record) => record.row + 1 },
-    { title: "Место", dataIndex: "position", render: (text, record) => record.position + 1 },
+    { title: "Cinema", dataIndex: "cinemaName", key: "cinemaName" },
+    { title: "City", dataIndex: "cityName", key: "cityName" },
+    { title: "Hall", dataIndex: "hallName", key: "hallName" },
+    { title: "Row", dataIndex: "row", render: (text, record) => record.row + 1 },
+    { title: "Place", dataIndex: "position", render: (text, record) => record.position + 1 },
     {
-        title: "Время",
+        title: "Time",
         key: "time",
         render: (text, record) => moment(record.sessionTime).format(" HH:mm. D [число], MMMM. YYYY год"),
     },
-    { title: "Цена (руб.)", dataIndex: "sessionPrice", key: "sessionPrice" },
-    { title: "Действия", key: "actions" },
+    { title: "Price (BYN)", dataIndex: "sessionPrice", key: "sessionPrice" },
+    { title: "Actions", key: "actions" },
 ];
 
 const ACTIONS_INDEX = columns.length - 1;
@@ -57,12 +57,12 @@ const Tickets = () => {
             await returnBack({ id }).unwrap();
 
             notification["success"]({
-                message: "Успешно возвращено",
+                message: "Successfully returned back",
                 placement: "topLeft",
             });
         } catch (e) {
             notification["error"]({
-                message: "Ошибка",
+                message: "Something going wrong",
                 description: e.data?.message ?? e.message,
                 placement: "topLeft",
             });
@@ -72,14 +72,14 @@ const Tickets = () => {
     columns[ACTIONS_INDEX].render = (text, record) => (
         <Space size="middle">
             <Button onClick={() => handleReturnBack(record.id)} type="default">
-                Вернуть Билет
+                Return ticket back
             </Button>
         </Space>
     );
 
     return (
         <div className="tickets">
-            <h1 className="tickets__header">Заказанные билеты</h1>
+            <h1 className="tickets__header">Ordered tickets</h1>
             {isSuccess ? (
                 <Table
                     columns={columns}

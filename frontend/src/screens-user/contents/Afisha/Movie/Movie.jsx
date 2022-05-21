@@ -12,6 +12,7 @@ import { ArrowLeftOutlined, StarFilled } from "@ant-design/icons";
 import zeroTime from "../../../../constants/zeroTime";
 import { Divider } from "antd";
 import { useGetRatingsQuery } from "../../../../store/api/rating";
+import lowFirstLetter from "../../../../helpers/lowFirstLetter";
 
 const Preload = () => {
     const [searchParams] = useSearchParams();
@@ -82,7 +83,7 @@ const Movie = ({ date, city }) => {
                     <div className="movie__info">
                         <Divider style={{ marginTop: "0" }} />
                         <div className="movie__infoRow">
-                            <p>Рейтинг на Кинопоиске: </p>
+                            <p>Kinopoisk rating: </p>
                             <p>
                                 {rating && (
                                     <>
@@ -93,7 +94,7 @@ const Movie = ({ date, city }) => {
                             </p>
                         </div>
                         <div className="movie__infoRow">
-                            <p>Рейтинг на IMDB: </p>
+                            <p>IMDB rating: </p>
                             <p>
                                 {rating && (
                                     <>
@@ -104,28 +105,28 @@ const Movie = ({ date, city }) => {
                             </p>
                         </div>
                         <div className="movie__infoRow">
-                            <p>Возрастные ограничения: </p>
+                            <p>Age restrictions: </p>
                             <p>{movie.age}+</p>
                         </div>
                         <div className="movie__infoRow">
-                            <p>Длительность: </p>
+                            <p>Duration: </p>
                             <p>
-                                {movie.duration} мин. /{" "}
+                                {movie.duration} min. /{" "}
                                 {zeroTime.clone().add(movie.duration, "minute").format("HH:mm")}
                             </p>
                         </div>
                         <Divider />
                     </div>
                     <h2>
-                        {capitalizeFirstLetter(city.name)}. Сеансы на{" "}
-                        {moment(date).format("D [число], dddd. ")}
-                        {capitalizeFirstLetter(moment(date).format("MMMM"))}
+                        {capitalizeFirstLetter(city.name)}. Playbill for {moment(date).format("D, ")}
+                        {lowFirstLetter(moment(date).format("dddd. "))}
+                        {moment(date).format("MMMM")}
                     </h2>
                     <MovieCinemas movie={movie} date={date} city={city} />
                 </div>
             </div>
             <div className="movieContent__description">
-                <h3>Описание</h3>
+                <h3>Description</h3>
                 <p>{movie.description}</p>
             </div>
         </div>

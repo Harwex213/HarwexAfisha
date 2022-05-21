@@ -56,11 +56,11 @@ const Login = () => {
                             size="large"
                             name="password"
                             prefix={<LockOutlined className="site-form-item-icon" />}
-                            placeholder="Пароль"
+                            placeholder="Password"
                         />
                     </Form.Item>
                     <SubmitButton size="large" className="login__submitButton">
-                        Войти
+                        Log in
                     </SubmitButton>
                 </Form>
             </Formik>

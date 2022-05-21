@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { BackTop, Button, Divider, Drawer, Image, notification, Space, Table, Typography } from "antd";
+import { BackTop, Button, Divider, Drawer, notification, Space, Table, Typography } from "antd";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import { movie } from "../../../store/api/generic";
-import apiConfig from "../../../constants/apiConfig";
 import { imageFallback } from "../../../constants/imageFallback";
 import FormMovie from "./FormMovie";
+import MoviePoster from "../../../components/MoviePoster";
 
 const specialRender = {
     description: (text, record) => (
-        <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "More" }}>
+        <Typography.Paragraph ellipsis={{ rows: 2, expandable: false }}>
             {record.description}
         </Typography.Paragraph>
+    ),
+    slogan: (text, record) => (
+        <Typography.Paragraph ellipsis={{ rows: 3, expandable: false }}>{record.slogan}</Typography.Paragraph>
     ),
 };
 
@@ -65,14 +68,14 @@ const Movies = () => {
         title: "View Poster",
         key: "poster",
         render: (text, record) => (
-            <Image
-                width={100}
-                height={150}
-                style={{
-                    objectFit: "cover",
-                }}
-                src={`${apiConfig.baseUrl}static/movie/${record.id}/poster.jpg?${time.getTime()}`}
+            <MoviePoster
+                className="afisha__movieImg"
+                name={record.name}
+                style={{ objectFit: "cover" }}
+                width={75}
+                height={75}
                 fallback={imageFallback}
+                time={time.getTime()}
             />
         ),
     });
@@ -103,7 +106,7 @@ const Movies = () => {
             </div>
             <Divider />
             <Drawer
-                width={450}
+                width={700}
                 title={isCreateForm ? "Add Movie" : "Update Movie"}
                 placement="right"
                 onClose={() => setFormVisible(false)}

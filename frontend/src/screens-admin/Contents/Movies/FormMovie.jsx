@@ -8,9 +8,11 @@ import UploadAvatar from "../../containers/UploadAvatar/UploadAvatar";
 import { extractFileExt } from "../../../helpers/extractFileExt";
 import { useUploadMutation } from "../../../store/api/file";
 
+const DESCRIPTION_MAX_COUNT = 1000;
+
 const validationSchema = Yup.object().shape({
     name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
-    description: Yup.string().min(15, "Too Short!").max(500, "Too Long!").nullable(),
+    description: Yup.string().min(15, "Too Short!").max(DESCRIPTION_MAX_COUNT, "Too Long!").nullable(),
 });
 
 const movieInitialValues = {
@@ -87,10 +89,17 @@ const FormMovie = ({ initialValues = movieInitialValues, onSubmit, isCreateForm 
                         <></>
                     )}
                     <Form.Item name="name">
-                        <Input name="name" placeholder="Movie name" suffix={<span />} />
+                        <p>Name</p>
+                        <Input name="name" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="description">
-                        <Input.TextArea name="description" placeholder="Movie description" />
+                        <p>Description</p>
+                        <Input.TextArea
+                            showCount
+                            maxLength={DESCRIPTION_MAX_COUNT}
+                            autoSize={{ minRows: 3 }}
+                            name="description"
+                        />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>
                 </Form>

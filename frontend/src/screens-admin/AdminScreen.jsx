@@ -24,6 +24,7 @@ const AdminScreen = () => {
                 <div className="adminHeader__avatar">
                     <AccountMenu
                         menuClassName="adminHeader__accountMenu"
+                        iconClassName="adminHeader__accountIcon"
                         menuItems={[[<Logout />, "logout"]]}
                         dropdownPlacement="bottomRight"
                     />

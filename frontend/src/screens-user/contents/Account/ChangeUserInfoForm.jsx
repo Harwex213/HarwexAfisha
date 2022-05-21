@@ -63,7 +63,7 @@ const ChangeUserInfoForm = ({ onSubmit }) => {
                         placeholder="Username"
                     />
                 </Form.Item>
-                <SubmitButton>Изменить</SubmitButton>
+                <SubmitButton>Change</SubmitButton>
             </Form>
         </Formik>
     );

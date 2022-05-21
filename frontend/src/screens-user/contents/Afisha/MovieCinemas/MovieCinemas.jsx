@@ -17,7 +17,7 @@ const MovieCinemas = ({ movie, date, city }) => {
             renderItem={(cinema) => (
                 <List.Item className="cinema">
                     <h3 className="cinema__title">{cinema.name}: </h3>
-                    <CinemaSessions sessions={cinema.sessions} />
+                    <CinemaSessions cinema={cinema} movie={movie} city={city} />
                 </List.Item>
             )}
         />

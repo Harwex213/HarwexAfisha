@@ -3,12 +3,11 @@ import apiConfig from "../constants/apiConfig";
 import standardMovieName from "../helpers/standardMovieName";
 import { Image } from "antd";
 
-const MoviePoster = ({ name, className, ...rest }) => {
+const MoviePoster = ({ name, time = "0", ...rest }) => {
     return (
         <Image
-            className={className}
             alt="movie-poster"
-            src={`${apiConfig.baseUrl}static/movie/${standardMovieName(name)}/poster.jpg`}
+            src={`${apiConfig.baseUrl}static/movie/${standardMovieName(name)}/poster.jpg?time=${time}`}
             {...rest}
         />
     );

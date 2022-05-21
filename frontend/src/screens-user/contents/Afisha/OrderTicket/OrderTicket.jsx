@@ -11,8 +11,9 @@ import { selectUser } from "../../../../store/slices/userSlice";
 import { userRoles } from "../../../../constants/userRoles";
 import "./orderTicket.css";
 import moment from "moment";
+import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
 
-const OrderTicket = ({ session, setModalWidth, onOrder }) => {
+const OrderTicket = ({ cinema, session, city, movie, setModalWidth, onOrder }) => {
     const user = useSelector(selectUser);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -50,22 +51,36 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
         setLoading(true);
         try {
             await orderTicketMutation({
-                sessionId: session.id,
-                userId: -1,
-                row: selectedSeat[0],
-                position: selectedSeat[1],
+                ticket: {
+                    sessionId: Number(session.id),
+                    userId: -1,
+                    row: selectedSeat[0],
+                    position: selectedSeat[1],
+                },
+                emailInfo: {
+                    time:
+                        moment(session.time).format("HH:mm. D [day], dddd. ") +
+                        capitalizeFirstLetter(moment(session.time).format("MMMM")),
+                    movieName: movie.name,
+                    cinemaName: cinema.name,
+                    cityName: city.name,
+                    hallName: hall.name,
+                    row: selectedSeat[0],
+                    seat: selectedSeat[1],
+                    price: session.price + " BYN",
+                },
             }).unwrap();
 
             onOrder();
 
             navigate("/tickets");
             notification["success"]({
-                message: "Успешно заказно",
+                message: "Successfully ordered",
                 placement: "topLeft",
             });
         } catch (e) {
             notification["error"]({
-                message: "Ошибка",
+                message: "Something going wrong",
                 description: e.data?.message ?? e.message,
                 placement: "topLeft",
             });
@@ -77,7 +92,7 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
         <div className="orderTicket">
             <div className="orderTicket__body">
                 <div>
-                    <h3 className="orderTicket__title">Выбор места</h3>
+                    <h3 className="orderTicket__title">Seat choosing</h3>
                     <Seats
                         rows={hall.rows}
                         cols={hall.cols}
@@ -87,23 +102,23 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
                     />
                 </div>
                 <div className="orderTicket__info">
-                    <h3 className="orderTicket__title">Информация о сеансе</h3>
+                    <h3 className="orderTicket__title">Session information</h3>
                     <div>
                         <p>
-                            Зал: <span>{hall.name}</span>
+                            Hall: <span>{hall.name}</span>
                         </p>
                         <p>
-                            Время: <span>{moment(session.time).format("HH:mm")}</span>
+                            Time: <span>{moment(session.time).format("HH:mm")}</span>
                         </p>
                         <p>
-                            Цена: <span>{session.price} руб.</span>
+                            Price: <span>{session.price} руб.</span>
                         </p>
                         <p>
-                            Выбранное место:{" "}
+                            Selected seat:{" "}
                             <span>
                                 {selectedSeat[0] === -1
                                     ? ""
-                                    : `${selectedSeat[0] + 1} ряд. ${selectedSeat[1] + 1} место`}
+                                    : `${selectedSeat[0] + 1} row. ${selectedSeat[1] + 1} place`}
                             </span>
                         </p>
                     </div>
@@ -116,7 +131,7 @@ const OrderTicket = ({ session, setModalWidth, onOrder }) => {
                 onClick={orderTicket}
                 loading={loading}
             >
-                Заказать
+                Order
             </Button>
         </div>
     );

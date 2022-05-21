@@ -27,14 +27,14 @@ const Account = () => {
         setIsModalVisible(false);
 
         notification["success"]({
-            message: "Успешно изменено",
+            message: "Successfully changed",
             placement: "topLeft",
         });
     };
 
     return (
         <div className="account">
-            <h1 className="account__header">Информация о пользователе</h1>
+            <h1 className="account__header">User information</h1>
             <Row gutter={[32, 24]} type="flex">
                 <Col className="account__area" key={0} xl={8}>
                     <Divider style={{ marginBottom: "11px" }} />
@@ -48,7 +48,7 @@ const Account = () => {
                             <p>{user.username}</p>
                         </div>
                         <div className="account__userInfoRow">
-                            <p>Ф.И.О.</p>
+                            <p>Full name</p>
                             <p>
                                 {capitalizeFirstLetter(user.firstName)} {capitalizeFirstLetter(user.lastName)}{" "}
                                 {capitalizeFirstLetter(user.patronymic || "")}
@@ -57,7 +57,7 @@ const Account = () => {
                     </div>
                     <Divider style={{ marginTop: "auto" }} />
                     <Button onClick={handleClick} className="account__button">
-                        Изменить
+                        Change
                     </Button>
                 </Col>
                 <Col key={1} xl={8}>
@@ -65,7 +65,7 @@ const Account = () => {
                 </Col>
             </Row>
             <Modal
-                title="Изменить информацию о пользователе"
+                title="Change user's information"
                 visible={isModalVisible}
                 onCancel={handleCancel}
                 footer={null}

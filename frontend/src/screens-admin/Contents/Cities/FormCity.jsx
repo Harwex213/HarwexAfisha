@@ -51,7 +51,8 @@ const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
                         <></>
                     )}
                     <Form.Item name="name">
-                        <Input name="name" placeholder="City name" suffix={<span />} />
+                        <p>City name</p>
+                        <Input name="name" suffix={<span />} />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>
                 </Form>
