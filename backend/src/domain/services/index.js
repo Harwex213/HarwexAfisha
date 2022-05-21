@@ -1,6 +1,7 @@
 module.exports.mapper = require("../schemas/mapper");
 module.exports.schemas = require("../schemas/schemas");
 
+module.exports.mailTransporter = require("../mailTransporter");
 module.exports.emitter = require("../events");
 module.exports.constants = require("../../constants");
 module.exports.exceptions = require("../exceptions");

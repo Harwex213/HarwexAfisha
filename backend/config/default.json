@@ -24,5 +24,12 @@
     "mock": false,
     "sessionsStart": "2022-05-23",
     "sessionsDays": 7
+  },
+  "mailTransporter": {
+    "service": "gmail",
+    "auth": {
+      "user": "harwexworld@gmail.com",
+      "pass": "xkktglpxiovkcngu"
+    }
   }
 }

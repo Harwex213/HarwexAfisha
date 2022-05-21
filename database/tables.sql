@@ -30,6 +30,7 @@ create table [user]
     lastName nvarchar(50) not null,
     patronymic nvarchar(50),
     roleId bigint not null constraint user_userRole_fk foreign key references [userRole] (id),
+    email nvarchar(256)
 );
 
 create table [movie]
@@ -123,3 +124,5 @@ create table [refreshToken]
 -- create nonclustered index sessions_by_time_movie on [session] (time, cinemaMovieId)
 --
 -- create nonclustered index cinema_city on [cinema] (cityId)
+
+-- alter table [user] add email nvarchar(256)

@@ -50,19 +50,24 @@ const schema = {
         firstName: {
             type: "string",
             maxLength: 50,
-            pattern: "^[A-ZА-Я][a-zа-я,.'-]+$",
+            pattern: "^[A-ZА-Я][a-zа-я'-`]+$",
         },
         lastName: {
             type: "string",
             maxLength: 50,
-            pattern: "^[A-ZА-Я][a-zа-я,.'-]+$",
+            pattern: "^[A-ZА-Я][a-zа-я'-`]+$",
         },
         patronymic: {
             type: "string",
             maxLength: 50,
+            pattern: "^[A-ZА-Я][a-zа-я'-`]+$",
+        },
+        email: {
+            type: "string",
+            maxLength: 256,
         },
     },
-    required: ["username", "firstName", "lastName", "password", "repeatPassword"],
+    required: ["username", "firstName", "lastName", "password", "repeatPassword", "email"],
 };
 
 module.exports = async () => {

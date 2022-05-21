@@ -38,6 +38,10 @@ module.exports = function (sequelize, DataTypes) {
                     key: "id",
                 },
             },
+            email: {
+                type: DataTypes.STRING(256),
+                allowNull: true,
+            },
         },
         {
             sequelize,
