@@ -1,55 +1,5 @@
 {
-  "name": "harwex_afisha",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.14",
-    "prettier": "^2.4.1"
-  },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "config": "^3.3.6",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.10.0",
-    "msnodesqlv8": "^2.4.3",
-    "mssql": "^7.3.0",
-    "tedious": "^14.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "linebreak-style": [
-        "error",
-        "windows"
-      ],
-      "no-unused-vars": "warn"
-    },
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2021
-    }
-  },
-  "prettier": {
-    "tabWidth": 4,
-    "endOfLine": "crlf",
-    "printWidth": 110
+    "@fastify/websocket": "^5.0.0"
   }
 }

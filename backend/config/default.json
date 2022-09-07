@@ -1,0 +1,38 @@
+{
+  "dbConfig": {
+    "database": "harwex_afisha",
+    "user": "sa",
+    "password": "Passw0rd1",
+    "host": "localhost",
+    "dialect": "mssql"
+  },
+  "jwt": {
+    "accessToken": {
+      "secret": "accessToken",
+      "expiresIn": "1d"
+    },
+    "refreshToken": {
+      "secret": "refreshToken",
+      "expiresIn": "1d"
+    }
+  },
+  "port": 5000,
+  "cors": {
+    "origin": "https://harwex-tickets:433"
+  },
+  "cookies": {
+    "sameSite": "Strict"
+  },
+  "dataMock": {
+    "mock": false,
+    "sessionsStart": "2022-05-23",
+    "sessionsDays": 7
+  },
+  "mailTransporter": {
+    "service": "gmail",
+    "auth": {
+      "user": "harwexworld@gmail.com",
+      "pass": "xkktglpxiovkcngu"
+    }
+  }
+}
