@@ -11,9 +11,22 @@ import { useChangeInfoMutation } from "../../../store/api/user";
 const { msgTooShort, msgTooLong, msgRequired } = validationMessages;
 
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
-    lastName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
-    patronymic: Yup.string().min(2, msgTooShort).max(50, msgTooLong),
+    firstName: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid firstname")
+        .required(msgRequired),
+    lastName: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid lastname")
+        .required(msgRequired),
+    patronymic: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid patronymic")
+        .nullable(),
+    email: Yup.string().email().max(256, msgTooLong).nullable(),
     username: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
 });
 
@@ -27,6 +40,7 @@ const ChangeUserInfoForm = ({ onSubmit }) => {
         lastName: user.lastName,
         patronymic: user.patronymic,
         username: user.username,
+        email: user.email,
     };
 
     const handleSubmit = async (values, formikBag) => {
@@ -48,13 +62,16 @@ const ChangeUserInfoForm = ({ onSubmit }) => {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <Form>
                 <Form.Item name="firstName">
-                    <Input name="firstName" placeholder="Имя" />
+                    <Input name="firstName" placeholder="FirstName" />
                 </Form.Item>
                 <Form.Item name="lastName">
-                    <Input name="lastName" placeholder="Фамилия" />
+                    <Input name="lastName" placeholder="LastName" />
                 </Form.Item>
                 <Form.Item name="patronymic">
-                    <Input name="patronymic" placeholder="Отчество" />
+                    <Input name="patronymic" placeholder="Patronymic" />
+                </Form.Item>
+                <Form.Item name="email">
+                    <Input name="email" placeholder="Email" />
                 </Form.Item>
                 <Form.Item name="username">
                     <Input

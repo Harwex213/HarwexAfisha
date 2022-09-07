@@ -65,8 +65,8 @@ const OrderTicket = ({ cinema, session, city, movie, setModalWidth, onOrder }) =
                     cinemaName: cinema.name,
                     cityName: city.name,
                     hallName: hall.name,
-                    row: selectedSeat[0],
-                    seat: selectedSeat[1],
+                    row: selectedSeat[0] + 1,
+                    seat: selectedSeat[1] + 1,
                     price: session.price + " BYN",
                 },
             }).unwrap();

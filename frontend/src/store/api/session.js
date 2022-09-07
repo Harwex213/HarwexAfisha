@@ -52,8 +52,6 @@ const sessionApi = api.injectEndpoints({
             providesTags: ["session"],
             async onCacheEntryAdded({ sessionId }, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
                 const ws = new WebSocket(`${apiConfig.baseWsUrl}tickets?sessionId=${sessionId}`);
-                // console.log(arg);
-
                 try {
                     await cacheDataLoaded;
 
@@ -79,7 +77,6 @@ const sessionApi = api.injectEndpoints({
                 } catch {
                     // ignored
                 }
-
                 await cacheEntryRemoved;
                 ws.close();
             },

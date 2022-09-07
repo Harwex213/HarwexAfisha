@@ -6,7 +6,11 @@ import { Form, Input, SubmitButton, InputNumber } from "formik-antd";
 import { hall } from "../../../../store/api/generic";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
+    name: Yup.string()
+        .min(4, "Too Short!")
+        .max(50, "Too Long!")
+        .matches(/^[A-ZА-Я][a-zа-я'-`]+$/, "Must be valid name")
+        .required("Required"),
     rows: Yup.number().moreThan(0).required("Required"),
     cols: Yup.number().moreThan(2).required("Required"),
     cinemaId: Yup.number().required("Required"),
@@ -58,13 +62,16 @@ const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
                         <InputNumber name="cinemaId" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="name">
-                        <Input name="name" placeholder="Hall name" suffix={<span />} />
+                        <p>Hall name</p>
+                        <Input name="name" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="rows">
-                        <InputNumber name="rows" min={1} placeholder="Hall rows" suffix={<span />} />
+                        <p>Hall rows</p>
+                        <InputNumber name="rows" min={1} suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="cols">
-                        <InputNumber name="cols" min={3} placeholder="Hall cols" suffix={<span />} />
+                        <p>Hall cols</p>
+                        <InputNumber name="cols" min={3} suffix={<span />} />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>
                 </Form>

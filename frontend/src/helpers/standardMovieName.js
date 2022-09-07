@@ -1,4 +1,4 @@
-const regex = /:/gi;
+const regex = /[:'`]/gi;
 
 const standardMovieName = (name) => name.replaceAll(regex, "");
 

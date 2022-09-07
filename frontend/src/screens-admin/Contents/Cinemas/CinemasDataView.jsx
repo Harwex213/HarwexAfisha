@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useLocalStorage from "../../../hooks/useLocalStorageState";
 import useGetColumnsFromSchema from "../../../hooks/useGetColumnsFromSchema";
 import { cinema } from "../../../store/api/generic";
@@ -26,6 +26,12 @@ const CinemasDataView = ({ city }) => {
         },
     });
     const [deleteCity] = cinema.useDeleteCinemaMutation();
+
+    useEffect(() => {
+        if (data && data.count < page * 15) {
+            setPage(parseInt(String(data.count / 15)) + 1);
+        }
+    });
 
     const onSubmit = () => {
         setFormVisible(false);

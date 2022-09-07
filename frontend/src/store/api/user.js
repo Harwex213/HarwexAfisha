@@ -53,13 +53,13 @@ const userApi = api.injectEndpoints({
             }),
         }),
         changeInfo: builder.mutation({
-            query: ({ username, firstName, lastName, patronymic }) => ({
+            query: ({ username, firstName, lastName, patronymic, email }) => ({
                 url: "user/changeInfo",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json;charset=utf-8",
                 },
-                body: { username, firstName, lastName, patronymic },
+                body: { username, firstName, lastName, patronymic, email },
             }),
         }),
     }),

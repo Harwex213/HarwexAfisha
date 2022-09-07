@@ -18,6 +18,11 @@
     border-radius: 10px;
 }
 
+.movie__mediaContainer {
+    display: flex;
+    flex-direction: column;
+}
+
 .movie__infoContainer {
     margin-left: 75px;
     width: 630px;

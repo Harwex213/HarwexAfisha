@@ -34,6 +34,9 @@ const Seats = ({ rows, cols, ordered, selectedSeat, setSelectedSeat }) => {
         <div>
             {seats.map((row, rowIndex) => (
                 <Row className="seatRow" key={rowIndex} gutter={6}>
+                    <Col style={{ width: "30px" }} key={-1}>
+                        {rowIndex + 1}:{" "}
+                    </Col>
                     {row.map((col, colIndex) => (
                         <Col key={colIndex}>
                             <SeatIcon

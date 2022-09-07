@@ -48,6 +48,10 @@ const Account = () => {
                             <p>{user.username}</p>
                         </div>
                         <div className="account__userInfoRow">
+                            <p>Email</p>
+                            <p>{user.email || ""}</p>
+                        </div>
+                        <div className="account__userInfoRow">
                             <p>Full name</p>
                             <p>
                                 {capitalizeFirstLetter(user.firstName)} {capitalizeFirstLetter(user.lastName)}{" "}

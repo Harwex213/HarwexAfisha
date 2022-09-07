@@ -68,7 +68,11 @@ const ChooseHall = ({ defaultValue, cinema }) => {
                     </Select>
                 </div>
                 <div>
-                    <DatePicker value={date ? moment(date) : null} onChange={(date) => setDate(date)} />
+                    <DatePicker
+                        allowClear={false}
+                        value={date ? moment(date) : null}
+                        onChange={(date) => setDate(date)}
+                    />
                 </div>
             </div>
             <Divider />

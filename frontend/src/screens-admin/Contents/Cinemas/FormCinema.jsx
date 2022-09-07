@@ -6,7 +6,11 @@ import { Form, Input, SubmitButton, InputNumber } from "formik-antd";
 import { cinema } from "../../../store/api/generic";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
+    name: Yup.string()
+        .min(4, "Too Short!")
+        .max(50, "Too Long!")
+        .matches(/^[A-ZА-Я][a-zа-я'-`]+$/, "Must be valid name")
+        .required("Required"),
     about: Yup.string().min(4, "Too Short!").max(500, "Too Long!").nullable(),
     cityId: Yup.number().required("Required"),
 });
@@ -57,10 +61,12 @@ const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {
                         <InputNumber name="cityId" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="name">
-                        <Input name="name" placeholder="Cinema name" suffix={<span />} />
+                        <p>Cinema name</p>
+                        <Input name="name" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="about">
-                        <Input.TextArea name="about" placeholder="Cinema description" />
+                        <p>Cinema description</p>
+                        <Input.TextArea showCount maxLength={500} autoSize={{ minRows: 3 }} name="about" />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>
                 </Form>

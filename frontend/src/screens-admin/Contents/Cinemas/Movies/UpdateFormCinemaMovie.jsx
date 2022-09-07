@@ -56,6 +56,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
                         <InputNumber name="movieId" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="date">
+                        <p>Showing date</p>
                         <DatePicker.RangePicker name="date" disabledDate={disabledDate} />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>

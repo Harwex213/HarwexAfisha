@@ -10,13 +10,26 @@ import "./register.css";
 import { setNoneRoute } from "../../../store/slices/afishaSlice";
 import validationMessages from "../../../constants/validationMessages";
 
-const { msgTooShort, msgTooLong, msgRequired, msgPasswordsMatch, msgRepeatPassword } = validationMessages;
+const { msgTooShort, msgTooLong, msgRequired, msgPasswordsMatch, msgRepeatPassword, msgEmail } =
+    validationMessages;
 
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
-    lastName: Yup.string().min(2, msgTooShort).max(50, msgTooLong).required(msgRequired),
-    patronymic: Yup.string().min(2, msgTooShort).max(50, msgTooLong),
-    email: Yup.string().email().max(256, msgTooLong),
+    firstName: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid firstname")
+        .required(msgRequired),
+    lastName: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid lastname")
+        .required(msgRequired),
+    patronymic: Yup.string()
+        .min(2, msgTooShort)
+        .max(50, msgTooLong)
+        .matches(/^[A-ZА-Я][a-zа-я'\-`]+$/, "Must be valid patronymic")
+        .nullable(),
+    email: Yup.string().email(msgEmail).max(256, msgTooLong).nullable(),
     username: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
     password: Yup.string().min(4, msgTooShort).max(50, msgTooLong).required(msgRequired),
     repeatPassword: Yup.string()
@@ -27,8 +40,8 @@ const validationSchema = Yup.object().shape({
 const initialValues = {
     firstName: "",
     lastName: "",
-    patronymic: "",
-    email: "",
+    patronymic: null,
+    email: null,
     username: "",
     password: "",
     repeatPassword: "",
@@ -47,7 +60,7 @@ const Register = () => {
             const user = await register({ ...values }).unwrap();
             dispatch(setUser(user));
         } catch (e) {
-            formikBag.setFieldError("username", e.message);
+            formikBag.setFieldError("username", e.data?.message ?? e.message);
         }
     };
 

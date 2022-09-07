@@ -11,13 +11,15 @@ export const slice = createSlice({
             state.role = payload.role;
             state.firstName = payload.firstName;
             state.lastName = payload.lastName;
-            state.patronymic = payload.patronymic ?? "";
+            state.patronymic = payload.patronymic;
+            state.email = payload.email;
         },
         setUserChange: (state, { payload }) => {
             state.username = payload.username;
             state.firstName = payload.firstName;
             state.lastName = payload.lastName;
-            state.patronymic = payload.patronymic ?? "";
+            state.patronymic = payload.patronymic;
+            state.email = payload.email;
         },
         logout: (state) => {
             state.id = -1;
@@ -25,6 +27,8 @@ export const slice = createSlice({
             state.role = userRoles.GUEST;
             state.firstName = "???";
             state.lastName = "???";
+            state.patronymic = "???";
+            state.email = "???";
         },
     },
 });

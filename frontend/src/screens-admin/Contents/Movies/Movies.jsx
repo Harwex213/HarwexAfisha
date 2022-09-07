@@ -16,6 +16,11 @@ const specialRender = {
     slogan: (text, record) => (
         <Typography.Paragraph ellipsis={{ rows: 3, expandable: false }}>{record.slogan}</Typography.Paragraph>
     ),
+    trailerUrl: (text, record) => (
+        <a href={record.trailerUrl} target="_blank" rel="noreferrer">
+            Trailer
+        </a>
+    ),
 };
 
 const Movies = () => {

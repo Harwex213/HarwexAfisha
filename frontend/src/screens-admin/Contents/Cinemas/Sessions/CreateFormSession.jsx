@@ -44,6 +44,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 <Form>
                     <Form.Item name="cinemaMovieId">
+                        <p>Select movie</p>
                         <Select
                             showSearch
                             name="cinemaMovieId"
@@ -63,6 +64,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
                         <TimePicker name="time" />
                     </Form.Item>
                     <Form.Item name="price">
+                        <p>Price</p>
                         <InputNumber name="price" suffix={<span />} />
                     </Form.Item>
                     <SubmitButton>Submit</SubmitButton>

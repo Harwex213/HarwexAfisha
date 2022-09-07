@@ -6,7 +6,11 @@ import { Form, Input, SubmitButton, InputNumber } from "formik-antd";
 import { city } from "../../../store/api/generic";
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().min(4, "Too Short!").max(50, "Too Long!").required("Required"),
+    name: Yup.string()
+        .min(4, "Too Short!")
+        .max(50, "Too Long!")
+        .matches(/^[A-ZА-Я][a-zа-я'-`]+$/, "Must be valid name")
+        .required("Required"),
 });
 
 const FormMovie = ({ initialValues, onSubmit, isCreateForm }) => {

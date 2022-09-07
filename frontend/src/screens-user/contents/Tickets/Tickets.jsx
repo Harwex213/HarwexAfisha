@@ -43,7 +43,7 @@ const Tickets = () => {
     const { data, isSuccess } = useGetUserTicketsQuery({
         userId: user.id,
         offset: page - 1,
-        thresholdDate: moment().endOf("day").add(-1, "day").format("YYYY-MM-DD"),
+        thresholdDate: moment().endOf("day").format("YYYY-MM-DD"),
         isBefore: false,
     });
     const [returnBack] = useReturnBackMutation();

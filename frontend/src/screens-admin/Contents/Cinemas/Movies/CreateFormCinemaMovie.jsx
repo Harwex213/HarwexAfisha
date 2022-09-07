@@ -55,6 +55,7 @@ const FormMovie = ({ initialValues, onSubmit }) => {
                         <InputNumber name="cinemaId" suffix={<span />} />
                     </Form.Item>
                     <Form.Item name="movieId">
+                        <p>Select movie</p>
                         <Select
                             showSearch
                             name="movieId"

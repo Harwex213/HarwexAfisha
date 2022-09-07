@@ -12,6 +12,7 @@ const english = {
     msgRequired: "Required",
     msgPasswordsMatch: "Passwords must match",
     msgRepeatPassword: "Repeat your password",
+    msgEmail: "Input valid email",
 };
 
 const validationMessages = {

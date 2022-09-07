@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { movie as movieApi } from "../../../../store/api/generic";
@@ -10,7 +10,7 @@ import capitalizeFirstLetter from "../../../../helpers/capitalizeFirstLetter";
 import MoviePoster from "../../../../components/MoviePoster";
 import { ArrowLeftOutlined, StarFilled } from "@ant-design/icons";
 import zeroTime from "../../../../constants/zeroTime";
-import { Divider } from "antd";
+import { Button, Divider, Modal } from "antd";
 import { useGetRatingsQuery } from "../../../../store/api/rating";
 import lowFirstLetter from "../../../../helpers/lowFirstLetter";
 
@@ -39,6 +39,7 @@ const Preload = () => {
 };
 
 const Movie = ({ date, city }) => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
     const { movieId } = useParams();
     const {
@@ -72,12 +73,42 @@ const Movie = ({ date, city }) => {
                 <h1 className="movie__name">{movie.name}</h1>
             </div>
             <div className="movie">
-                <div>
+                <div className="movie__mediaContainer">
                     <MoviePoster
                         className="movie__image"
                         name={movie.name}
                         style={{ borderRadius: "10px" }}
                     />
+                    <Button
+                        style={{ marginTop: "25px" }}
+                        size="large"
+                        type="default"
+                        onClick={() => setIsModalVisible(true)}
+                    >
+                        Watch trailer
+                    </Button>
+                    <Modal
+                        visible={isModalVisible}
+                        onCancel={() => {
+                            setIsModalVisible(false);
+                        }}
+                        title={movie.name + " trailer"}
+                        footer={null}
+                        width={600}
+                        destroyOnClose
+                    >
+                        <div>
+                            <iframe
+                                width="560"
+                                height="315"
+                                src={movie.trailerUrl.replace("watch?v=", "embed/")}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                        </div>
+                    </Modal>
                 </div>
                 <div className="movie__infoContainer">
                     <div className="movie__info">
