@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300&display=swap');
+
+.userHeader {
+    display: flex;
+    flex-direction: row;
+    background: #1f1f1f;
+    z-index: 1000;
+    padding: 0;
+}
+
+.userHeader__logo {
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userHeader__logoIcon {
+    width: 64px;
+}
+
+.userHeader__logoTitle {
+    line-height: 30px;
+    letter-spacing: 1px;
+    margin: 0 15px 0 0;
+    font-size: 24px;
+    color: #fff;
+    font-family: 'Roboto Flex', sans-serif;
+}
+
+.userHeader__menu {
+    margin-left: 25px;
+    border-bottom: 0;
+    /*font-size: 18px;*/
+    background: #1f1f1f;
+}
+
+.userHeader__content {
+    display: flex;
+    flex-direction: row;
+    margin: auto 25px auto auto;
+    justify-content: flex-end;
+}
+
+.userHeader__citySelect {
+    margin-right: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userHeader__citySelectIcon {
+    /*font-size: 18px;*/
+    color: #147ad9;
+}
+
+.userHeader__citySelector {
+    min-width: 85px;
+}
+
+.userHeader__userGreetings {
+    margin: 0 0 0 15px;
+}
+
+.userHeader__accountAvatar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userHeader__accountIcon {
+    color: #147ad9;
+    background: #141414;
+    cursor: pointer;
+}
+
+.userHeader__accountMenu {
+    width: 120px;
+}

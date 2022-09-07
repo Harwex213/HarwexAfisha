@@ -1,0 +1,9 @@
+.register {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.register__submitButton {
+    width: 100%;
+}

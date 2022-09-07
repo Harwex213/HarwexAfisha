@@ -1,0 +1,31 @@
+.adminScreen {
+    min-height: calc(100vh - 64px);
+}
+
+.adminScreen__content {
+    padding: 15px 30px;
+    background: #101010;
+}
+
+.adminHeader {
+    display: flex;
+    flex-direction: row;
+    z-index: 1000;
+}
+
+.adminHeader__title {
+}
+
+.adminHeader__avatar {
+    margin: auto 0 auto auto;
+    cursor: pointer;
+}
+
+.adminHeader__accountMenu {
+    width: 120px;
+}
+
+.adminHeader__accountIcon {
+    color: #147ad9;
+    background: #141414;
+}

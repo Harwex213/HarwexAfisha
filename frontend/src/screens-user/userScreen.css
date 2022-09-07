@@ -1,0 +1,35 @@
+.userScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #141414;
+}
+
+.userScreen__container {
+    width: 100%;
+    max-width: 80rem;
+    box-shadow: 0 0 0.625rem 0.0625rem rgb(0 0 0 / 10%);
+    padding: 1.25rem 1.5rem;
+    background: #1f1f1f;
+    min-height: 100vh;
+}
+
+.userScreen__content {
+}
+
+.userScreen__footer {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: #1f1f1f;
+}
+
+.userScreen__footerDivider {
+    margin: 12px 0;
+}
+
+.userScreen__footerText {
+    font-size: 12px;
+    margin: 0;
+}

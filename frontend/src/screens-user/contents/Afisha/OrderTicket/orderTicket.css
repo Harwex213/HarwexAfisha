@@ -1,0 +1,29 @@
+.orderTicket {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderTicket__preloader {
+    margin: auto;
+}
+
+.orderTicket__body {
+    display: flex;
+    flex-direction: row;
+}
+
+.orderTicket__title {
+    margin-bottom: 25px;
+}
+
+.orderTicket__info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+}
+
+.orderTicket__orderButton {
+    margin: auto 0 0 auto;
+    width: 150px;
+}

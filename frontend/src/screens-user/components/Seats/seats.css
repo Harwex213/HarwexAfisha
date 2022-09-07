@@ -1,0 +1,22 @@
+.seat {
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.15s ease-in-out all;
+}
+
+.seat_selected {
+    color: rgb(0, 146, 255);
+}
+
+.seat_ordered {
+    color: rgb(133, 133, 133);
+    cursor: default;
+}
+
+.seat_selectable:hover {
+    color: rgba(0,146,255,.75);
+}
+
+.seatRow {
+    margin: 8px;
+}

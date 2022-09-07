@@ -1,0 +1,11 @@
+.cinema {
+    justify-content: flex-start;
+}
+
+.cinema__title {
+    margin: 0;
+    width: 150px;
+    word-break: break-all;
+    font-size: 14px;
+    font-weight: 400;
+}
