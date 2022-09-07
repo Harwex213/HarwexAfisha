@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@fastify/websocket": "^5.0.0"
-  }
-}
