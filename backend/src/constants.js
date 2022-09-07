@@ -3,3 +3,5 @@ module.exports.userRoles = {
     USER: "USER",
     ADMIN: "ADMIN",
 };
+
+module.exports.movieNameStandartRegex = /:'`/gi;

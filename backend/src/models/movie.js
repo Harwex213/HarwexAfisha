@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
-                unique: "UQ__movie__72E12F1B03243A83",
+                unique: "UQ__movie__72E12F1B94B93258",
             },
             description: {
                 type: DataTypes.TEXT,
@@ -46,6 +46,10 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
+            trailerUrl: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
         },
         {
             sequelize,
@@ -60,7 +64,7 @@ module.exports = function (sequelize, DataTypes) {
                     fields: [{ name: "id" }],
                 },
                 {
-                    name: "UQ__movie__72E12F1B03243A83",
+                    name: "UQ__movie__72E12F1B94B93258",
                     unique: true,
                     fields: [{ name: "name" }],
                 },

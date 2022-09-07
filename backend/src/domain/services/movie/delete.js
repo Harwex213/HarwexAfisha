@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { userRoles } = require("../index").constants;
+const { userRoles, movieNameStandartRegex } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { mapDelete } = require("../index").mapper;
 const { throwBadRequest } = require("../index").exceptions;
@@ -17,8 +17,8 @@ const handler = async ({ body }) =>
             throwBadRequest("Such movie doesn't exist");
         }
 
-        const dirPath = "./static/movie/" + body.id;
-        await fs.promises.rm(dirPath, { recursive: true, force: true });
+        const originalDirPath = "./static/movie/" + body.name.replaceAll(movieNameStandartRegex, "");
+        await fs.promises.rm(originalDirPath, { recursive: true, force: true });
 
         return {
             message: "Success",

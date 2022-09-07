@@ -16,10 +16,11 @@ const handler = async ({ body, userContext }) => {
         modelName: "user",
         instance: {
             id: userContext.id,
-            username: userContext.username,
-            firstName: userContext.firstName,
-            lastName: userContext.lastName,
-            patronymic: userContext.patronymic ?? "",
+            username: body.username,
+            firstName: body.firstName,
+            lastName: body.lastName,
+            patronymic: body.patronymic,
+            email: body.email,
         },
     });
     if (rowsAffected === 0) {
@@ -39,7 +40,7 @@ module.exports = async () => {
         expectedRoles: [userRoles.USER, userRoles.ADMIN],
         schema: await map(
             user,
-            ["username", "firstName", "lastName", "patronymic"],
+            ["username", "firstName", "lastName", "patronymic", "email"],
             ["username", "firstName", "lastName"]
         ),
     };

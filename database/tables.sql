@@ -45,6 +45,7 @@ create table [movie]
     director nvarchar(50),
     duration smallint not null,
     kinopoiskId int,
+    trailerUrl nvarchar(max),
 );
 
 -- create table [genre]

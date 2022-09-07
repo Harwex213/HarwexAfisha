@@ -92,6 +92,11 @@ module.exports = async (models) => {
         const cinemasCount = Math.floor(Math.random() * (cinemas.length - 1)) + 3;
         const createdCinemas = [];
         for (let i = 0; i < cinemasCount; i++) {
+            let cinemaName = cinemas[getRandomIndex(cinemas.length)];
+            const filtered = createdCinemas.filter(({ name }) => name === cinemaName);
+            if (filtered.length > 0) {
+                cinemaName = cinemaName + " " + cinemas.length;
+            }
             createdCinemas.push(
                 await models.cinema.create({
                     name: cinemas[getRandomIndex(cinemas.length)],
@@ -125,7 +130,7 @@ module.exports = async (models) => {
                     cinemaId: createdCinema.id,
                     rows: Math.floor(Math.random() * 11) + 3,
                     cols: Math.floor(Math.random() * 9) + 5,
-                    name: "Зал " + (i + 1),
+                    name: "Hall " + (i + 1),
                 });
 
                 const { sessionTimes } = mock;

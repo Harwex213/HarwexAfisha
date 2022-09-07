@@ -9,7 +9,7 @@ const handler = async ({ setCookie }) => {
         expires: Date.now(),
     });
     setCookie("refreshToken", "", {
-        path: "/auth",
+        path: "/api/auth",
         httpOnly: true,
         sameSite: cookiesConfig.sameSite,
         expires: Date.now(),

@@ -1,6 +1,7 @@
+const config = require("config").get("cors");
 module.exports = async (fastify) => {
     fastify.register(require("@fastify/cors"), {
-        origin: "https://koa:433",
+        origin: config.origin,
         methods: ["POST"],
         credentials: true,
     });

@@ -1,4 +1,4 @@
-const { userRoles } = require("../index").constants;
+const { userRoles, movieNameStandartRegex } = require("../index").constants;
 const getSchemas = require("../index").schemas;
 const { mapCreate } = require("../index").mapper;
 const genericProvider = require("../index").genericProvider;
@@ -13,7 +13,7 @@ const handler = async ({ body }) =>
             transaction,
         });
 
-        const dirPath = "./static/movie/" + movie.id;
+        const dirPath = "./static/movie/" + movie.name.replaceAll(movieNameStandartRegex, "");
         await fs.promises.mkdir(dirPath, { recursive: true });
 
         return movie;

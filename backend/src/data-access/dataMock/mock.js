@@ -34,16 +34,56 @@ module.exports.cinemas = [
 ];
 
 module.exports.movies = [
-    { name: "Inception", kinopoiskId: 447301 },
-    { name: "Warcraft", kinopoiskId: 277328 },
-    { name: "Avengers", kinopoiskId: 843650 },
-    { name: "Fight Club", kinopoiskId: 361 },
-    { name: "Interstellar", kinopoiskId: 258687 },
-    { name: "The Green Mile", kinopoiskId: 435 },
-    { name: "The Lord of the Rings: The Two Towers", kinopoiskId: 312 },
-    { name: "Forrest Gump", kinopoiskId: 448 },
-    { name: "The Shawshank Redemption", kinopoiskId: 326 },
-    { name: "Inglourious Basterds", kinopoiskId: 9691 },
+    {
+        name: "Inception",
+        kinopoiskId: 447301,
+        trailerUrl: "https://www.youtube.com/watch?v=YoHD9XEInc0&ab_channel=MovieclipsClassicTrailers",
+    },
+    {
+        name: "Warcraft",
+        kinopoiskId: 277328,
+        trailerUrl: "https://www.youtube.com/watch?v=2Rxoz13Bthc&ab_channel=Legendary",
+    },
+    {
+        name: "Avengers",
+        kinopoiskId: 843650,
+        trailerUrl: "https://www.youtube.com/watch?v=6ZfuNTqbHE8&ab_channel=MarvelEntertainment",
+    },
+    {
+        name: "Fight Club",
+        kinopoiskId: 361,
+        trailerUrl: "https://www.youtube.com/watch?v=qtRKdVHc-cE&ab_channel=MovieclipsClassicTrailers",
+    },
+    {
+        name: "Interstellar",
+        kinopoiskId: 258687,
+        trailerUrl: "https://www.youtube.com/watch?v=zSWdZVtXT7E&ab_channel=WarnerBros.UK%26Ireland",
+    },
+    {
+        name: "The Green Mile",
+        kinopoiskId: 435,
+        trailerUrl: "https://www.youtube.com/watch?v=Ki4haFrqSrw&ab_channel=MovieclipsClassicTrailers",
+    },
+    {
+        name: "The Lord of the Rings: The Two Towers",
+        kinopoiskId: 312,
+        trailerUrl: "https://www.youtube.com/watch?v=LbfMDwc4azU&ab_channel=MovieclipsClassicTrailers",
+    },
+    {
+        name: "Forrest Gump",
+        kinopoiskId: 448,
+        trailerUrl: "https://www.youtube.com/watch?v=bLvqoHBptjg&ab_channel=ParamountMovies",
+    },
+    {
+        name: "The Shawshank Redemption",
+        kinopoiskId: 326,
+        trailerUrl: "https://www.youtube.com/watch?v=6hB3S9bIaco&ab_channel=ryy79",
+    },
+    {
+        name: "Inglourious Basterds",
+        kinopoiskId: 9691,
+        trailerUrl: "https://www.youtube.com/watch?v=-2cRY4p7KIk&ab_channel=MovieclipsClassicTrailers",
+    },
 ];
 
 module.exports.movieSlogans = [
@@ -69,7 +109,7 @@ module.exports.movieDirectors = [
 
 module.exports.movieAges = [6, 12, 16, 18];
 
-module.exports.movieCountries = ["США", "Китай", "Великобритания", "Франция", "Германия", "Россия"];
+module.exports.movieCountries = ["США", "Китай", "Англия", "Франция", "Германия", "Россия"];
 
 module.exports.lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque blandit facilisis. " +

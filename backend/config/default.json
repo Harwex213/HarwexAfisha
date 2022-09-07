@@ -17,6 +17,9 @@
     }
   },
   "port": 5000,
+  "cors": {
+    "origin": "https://harwex-tickets:433"
+  },
   "cookies": {
     "sameSite": "Strict"
   },

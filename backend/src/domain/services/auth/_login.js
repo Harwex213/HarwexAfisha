@@ -32,7 +32,7 @@ module.exports = async ({ userContext, setCookie }) => {
         sameSite: cookiesConfig.sameSite,
     });
     setCookie("refreshToken", refreshToken, {
-        path: "/auth",
+        path: "/api/auth",
         httpOnly: true,
         sameSite: cookiesConfig.sameSite,
     });

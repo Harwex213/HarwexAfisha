@@ -58,12 +58,12 @@ const schema = {
             pattern: "^[A-ZА-Я][a-zа-я'-`]+$",
         },
         patronymic: {
-            type: "string",
+            type: ["string", "null"],
             maxLength: 50,
             pattern: "^[A-ZА-Я][a-zа-я'-`]+$",
         },
         email: {
-            type: "string",
+            type: ["string", "null"],
             maxLength: 256,
         },
     },

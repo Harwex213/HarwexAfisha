@@ -5,7 +5,7 @@ module.exports = async (fastify) => {
     const { upload } = file;
 
     fastify.post(
-        "/file/upload",
+        "/api/file/upload",
         {
             schema: {
                 tags: ["file"],
